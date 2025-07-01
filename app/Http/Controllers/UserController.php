@@ -20,4 +20,12 @@ class UserController extends Controller
         
         return redirect('/');
     }
+
+    public function logout(Request $request)
+    {
+        auth()->logout();
+        $request->session()->invalidate();
+
+        return redirect('/');
+    }
 }
