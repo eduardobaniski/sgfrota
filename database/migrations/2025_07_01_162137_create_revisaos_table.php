@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('revisaos', function (Blueprint $table) {
             $table->id();
-            $table->int('odometro');
+            $table->integer('odometro');
             $table->date('dataPlanejada');
             $table->tinytext('descricao');
             $table->timestamps();
