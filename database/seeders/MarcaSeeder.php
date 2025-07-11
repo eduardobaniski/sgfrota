@@ -27,7 +27,6 @@ class MarcaSeeder extends Seeder
             ['nome' => 'Hyundai'], 
         ];
 
-        // Adiciona timestamps (created_at e updated_at) para cada registro
         foreach ($marcas as &$marca) {
             Marca::create([
                 'marca' => $marca['nome']
