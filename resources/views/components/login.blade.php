@@ -1,4 +1,5 @@
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+@vite('resources/css/app.css')
+
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
     <form action="/login" method="POST" class="bg-white p-8 rounded shadow-md w-full max-w-sm">
         <img src="logo.jpeg" class="w-44 h-44 mx-auto mb-6">
