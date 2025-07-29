@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        User::query()->delete();
         User::create([
             'name' => 'admin',
             'password' => Hash::make(env('ADMIN_PASSWORD', 'admin'))
