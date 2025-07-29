@@ -31,6 +31,7 @@ Write-Host "Criando o link de armazenamento (storage link)..."
 php artisan storage:link
 
 # 7. Gera o banco de dados
+New-Item -Path 'database/database.sqlite' -ItemType File
 php artisan migrate
 php artisan db:seed
 
