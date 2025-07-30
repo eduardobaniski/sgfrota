@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Marca;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Support\Facades\Schema;
 
 class MarcaSeeder extends Seeder
 {
@@ -14,9 +13,6 @@ class MarcaSeeder extends Seeder
      */
     public function run(): void
     {
-        Schema::disableForeignKeyConstraints();
-        Marca::query()->delete();
-        Schema::enableForeignKeyConstraints();
 
         $marcas = [
             ['nome' => 'Volvo'],

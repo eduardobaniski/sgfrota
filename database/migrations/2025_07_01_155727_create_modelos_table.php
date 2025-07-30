@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('modelos', function (Blueprint $table) {
             $table->id();
             $table->string('modelo');
-            $table->foreignId('marca_id')->constrained('marcas');
+            $table->string('marca');
+            $table->foreign('marca')
+                ->references('marca')
+                ->on('marcas');
             $table->timestamps();
         });
     }
