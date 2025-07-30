@@ -11,9 +11,4 @@ class Modelo extends Model
         'marca',
         'modelo'
     ];
-
-     public function marca(): BelongsTo
-    {
-        return $this->belongsTo(Marca::class);
-    }
 }
