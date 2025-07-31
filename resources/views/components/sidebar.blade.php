@@ -1,9 +1,7 @@
 @vite('resources/css/app.css')
-<aside class="w-64 bg-gray-800 text-white flex-shrink-0">
+<aside class="w-64 bg-orange-400 text-white flex-shrink-0">
     <div class="p-6">
-        <a href="#">
-             <h1 class="text-2xl font-bold">Meu App</h1>
-        </a>
+             <h1 class="text-3xl font-bold">SGFrota</h1>
     </div>
     <nav class="mt-6">
         {{-- A variável $links vem automaticamente da classe Sidebar.php --}}
