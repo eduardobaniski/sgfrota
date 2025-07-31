@@ -15,8 +15,8 @@ Route::middleware(['auth'])->group(function () {
     #Rotas aqui são protegidas por autenticação
     
     Route::get('/dashboard', function () {
-        return "dashboard logada";
-    });
+        return view('app');
+    })->name('dashboard');
 
 
 });
