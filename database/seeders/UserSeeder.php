@@ -14,10 +14,21 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'username' => 'admin',
-            'isAdmin' => true,
-            'password' => Hash::make(env('ADMIN_PASSWORD', 'admin'))
-        ]);
+        $users = [
+            [
+                'username' => 'admin',
+                'isAdmin' => true,
+                'password' => Hash::make(env('ADMIN_PASSWORD', 'admin'))
+
+            ],
+            [
+                'username' => 'gestor',
+                'isAdmin' => false,
+                'password' => Hash::make('gestor')
+            ]
+        ];
+        foreach ($users as $user){
+            User::updateOrCreate($user);
+        }
     }
 }
