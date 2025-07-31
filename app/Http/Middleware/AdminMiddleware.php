@@ -21,7 +21,7 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return redirect('/')->with('error', 'Acesso não autorizado.');
+        return redirect('/')->with('error', 'Usuário sem permissão.');
 
     }
 }
