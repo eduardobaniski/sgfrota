@@ -22,12 +22,12 @@ class Sidebar extends Component
                 // 'url' => route('dashboard'),
             ],
             [
-                'title' => 'Usuários',
-                'url' => '#',
+                'title' => 'Cadastro',
+                'url' => 'cadastro',
             ],
             [
                 'title' => 'Relatórios',
-                'url' => '#',
+                'url' => 'relatorio',
             ],
         ];
     }
