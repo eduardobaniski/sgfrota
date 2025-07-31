@@ -21,6 +21,10 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+Route::get('/adminPanel', function () {
+    return "Painel de administração";
+})->middleware('admin'); // Middleware para verificar se o usuário é admin
+
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout']);
 Route::get('/logout', [UserController::class, 'logout']);

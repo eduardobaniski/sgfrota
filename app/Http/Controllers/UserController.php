@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -17,9 +18,14 @@ class UserController extends Controller
         if (auth()->attempt(['username'=>$request['username'], 'password'=>$request['password']])) {
             $request->session()->regenerate();
         }
+        if (Auth::user()->isAdmin) {
+            return redirect('/adminPanel');
+        }
         
         return redirect('/dashboard');
+
     }
+
 
     public function logout(Request $request)
     {
