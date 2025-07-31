@@ -10,11 +10,11 @@ class UserController extends Controller
     {
         // Validate the request data
         $request->validate([
-            'name' => 'required|string',
+            'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        if (auth()->attempt(['name'=>$request['name'], 'password'=>$request['password']])) {
+        if (auth()->attempt(['username'=>$request['username'], 'password'=>$request['password']])) {
             $request->session()->regenerate();
         }
         

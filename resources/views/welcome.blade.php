@@ -8,5 +8,5 @@
         <button>Logout</button>
     </form>
 @else
-    <x-login />
+    
 @endauth
