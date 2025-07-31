@@ -18,12 +18,12 @@ class Sidebar extends Component
         $this->links = [
             [
                 'title' => 'Dashboard',
-                'url' => '#',
+                'url' => '/dashboard',
                 // 'url' => route('dashboard'),
             ],
             [
                 'title' => 'Usuários',
-                'url' => '#', // Troque pela rota real
+                'url' => '#',
             ],
             [
                 'title' => 'Relatórios',

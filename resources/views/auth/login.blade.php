@@ -3,7 +3,7 @@
 
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
     <form action="/login" method="POST" class="bg-white p-8 rounded shadow-md w-full max-w-sm">
-        <img src="logo.jpeg" class="w-44 h-44 mx-auto mb-6">
+        <img src="logo.png" class="w-44 h-44 mx-auto mb-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
             {{-- Alerta de Erro (Vermelho) --}}
             @if (session('error'))
