@@ -7,11 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Caminhao extends Model
 {
     //
+    protected $tables = 'caminhoes';
     protected $fillable = [
-        'marca',
-        'modelo',
-        'anoFabricacao',
+        'modelo_id',
+        'ano_fabricacao',
         'placa',
-        'renavam'
+        'renavam',
+        'status',
     ];
+
+    // Um Caminhão pertence a um Modelo
+    public function modelo()
+    {
+        return $this->belongsTo(Modelo::class);
+    }
 }
