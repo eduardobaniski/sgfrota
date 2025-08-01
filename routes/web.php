@@ -15,7 +15,12 @@ Route::middleware(['auth'])->group(function () {
     #Rotas aqui são protegidas por autenticação
     
     Route::get('/dashboard', function () {
-        return view('app');
+         $caminhoes = [
+        (object)['modelo'=>'teste', 'placa' => 'ABC-1234', 'status' => 'Em Trânsito', /* ... */],
+        (object)['modelo'=>'teste','placa' => 'DEF-5678', 'status' => 'Disponível', /* ... */],
+        // ... outros caminhões
+    ];
+        return view('dashboard', ['caminhoes' => $caminhoes]);
     })->name('dashboard');
 
 
