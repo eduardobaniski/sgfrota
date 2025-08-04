@@ -2,41 +2,78 @@
 
 namespace App\View\Components;
 
-use Closure;
-use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Illuminate\Support\Facades\Auth; // Importe o Facade de Autenticação
 
 class Sidebar extends Component
 {
     /**
-     * Create a new component instance.
+     * A lista de links de navegação da sidebar.
+     *
+     * @var array
      */
     public array $links = [];
+
+    /**
+     * Cria uma nova instância do componente.
+     */
     public function __construct()
     {
-        //
-        $this->links = [
+        // Chama o método que constrói os links
+        $this->links = $this->buildLinks();
+    }
+
+    /**
+     * Constrói o array de links com base na função do utilizador.
+     *
+     * @return array
+     */
+    private function buildLinks(): array
+    {
+        $user = Auth::user();
+
+        // Links que todos os utilizadores veem
+        $baseLinks = [
             [
                 'title' => 'Dashboard',
-                'url' => '/dashboard',
-                // 'url' => route('dashboard'),
+                'url' => route('dashboard'),
             ],
             [
                 'title' => 'Cadastro',
-                'url' => route('cadastro.index'),
+                'url' => route('dashboard'),    //AJEITAR ROTA CADASTRO USER PADRAO
             ],
             [
                 'title' => 'Relatórios',
-                'url' => 'relatorio',
+                'url' => route('admin'),
             ],
         ];
+
+        // Links exclusivos para administradores
+        $adminLinks = [
+            [
+                'title' => 'Cadastros',
+                'url' => route('cadastro.index'),
+            ],
+            [
+                'title' => 'Gerenciar',
+                'url' => route('admin'),   //AJEITAR ROTA
+            ],
+        ];
+
+        if ($user->isAdmin) {
+            return $adminLinks;
+        }
+
+        return $baseLinks;
     }
-    
+
 
     /**
-     * Get the view / contents that represent the component.
+     * Pega a view / conteúdo que representa o componente.
+     *
+     * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render(): View|Closure|string
+    public function render()
     {
         return view('components.sidebar');
     }

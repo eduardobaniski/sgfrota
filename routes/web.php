@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/adminPanel', function () {
     return view('admin.home');
-})->middleware('admin'); // Middleware para verificar se o usuário é admin
+})->middleware('admin')->name('admin'); // Middleware para verificar se o usuário é admin
 
 Route::middleware(['admin'])->prefix('cadastro')->name('cadastro.')->group(function () {
     Route::get('/', function () {
