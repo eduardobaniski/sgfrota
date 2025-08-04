@@ -29,19 +29,22 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/adminPanel', function () {
-    return "Painel de administração";
+    return view('admin.home');
 })->middleware('admin'); // Middleware para verificar se o usuário é admin
 
 Route::middleware(['admin'])->prefix('cadastro')->name('cadastro.')->group(function () {
     Route::get('/', function () {
         return view('cadastro.index');
-    });
+    })->name('index');
 
-    Route::get('/marca', [MarcaController::class, 'index']);
-    Route::post('/marca', [MarcaController::class, 'store']);
+    Route::get('/marca', [MarcaController::class, 'index'])->name('marca.index');
+    Route::post('/marca', [MarcaController::class, 'store'])->name('marca.store');
 
-    Route::get('/modelo', [ModeloController::class, 'index']);
-    Route::post('/modelo', [ModeloController::class, 'store']);
+    Route::get('/modelo', [ModeloController::class, 'index'])->name('modelo.index');
+    Route::post('/modelo', [ModeloController::class, 'store'])->name('modelo.store');
+
+    Route::get('/user', [UserController::class, 'index'])->name('user.index');
+    Route::post('/user', [UserController::class, 'store'])->name('user.store');
 });
 
 Route::post('/login', [UserController::class, 'login']);

@@ -23,7 +23,7 @@ class Sidebar extends Component
             ],
             [
                 'title' => 'Cadastro',
-                'url' => 'cadastro',
+                'url' => route('cadastro.index'),
             ],
             [
                 'title' => 'Relatórios',

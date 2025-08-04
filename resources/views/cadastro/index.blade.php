@@ -54,22 +54,20 @@
             </div>
         </a>
 
-        <!-- Botão: Cadastrar Caminhão -->
-        {{-- <a href="{{ route('cadastro.caminhoes.create') }}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+        <!-- Botão: Cadastrar Usuário -->
+        <a href="/cadastro/user" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
             <div class="flex items-center">
                 <!-- Ícone -->
                 <div class="p-3 bg-purple-100 rounded-full">
                     <svg class="w-8 h-8 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2 2h8a1 1 0 001-1zM14 9h4l3 4v4h-1" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                     </svg>
                 </div>
                 <div class="ml-5">
-                    <h2 class="text-xl font-bold text-gray-800">Caminhões</h2>
-                    <p class="text-gray-500 mt-1">Adicionar novo veículo à frota</p>
+                    <h2 class="text-xl font-bold text-gray-800">Usuários</h2>
+                    <p class="text-gray-500 mt-1">Gerenciar usuários</p>
                 </div>
             </div>
-        </a> --}}
-
-    </div>
+        </a>
+</div>
 @endsection
