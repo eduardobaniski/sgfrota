@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ModeloController extends Controller
 {
-    public function index()
+    public function create()
     {
         $marcas = Marca::orderBy('marca')->pluck('marca', 'id');
         return view('cadastro.modelo', ['marcas' => $marcas]);

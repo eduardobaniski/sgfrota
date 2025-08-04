@@ -1,29 +1,17 @@
 @extends('layout')
 
 @section('content')
-    <h1 class="text-3xl font-bold text-gray-800 mb-8">Cadastro</h1>
+    <h1 class="text-3xl font-bold text-gray-800 mb-8">Gerenciar Dados do Sistema</h1>
 
     <p class="text-gray-600 mb-10">
-        Selecione uma das opções abaixo para cadastrar novos dados no sistema.
+        Selecione uma das opções abaixo para editar ou apagar dados do sistema.
     </p>
-
-    @if (session('success'))
-        <div class="bg-green-100 border-green-500 text-green-700 p-4 mb-6" role="alert">
-            <p>{{ session('success') }}</p>
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="bg-red-100 border-red-500 text-red-700 p-4 mb-6" role="alert">
-            <p>{{ session('error') }}</p>
-        </div>
-    @endif
 
     <!-- Grid com os botões de opção -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-        <!-- Botão: Cadastrar Marca -->
-        <a href="/cadastro/marca" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+        <!-- Botão: Gerir Marcas -->
+        <a href="{{ route('gerenciar.marca.index') }}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
             <div class="flex items-center">
                 <!-- Ícone -->
                 <div class="p-3 bg-blue-100 rounded-full">
@@ -33,13 +21,13 @@
                 </div>
                 <div class="ml-5">
                     <h2 class="text-xl font-bold text-gray-800">Marcas</h2>
-                    <p class="text-gray-500 mt-1">Cadastrar novas marcas</p>
+                    <p class="text-gray-500 mt-1">Editar e apagar marcas</p>
                 </div>
             </div>
         </a>
 
-        <!-- Botão: Cadastrar Modelo -->
-        <a href="/cadastro/modelo" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+        <!-- Botão: Gerir Modelos -->
+        <a href="{{-- route('gerenciar.modelos.index') --}}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
             <div class="flex items-center">
                 <!-- Ícone -->
                 <div class="p-3 bg-green-100 rounded-full">
@@ -49,25 +37,26 @@
                 </div>
                 <div class="ml-5">
                     <h2 class="text-xl font-bold text-gray-800">Modelos</h2>
-                    <p class="text-gray-500 mt-1">Adicionar novos modelos</p>
+                    <p class="text-gray-500 mt-1">Editar e apagar modelos</p>
                 </div>
             </div>
         </a>
 
-        <!-- Botão: Cadastrar Usuário -->
-        <a href="/cadastro/user" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+        <!-- Botão: Gerir Utilizadores -->
+        <a href="{{-- route('gerenciar.usuarios.index') --}}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
             <div class="flex items-center">
                 <!-- Ícone -->
-                <div class="p-3 bg-purple-100 rounded-full">
-                    <svg class="w-8 h-8 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                <div class="p-3 bg-red-100 rounded-full">
+                    <svg class="w-8 h-8 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-4.663l.001.109m-8.381 3.663c.045.012.09.023.135.034M15 19.128L15 15.111v-2.167c-1.207.576-2.506.926-3.874.926-1.368 0-2.667-.35-3.874-.926V15.11L8.624 19.128z" />
                     </svg>
                 </div>
                 <div class="ml-5">
-                    <h2 class="text-xl font-bold text-gray-800">Usuários</h2>
-                    <p class="text-gray-500 mt-1">Gerenciar usuários</p>
+                    <h2 class="text-xl font-bold text-gray-800">Users</h2>
+                    <p class="text-gray-500 mt-1">Editar e apagar users</p>
                 </div>
             </div>
         </a>
-</div>
+
+    </div>
 @endsection

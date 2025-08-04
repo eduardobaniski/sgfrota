@@ -44,19 +44,23 @@ class Sidebar extends Component
             ],
             [
                 'title' => 'Relatórios',
-                'url' => route('admin'),
+                'url' => route('dashboard'), //AJEITAR ROTA RELATORIOS USER PADRAO
             ],
         ];
 
         // Links exclusivos para administradores
         $adminLinks = [
             [
+                'title' => 'Home',
+                'url' => route('admin'),
+            ],
+            [
                 'title' => 'Cadastros',
                 'url' => route('cadastro.index'),
             ],
             [
                 'title' => 'Gerenciar',
-                'url' => route('admin'),   //AJEITAR ROTA
+                'url' => route('gerenciar.index'),
             ],
         ];
 

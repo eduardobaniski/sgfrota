@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function create()
     {
         return view('cadastro.user');
     }
