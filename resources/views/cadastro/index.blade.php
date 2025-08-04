@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-    <h1 class="text-3xl font-bold text-gray-800 mb-8">Central de Cadastros</h1>
+    <h1 class="text-3xl font-bold text-gray-800 mb-8">Cadastro</h1>
 
     <p class="text-gray-600 mb-10">
         Selecione uma das opções abaixo para gerenciar os dados do sistema.

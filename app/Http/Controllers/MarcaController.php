@@ -20,7 +20,7 @@ class MarcaController extends Controller
             return redirect('cadastro')->with('error', 'Marca já cadastrada!');
         }
 
-        Marca::create($marca);
+        Marca::create(['marca' => $marca]);
         return redirect('cadastro')->with('success', 'Marca cadastrada com sucesso!');
     }
 }

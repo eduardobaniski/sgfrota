@@ -1,7 +1,7 @@
 @vite('resources/css/app.css')
 <aside class="w-64 bg-orange-400 text-white flex-shrink-0">
     <div class="p-6">
-        <img src="logo.png" alt="" class="w-50 h-50 mx-auto">
+        <img src="{{ asset('logo.png') }}" alt="" class="w-50 h-50 mx-auto">
     </div>
     <nav class="mt-2">
         {{-- A variável $links vem automaticamente da classe Sidebar.php --}}
