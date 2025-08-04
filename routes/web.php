@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MarcaController;
+use App\Http\Controllers\ModeloController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -39,8 +40,8 @@ Route::middleware(['admin'])->prefix('cadastro')->name('cadastro.')->group(funct
     Route::get('/marca', [MarcaController::class, 'index']);
     Route::post('/marca', [MarcaController::class, 'store']);
 
-    Route::get('/Modelo', [ModeloController::class, 'index']);
-    Route::post('/Modelo', [ModeloController::class, 'store']);
+    Route::get('/modelo', [ModeloController::class, 'index']);
+    Route::post('/modelo', [ModeloController::class, 'store']);
 });
 
 Route::post('/login', [UserController::class, 'login']);
