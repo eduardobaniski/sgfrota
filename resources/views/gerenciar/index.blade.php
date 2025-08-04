@@ -43,7 +43,7 @@
         </a>
 
         <!-- Botão: Gerir Utilizadores -->
-        <a href="{{-- route('gerenciar.usuarios.index') --}}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+        <a href="{{ route('gerenciar.user.index') }}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
             <div class="flex items-center">
                 <!-- Ícone -->
                 <div class="p-3 bg-red-100 rounded-full">

@@ -53,7 +53,11 @@ Route::middleware(['admin'])->prefix('gerenciar')->name('gerenciar.')->group(fun
     Route::delete('/modelo/{modelo}', [ModeloController::class, 'destroy'])->name('modelo.destroy');
 
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
+    Route::get('/user/{user}/editar', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 });
+
 
 
 /*
