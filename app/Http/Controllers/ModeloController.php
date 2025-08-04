@@ -10,7 +10,7 @@ class ModeloController extends Controller
 {
     public function index()
     {
-        $marcas = Marca::pluck('marca', 'id');
+        $marcas = Marca::orderBy('marca')->pluck('marca', 'id');
         return view('cadastro.modelo', ['marcas' => $marcas]);
     }
 
