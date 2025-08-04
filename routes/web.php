@@ -48,6 +48,9 @@ Route::middleware(['admin'])->prefix('gerenciar')->name('gerenciar.')->group(fun
 
 
     Route::get('/modelo', [ModeloController::class, 'index'])->name('modelo.index');
+    Route::get('/modelo/{modelo}/editar', [ModeloController::class, 'edit'])->name('modelo.edit');
+    Route::put('/modelo/{modelo}', [ModeloController::class, 'update'])->name('modelo.update');
+    Route::delete('/modelo/{modelo}', [ModeloController::class, 'destroy'])->name('modelo.destroy');
 
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
 });

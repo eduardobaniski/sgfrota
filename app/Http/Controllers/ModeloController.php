@@ -8,6 +8,54 @@ use Illuminate\Http\Request;
 
 class ModeloController extends Controller
 {
+    public function index()
+    {
+        $modelos = Modelo::with('marca')->orderBy('nome')->paginate(10);
+
+        return view('gerenciar.modelo.index', ['modelos' => $modelos]);
+    }
+
+    public function edit(Modelo $modelo)
+    {
+        // O Laravel já encontra o modelo pelo ID.
+        // Também buscamos todas as marcas para popular o dropdown de seleção de marca.
+        $marcas = Marca::orderBy('nome')->get();
+
+        return view('gerenciar.modelo.edit', [
+            'modelo' => $modelo,
+            'marcas' => $marcas
+        ]);
+    }
+
+    public function update(Request $request, Modelo $modelo)
+    {
+        $dadosValidados = $request->validate([
+            'nome' => 'required|string|max:255',
+            'marca_id' => 'required|exists:marcas,id'
+        ]);
+
+        // Lógica opcional para verificar duplicatas antes de atualizar
+        $duplicataExiste = Modelo::where('nome', $dadosValidados['nome'])
+                                 ->where('marca_id', $dadosValidados['marca_id'])
+                                 ->where('id', '!=', $modelo->id) // Ignora o próprio modelo
+                                 ->exists();
+
+        if ($duplicataExiste) {
+            return back()->with('error', 'Este modelo já está registado para esta marca.');
+        }
+
+        $modelo->update($dadosValidados);
+
+        return redirect()->route('gerenciar.modelo.index')->with('success', 'Modelo atualizado com sucesso!');
+    }
+
+    public function destroy(Modelo $modelo)
+    {
+        $modelo->delete();
+        
+        return redirect()->route('gerenciar.modelo.index')->with('success', 'Modelo apagado com sucesso!');
+    }
+
     public function create()
     {
         $marcas = Marca::orderBy('marca')->pluck('marca', 'id');
