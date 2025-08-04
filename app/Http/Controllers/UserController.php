@@ -14,7 +14,7 @@ class UserController extends Controller
         // Busca todos os utilizadores, exceto o que está autenticado, e pagina o resultado
         $users = User::paginate(10);
 
-        return view('gerenciar.user.index', ['users' => $users]);
+        return view('admin.gerenciar.user.index', ['users' => $users]);
     }
 
     /**
@@ -23,7 +23,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         // O Laravel já encontra o utilizador pelo ID.
-        return view('gerenciar.user.edit', ['user' => $user]);
+        return view('admin.gerenciar.user.edit', ['user' => $user]);
     }
 
     /**
@@ -43,7 +43,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('gerenciar.user.index')->with('success', 'Utilizador atualizado com sucesso!');
+        return redirect()->route('admin.gerenciar.user.index')->with('success', 'Utilizador atualizado com sucesso!');
     }
 
     /**
@@ -53,18 +53,18 @@ class UserController extends Controller
     {
         // Medida de segurança para impedir que um utilizador se apague a si mesmo
         if ($user->id === Auth::id()) {
-            return redirect()->route('gerenciar.user.index')->with('error', 'Não pode apagar a sua própria conta!');
+            return redirect()->route('admin.gerenciar.user.index')->with('error', 'Não pode apagar a sua própria conta!');
         }
 
         $user->delete();
         
-        return redirect()->route('gerenciar.user.index')->with('success', 'Utilizador apagado com sucesso!');
+        return redirect()->route('admin.gerenciar.user.index')->with('success', 'Utilizador apagado com sucesso!');
     }
 
 
     public function create()
     {
-        return view('cadastro.user');
+        return view('admin.cadastro.user');
     }
 
     public function store(Request $request)

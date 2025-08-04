@@ -12,7 +12,7 @@ class ModeloController extends Controller
     {
         $modelos = Modelo::with('marca')->orderBy('nome')->paginate(10);
 
-        return view('gerenciar.modelo.index', ['modelos' => $modelos]);
+        return view('admin.gerenciar.modelo.index', ['modelos' => $modelos]);
     }
 
     public function edit(Modelo $modelo)
@@ -21,7 +21,7 @@ class ModeloController extends Controller
         // Também buscamos todas as marcas para popular o dropdown de seleção de marca.
         $marcas = Marca::orderBy('nome')->get();
 
-        return view('gerenciar.modelo.edit', [
+        return view('admin.gerenciar.modelo.edit', [
             'modelo' => $modelo,
             'marcas' => $marcas
         ]);
@@ -59,7 +59,7 @@ class ModeloController extends Controller
     public function create()
     {
         $marcas = Marca::orderBy('marca')->pluck('marca', 'id');
-        return view('cadastro.modelo', ['marcas' => $marcas]);
+        return view('admin.cadastro.modelo', ['marcas' => $marcas]);
     }
 
     public function store(Request $request){

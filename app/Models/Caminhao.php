@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Caminhao extends Model
 {
     //
-    protected $tables = 'caminhoes';
+    protected $table = 'caminhoes';
     protected $fillable = [
         'modelo_id',
         'ano_fabricacao',

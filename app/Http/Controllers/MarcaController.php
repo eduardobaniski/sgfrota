@@ -13,13 +13,13 @@ class MarcaController extends Controller
         $marcas = Marca::orderBy('nome')->paginate(10); // Usar paginate para listas longas
 
         // Retorna a view da tabela de gestão
-        return view('gerenciar.marca.index', ['marcas' => $marcas]);
+        return view('admin.gerenciar.marca.index', ['marcas' => $marcas]);
     }
 
     public function create()
     {
         // Lógica para listar marcas
-        return view('cadastro.marca');
+        return view('admin.cadastro.marca');
     }
 
     public function store(Request $request){
@@ -35,7 +35,7 @@ class MarcaController extends Controller
 
      public function edit(Marca $marca)
     {
-        return view('gerenciar.marca.edit', ['marca' => $marca]);
+        return view('admin.gerenciar.marca.edit', ['marca' => $marca]);
     }
 
     public function update(Request $request, Marca $marca)
