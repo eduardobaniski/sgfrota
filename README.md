@@ -18,9 +18,9 @@ Copie o arquivo .env.example e edite as variáveis de ambiente conforme necessá
 
 
 **Instale as dependências do projeto**
-Rode o script _install.ps1_ para instalar todas as dependências do projeto
+Rode o script _setup.ps1_ para instalar todas as dependências do projeto
 
-`.\install.ps1`
+`.\setup.ps1`
 
 
 ## Para rodar
