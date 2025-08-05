@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title', 'Editar Modelo')
+@section('title', 'Editar Modelos')
 @section('content')
     {{-- Cabeçalho da Página --}}
     <div class="flex justify-between items-center mb-6">
