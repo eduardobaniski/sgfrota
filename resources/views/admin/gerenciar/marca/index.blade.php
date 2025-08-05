@@ -1,9 +1,8 @@
 @extends('layout')
-
+@section('title', 'Editar Marca')
 @section('content')
     {{-- Cabeçalho da Página --}}
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-800">Gerenciar Marcas</h1>
+    <div class="flex justify-end items-center mb-6">
         <a href="{{ route('cadastro.marca.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
             + Adicionar Nova Marca
         </a>

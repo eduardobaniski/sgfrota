@@ -10,6 +10,7 @@
 <body class="bg-gray-100 font-sans">
 
     <div class="flex h-screen bg-gray-200">
+
         
         <x-sidebar />
         
@@ -18,6 +19,7 @@
             <!-- 2.1. TOPBAR -->
             <!-- A topbar deve ser incluída aqui, se você tiver uma. -->
             {{-- @include('layouts.partials.topbar') --}}
+            <x-topbar />
             
            
             <main class="flex-1 p-6">
@@ -25,7 +27,6 @@
                 
             </main>
         </div>
-        <x-logout />
     </div>
     
 </body>

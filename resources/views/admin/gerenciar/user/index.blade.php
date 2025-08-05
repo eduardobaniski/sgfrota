@@ -1,9 +1,8 @@
 @extends('layout')
-
+@section('title', 'Editar Usuários')
 @section('content')
     {{-- Cabeçalho da Página --}}
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-800">Gerenciar Usuários</h1>
         <a href="{{ route('cadastro.user.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
             + Adicionar Novo User
         </a>

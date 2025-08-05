@@ -1,7 +1,6 @@
 @extends('layout')
-
+@section('title', 'Gerenciar Dados do Sistema')
 @section('content')
-    <h1 class="text-3xl font-bold text-gray-800 mb-8">Gerenciar Dados do Sistema</h1>
 
     <p class="text-gray-600 mb-10">
         Selecione uma das opções abaixo para editar ou apagar dados do sistema.

@@ -1,7 +1,6 @@
 @extends('layout')
-
+@section('title', 'Editar Marca')
 @section('content')
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">Editar Marca</h1>
 
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
         {{-- O formulário aponta para a rota de update e usa o método PUT --}}

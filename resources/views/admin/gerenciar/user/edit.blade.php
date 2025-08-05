@@ -1,7 +1,6 @@
 @extends('layout')
-
+@section('title', 'Editar Usuários')
 @section('content')
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">Editar Usuário</h1>
 
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
         <form action="{{ route('admin.gerenciar.user.update', $user->id) }}" method="POST">

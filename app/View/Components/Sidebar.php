@@ -55,15 +55,15 @@ class Sidebar extends Component
                 'url' => route('admin'),
             ],
             [
-                'title' => 'Gerenciar Marcas',
+                'title' => 'Editar Marcas',
                 'url' => route('admin.gerenciar.marca.index'),
             ],
             [
-                'title' => 'Gerenciar Modelo',
+                'title' => 'Editar Modelos',
                 'url' => route('admin.gerenciar.modelo.index'),
             ],
             [
-                'title' => 'Gerenciar Usuários',
+                'title' => 'Editar Usuários',
                 'url' => route('admin.gerenciar.user.index'),
             ],
         ];
