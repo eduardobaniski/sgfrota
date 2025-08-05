@@ -56,7 +56,7 @@
                 <!-- Campo Renavam -->
                 <div>
                     <label for="renavam" class="block text-sm font-medium text-gray-700">Renavam</label>
-                    <input type="text" id="renavam" name="renavam" value="{{ old('renavam') }}" required
+                    <input type="text" id="renavam" name="renavam" value="{{ old('renavam') }}" required maxlength="11" 
                            class="mt-1 block w-full p-2 border rounded-md shadow-sm @error('renavam') border-red-500 @else border-gray-300 @enderror">
                     @error('renavam')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -87,6 +87,35 @@
     {{-- Script para os Dropdowns Dependentes --}}
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+
+        // --- INÍCIO: LÓGICA DE VALIDAÇÃO DO RENAVAM ---
+        const renavamElement = document.getElementById('renavam');
+
+        renavamElement.addEventListener('input', function (e) {
+            // Remove qualquer caractere que não seja um número em tempo real
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        });
+// --- FIM: LÓGICA DE VALIDAÇÃO DO RENAVAM ---
+
+        // --- INÍCIO: LÓGICA DE VALIDAÇÃO DA PLACA ---
+        const placaElement = document.getElementById('placa');
+
+        placaElement.addEventListener('input', function (e) {
+            // 1. Remove qualquer caractere que não seja letra ou número
+            let valor = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
+
+            // 2. Converte para maiúsculas
+            valor = valor.toUpperCase();
+
+            // 3. Limita o comprimento a 7 caracteres
+            if (valor.length > 7) {
+                valor = valor.slice(0, 7);
+            }
+
+            // 4. Atualiza o valor do campo
+            e.target.value = valor;
+        });
+        // --- FIM: LÓGICA DE VALIDAÇÃO DA PLACA ---
         
         const marcaSelect = document.getElementById('marca');
         const modeloSelect = document.getElementById('modelo');
