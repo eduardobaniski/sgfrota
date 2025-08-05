@@ -11,7 +11,7 @@
             </div>
         @endif
 
-        <form action="{{--  --}}" method="POST">
+        <form action="{{ route('caminhoes.store') }}" method="POST">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -86,35 +86,27 @@
 
     {{-- Script para os Dropdowns Dependentes --}}
     <script>
-    // Espera que todo o HTML da página seja carregado antes de executar o script
     document.addEventListener('DOMContentLoaded', function() {
         
-        // 1. Captura os elementos do formulário
         const marcaSelect = document.getElementById('marca');
         const modeloSelect = document.getElementById('modelo');
 
-        // 2. Função para carregar os modelos
         function carregarModelos(marcaId) {
-            // Se não houver um ID de marca, reseta o campo de modelo
             if (!marcaId) {
                 modeloSelect.innerHTML = '<option selected disabled>Selecione a marca primeiro</option>';
                 modeloSelect.disabled = true;
                 return;
             }
 
-            // Mostra uma mensagem de "a carregar" enquanto busca os dados
             modeloSelect.innerHTML = '<option>A carregar...</option>';
             modeloSelect.disabled = true;
 
-            // 3. Faz a chamada à sua API
-            // Lembre-se de verificar se o URL está correto (/api/marcas/... ou /marcas/...)
             fetch(`/api/marcas/${marcaId}/modelos`)
                 .then(response => response.json())
                 .then(modelos => {
                     // Limpa o dropdown de modelos
                     modeloSelect.innerHTML = '<option value="" selected disabled>Selecione um modelo</option>';
 
-                    // 4. Preenche o dropdown com os modelos recebidos
                     modelos.forEach(modelo => {
                         const option = document.createElement('option');
                         option.value = modelo.id;
@@ -131,15 +123,11 @@
                 });
         }
 
-        // 5. Adiciona o "ouvinte" que ativa a busca
-        // Quando o valor de 'marca' muda, a função carregarModelos é chamada
         marcaSelect.addEventListener('change', function() {
-            // 'this.value' pega o valor do atributo "value" da <option> selecionada
             const marcaId = this.value; 
             carregarModelos(marcaId);
         });
 
-        // 6. Lógica para o caso de a página recarregar com um valor antigo (após falha de validação)
         if (marcaSelect.value) {
             carregarModelos(marcaSelect.value);
         }
