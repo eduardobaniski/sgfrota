@@ -51,10 +51,10 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
                             {{-- Link para a rota de edição --}}
-                            <a href="{{ route('gerenciar.modelo.edit', $modelo->id) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
+                            <a href="{{ route('admin.gerenciar.modelo.edit', $modelo->id) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
                             
                             {{-- Formulário para a ação de apagar --}}
-                            <form action="{{ route('gerenciar.modelo.destroy', $modelo->id) }}" method="POST" class="inline" onsubmit="return confirm('Tem a certeza que deseja apagar este modelo?');">
+                            <form action="{{ route('admin.gerenciar.modelo.destroy', $modelo->id) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja apagar este modelo?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:text-red-900">Apagar</button>

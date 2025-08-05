@@ -42,9 +42,9 @@
                             {{ $marca->marca }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
-                            <a href="{{ route('gerenciar.marca.edit', $marca->id) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
+                            <a href="{{ route('admin.gerenciar.marca.edit', $marca->id) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
                             
-                            <form action="{{ route('gerenciar.marca.destroy', $marca->id) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja apagar esta marca?');">
+                            <form action="{{ route('admin.gerenciar.marca.destroy', $marca->id) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja apagar esta marca?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:text-red-900">Apagar</button>

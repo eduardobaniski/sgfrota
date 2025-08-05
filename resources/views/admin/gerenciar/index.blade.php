@@ -11,7 +11,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
         <!-- Botão: Gerir Marcas -->
-        <a href="{{ route('gerenciar.marca.index') }}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+        <a href="{{ route('admin.gerenciar.marca.index') }}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
             <div class="flex items-center">
                 <!-- Ícone -->
                 <div class="p-3 bg-blue-100 rounded-full">
@@ -27,7 +27,7 @@
         </a>
 
         <!-- Botão: Gerir Modelos -->
-        <a href="{{ route('gerenciar.modelo.index') }}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+        <a href="{{ route('admin.gerenciar.modelo.index') }}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
             <div class="flex items-center">
                 <!-- Ícone -->
                 <div class="p-3 bg-green-100 rounded-full">
@@ -43,7 +43,7 @@
         </a>
 
         <!-- Botão: Gerir Utilizadores -->
-        <a href="{{ route('gerenciar.user.index') }}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+        <a href="{{ route('admin.gerenciar.user.index') }}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
             <div class="flex items-center">
                 <!-- Ícone -->
                 <div class="p-3 bg-red-100 rounded-full">

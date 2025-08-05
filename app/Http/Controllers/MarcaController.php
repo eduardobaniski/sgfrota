@@ -52,13 +52,13 @@ class MarcaController extends Controller
         $marca->update($dadosValidados);
 
         // Redireciona de volta para a lista de gestão com uma mensagem de sucesso
-        return redirect()->route('gerenciar.marca.index')->with('success', 'Marca atualizada com sucesso!');
+        return redirect()->route('admin.gerenciar.marca.index')->with('success', 'Marca atualizada com sucesso!');
     }
 
     public function destroy(Marca $marca)
     {
         $marca->delete();
 
-        return redirect()->route('gerenciar.marca.index')->with('success', 'Marca apagada com sucesso!');
+        return redirect()->route('admin.gerenciar.marca.index')->with('success', 'Marca apagada com sucesso!');
     }
 }

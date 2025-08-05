@@ -5,7 +5,7 @@
 
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
         {{-- O formulário aponta para a rota de update e usa o método PUT --}}
-        <form action="{{ route('gerenciar.modelo.update', $modelo->id) }}" method="POST">
+        <form action="{{ route('admin.gerenciar.modelo.update', $modelo->id) }}" method="POST">
             @csrf
             @method('PUT') {{-- Informa ao Laravel que esta é uma requisição de atualização --}}
 
@@ -41,7 +41,7 @@
 
             <!-- Botões de Ação -->
             <div class="flex justify-end space-x-4">
-                <a href="{{ route('gerenciar.modelo.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                <a href="{{ route('admin.gerenciar.modelo.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">
                     Cancelar
                 </a>
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">

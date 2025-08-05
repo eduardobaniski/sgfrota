@@ -46,14 +46,14 @@ class ModeloController extends Controller
 
         $modelo->update($dadosValidados);
 
-        return redirect()->route('gerenciar.modelo.index')->with('success', 'Modelo atualizado com sucesso!');
+        return redirect()->route('admin.gerenciar.modelo.index')->with('success', 'Modelo atualizado com sucesso!');
     }
 
     public function destroy(Modelo $modelo)
     {
         $modelo->delete();
         
-        return redirect()->route('gerenciar.modelo.index')->with('success', 'Modelo apagado com sucesso!');
+        return redirect()->route('admin.gerenciar.modelo.index')->with('success', 'Modelo apagado com sucesso!');
     }
 
     public function create()
