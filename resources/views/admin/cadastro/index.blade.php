@@ -65,7 +65,7 @@
                 </div>
                 <div class="ml-5">
                     <h2 class="text-xl font-bold text-gray-800">Usuários</h2>
-                    <p class="text-gray-500 mt-1">Gerenciar usuários</p>
+                    <p class="text-gray-500 mt-1">Cadastrar novos usuários</p>
                 </div>
             </div>
         </a>

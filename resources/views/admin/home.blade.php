@@ -33,7 +33,7 @@
                     </svg>
                 </div>
                 <div class="ml-5">
-                    <h2 class="text-xl font-bold text-gray-800">Gerenciar Itens</h2>
+                    <h2 class="text-xl font-bold text-gray-800">Gerenciar Dados</h2>
                     <p class="text-gray-500 mt-1">Editar e apagar dados</p>
                 </div>
             </div>
