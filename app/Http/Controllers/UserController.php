@@ -43,7 +43,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('admin.gerenciar.user.index')->with('success', 'Utilizador atualizado com sucesso!');
+        return redirect()->route('admin.gerenciar.user.index')->with('success', 'User atualizado com sucesso!');
     }
 
     /**

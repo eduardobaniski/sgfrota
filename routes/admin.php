@@ -16,7 +16,7 @@ Route::get('/adminPanel', function () {
  *  Rotas para gerenciar 
 */
 
-Route::middleware(['admin'])->prefix('gerenciar')->name('gerenciar.')->group(function () {
+Route::middleware(['admin'])->prefix('gerenciar')->name('admin.gerenciar.')->group(function () {
     Route::get('/', function () {
         return view('admin.gerenciar.index');
     })->name('index');

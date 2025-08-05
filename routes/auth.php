@@ -15,18 +15,15 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 });
 
+/*
+ * Rotas de cadastro 
+*/
+// Route::middleware(['auth'])->prefix('cadastro')->name('cadastro.user.')->group(function () {
+//     Route::get('/', function () {
+//         return view('cadastro.index');
+//     })->name('index');
 
-Route::middleware(['auth'])->prefix('cadastro')->name('cadastro.')->group(function () {
-    Route::get('/', function () {
-        return view('cadastro.index');
-    })->name('index');
+//     Route::get('/caminhao', [CaminhaoController::class, 'create'])->name('caminhao.create');
+//     Route::post('/caminhao', [CaminhaoController::class, 'store'])->name('caminhao.store');
 
-    Route::get('/marca', [MarcaController::class, 'create'])->name('marca.create');
-    Route::post('/marca', [MarcaController::class, 'store'])->name('marca.store');
-
-    Route::get('/modelo', [ModeloController::class, 'create'])->name('modelo.create');
-    Route::post('/modelo', [ModeloController::class, 'store'])->name('modelo.store');
-
-    Route::get('/user', [UserController::class, 'create'])->name('user.create');
-    Route::post('/user', [UserController::class, 'store'])->name('user.store');
-});
+// });

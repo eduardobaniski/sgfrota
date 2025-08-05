@@ -12,4 +12,5 @@ class CaminhaoController extends Controller
         // Aqui você pode buscar os caminhões do banco de dados
         return Caminhao::all();
     }
+    
 }

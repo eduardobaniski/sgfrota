@@ -60,7 +60,7 @@ class Sidebar extends Component
             ],
             [
                 'title' => 'Gerenciar',
-                'url' => route('gerenciar.index'),
+                'url' => route('admin.gerenciar.index'),
             ],
         ];
 
