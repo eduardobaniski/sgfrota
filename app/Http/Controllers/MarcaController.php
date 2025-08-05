@@ -26,11 +26,11 @@ class MarcaController extends Controller
         $marca = $request->input('marca');
         
         if( Marca::where('marca', $marca)->exists() ) {
-            return redirect('cadastro')->with('error', 'Marca já cadastrada!');
+            return redirect('gerenciar/marca')->with('error', 'Marca já cadastrada!');
         }
 
         Marca::create(['marca' => $marca]);
-        return redirect('cadastro')->with('success', 'Marca cadastrada com sucesso!');
+        return redirect('gerenciar/marca')->with('success', 'Marca cadastrada com sucesso!');
     }
 
      public function edit(Marca $marca)

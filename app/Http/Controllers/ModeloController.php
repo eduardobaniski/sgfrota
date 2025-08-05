@@ -66,13 +66,13 @@ class ModeloController extends Controller
         if(Modelo::where('modelo', $request['modelo'])
                          ->where('marca_id', $request['marca_id'])
                          ->exists()){
-            return redirect('cadastro')->with('error', 'Este modelo já existe para esta marca!');
+            return redirect('gerenciar/modelo')->with('error', 'Este modelo já existe para esta marca!');
         }
         Modelo::create([
             'modelo' => $request['modelo'],
             'marca_id' => $request['marca_id'],
         ]);
 
-        return redirect('cadastro')->with('success', 'Modelo cadastrado com sucesso!');
+        return redirect('gerenciar/modelo')->with('success', 'Modelo cadastrado com sucesso!');
     }
 }

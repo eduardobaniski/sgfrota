@@ -55,10 +55,6 @@ class Sidebar extends Component
                 'url' => route('admin'),
             ],
             [
-                'title' => 'Cadastros',
-                'url' => route('cadastro.index'),
-            ],
-            [
                 'title' => 'Gerenciar',
                 'url' => route('admin.gerenciar.index'),
             ],

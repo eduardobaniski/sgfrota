@@ -78,7 +78,7 @@ class UserController extends Controller
             return redirect('cadastro')->with('error', 'Este usuário já existe!');
         }
         User::create($dados);
-        return redirect()->route('cadastro.index')->with('success', 'Usuário ' . $request->username . ' cadastrado com sucesso!');
+        return redirect()->route('admin.gerenciar.index')->with('success', 'Usuário ' . $request->username . ' cadastrado com sucesso!');
     }
 
     public function login(Request $request)

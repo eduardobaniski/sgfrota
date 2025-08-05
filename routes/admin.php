@@ -9,7 +9,7 @@ use App\Http\Controllers\DashboardController;
 
 
 Route::get('/adminPanel', function () {
-    return view('admin.home');
+    return view('admin.gerenciar.index');
 })->middleware('admin')->name('admin'); // Middleware para verificar se o usuário é admin
 
 /*
@@ -46,10 +46,6 @@ Route::middleware(['admin'])->prefix('gerenciar')->name('admin.gerenciar.')->gro
 
 
 Route::middleware(['admin'])->prefix('cadastro')->name('cadastro.')->group(function () {
-    Route::get('/', function () {
-        return view('admin.cadastro.index');
-    })->name('index');
-
     Route::get('/marca', [MarcaController::class, 'create'])->name('marca.create');
     Route::post('/marca', [MarcaController::class, 'store'])->name('marca.store');
 
