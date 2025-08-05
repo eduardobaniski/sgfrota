@@ -1,8 +1,7 @@
 @extends('layout')
+@section('title', 'Dashboard da Frota')
 @props(['caminhoes'])
 @section('content')
-
-    <h1 class="text-3xl font-bold mb-6">Dashboard da Frota</h1>
     
     <!-- Cria um grid para organizar os cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
