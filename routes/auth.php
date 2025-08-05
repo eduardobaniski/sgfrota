@@ -10,20 +10,16 @@ use App\Http\Controllers\DashboardController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
-        $caminhoes = CaminhaoController::index();
+        $caminhoes = CaminhaoController::all();
         return view('dashboard', ['caminhoes' => $caminhoes]);
     })->name('dashboard');
 });
 
-/*
- * Rotas de cadastro 
-*/
-// Route::middleware(['auth'])->prefix('cadastro')->name('cadastro.user.')->group(function () {
-//     Route::get('/', function () {
-//         return view('cadastro.index');
-//     })->name('index');
 
-//     Route::get('/caminhao', [CaminhaoController::class, 'create'])->name('caminhao.create');
-//     Route::post('/caminhao', [CaminhaoController::class, 'store'])->name('caminhao.store');
+Route::middleware(['auth'])->prefix('caminhoes')->name('caminhoes.')->group(function () {
+    Route::get('/', [CaminhaoController::class, 'index'])->name('index');
+    
+    Route::get('/novo', [CaminhaoController::class, 'create'])->name('create');
+    Route::post('/', [CaminhaoController::class, 'store'])->name('store');
 
-// });
+});

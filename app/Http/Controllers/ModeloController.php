@@ -62,7 +62,7 @@ class ModeloController extends Controller
     }
 
     public function store(Request $request){
-        if(Vehicle::whereRaw('LOWER(modelo) = ?', [strtolower($value)])
+        if(Modelo::whereRaw('LOWER(modelo) = ?', [strtolower($request->input('modelo'))])
                     ->where('marca_id', $request->input('marca_id'))
                     ->exists()){
             return redirect('gerenciar/modelo')->with('error', 'Este modelo já existe para esta marca!');

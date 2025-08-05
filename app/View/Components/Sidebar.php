@@ -40,7 +40,7 @@ class Sidebar extends Component
             ],
             [
                 'title' => 'Cadastro',
-                'url' => route('dashboard'),    //AJEITAR ROTA CADASTRO USER PADRAO
+                'url' => route('caminhoes.create'),    //AJEITAR ROTA CADASTRO USER PADRAO
             ],
             [
                 'title' => 'Relatórios',
