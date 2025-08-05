@@ -25,7 +25,7 @@ class MarcaController extends Controller
     public function store(Request $request){
         $marca = $request->input('marca');
         
-        if( Marca::where('marca', $marca)->exists() ) {
+        if( Marca::whereRaw('LOWER(marca) = ?', [strtolower($marca)])->exists() ) {
             return redirect('gerenciar/marca')->with('error', 'Marca já cadastrada!');
         }
 
@@ -41,15 +41,14 @@ class MarcaController extends Controller
     public function update(Request $request, Marca $marca)
     {
         // Valida os dados recebidos do formulário de edição
-        $dadosValidados = $request->validate([
-            // A regra 'unique' é importante aqui:
-            // Garante que o nome é único na tabela 'marcas',
-            // ignorando o registo da própria marca que está a ser editada.
-            'nome' => 'required|string|max:255|unique:marcas,nome,' . $marca->id
-        ]);
+        
+
+        if (Marca::whereRaw('LOWER(marca) = ?', [strtolower($request->nome)])->exists()){
+            return redirect()->route('admin.gerenciar.marca.index')->with('error', 'Marca já existe!');
+        }
 
         // Atualiza a marca com os dados validados
-        $marca->update($dadosValidados);
+        $marca->update(['marca' => $request->nome]);
 
         // Redireciona de volta para a lista de gestão com uma mensagem de sucesso
         return redirect()->route('admin.gerenciar.marca.index')->with('success', 'Marca atualizada com sucesso!');

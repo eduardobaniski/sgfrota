@@ -35,13 +35,12 @@ class ModeloController extends Controller
         ]);
 
         // Lógica opcional para verificar duplicatas antes de atualizar
-        $duplicataExiste = Modelo::where('nome', $dadosValidados['nome'])
-                                 ->where('marca_id', $dadosValidados['marca_id'])
-                                 ->where('id', '!=', $modelo->id) // Ignora o próprio modelo
-                                 ->exists();
+        $duplicataExiste = Modelo::whereRaw('LOWER(modelo) = ?', [strtolower($request['nome'])])
+                    ->where('marca_id', $request->input('marca_id'))
+                    ->exists();;
 
         if ($duplicataExiste) {
-            return back()->with('error', 'Este modelo já está registado para esta marca.');
+            return redirect('gerenciar/modelo')->with('error', 'Este modelo já está registado para esta marca.');
         }
 
         $modelo->update($dadosValidados);
@@ -63,9 +62,9 @@ class ModeloController extends Controller
     }
 
     public function store(Request $request){
-        if(Modelo::where('modelo', $request['modelo'])
-                         ->where('marca_id', $request['marca_id'])
-                         ->exists()){
+        if(Vehicle::whereRaw('LOWER(modelo) = ?', [strtolower($value)])
+                    ->where('marca_id', $request->input('marca_id'))
+                    ->exists()){
             return redirect('gerenciar/modelo')->with('error', 'Este modelo já existe para esta marca!');
         }
         Modelo::create([
