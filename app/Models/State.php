@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class State extends Model
 {
 
-    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
