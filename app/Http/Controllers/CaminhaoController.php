@@ -37,5 +37,38 @@ class CaminhaoController extends Controller
         // Por agora, vamos redirecionar de volta para o formulário de criação
         return redirect()->route('caminhoes.create')->with('success', 'Caminhão registado com sucesso!');
     }
+
+    public function edit(Caminhao $caminhao)
+    {
+        $marcas = Marca::orderBy('nome')->get();
+
+        // Reutiliza a mesma view do registo, mas passa os dados do caminhão
+        return view('caminhoes.edit', [
+            'caminhao' => $caminhao,
+            'marcas' => $marcas
+        ]);
+    }
+
+    public function update(Request $request, Caminhao $caminhao)
+    {
+        // Pega todos os dados do formulário
+        $dados = $request->all();
+
+        // Atualiza o caminhão com os dados recebidos
+        $caminhao->update($dados);
+
+        // Idealmente, redirecionaria para a página de listagem de caminhões
+        return redirect()->route('dashboard')->with('success', 'Caminhão atualizado com sucesso!');
+    }
     
+    public function destroy(Caminhao $caminhao)
+    {
+        // Opcional: Adicionar uma verificação de autorização aqui
+        // para garantir que o utilizador autenticado pode apagar este caminhão.
+
+        $caminhao->delete();
+
+        // Redireciona para uma página de listagem (quando existir) com uma mensagem de sucesso
+        return redirect()->route('dashboard')->with('success', 'Caminhão apagado com sucesso!');
+    }
 }

@@ -22,4 +22,8 @@ Route::middleware(['auth'])->prefix('caminhoes')->name('caminhoes.')->group(func
     Route::get('/novo', [CaminhaoController::class, 'create'])->name('create');
     Route::post('/', [CaminhaoController::class, 'store'])->name('store');
 
+    Route::get('/{caminhao}/editar', [CaminhaoController::class, 'edit'])->name('edit');
+    Route::put('/{caminhao}', [CaminhaoController::class, 'update'])->name('update');
+
+    Route::delete('/{caminhao}', [CaminhaoController::class, 'destroy'])->name('destroy');
 });
