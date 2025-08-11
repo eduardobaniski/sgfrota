@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ModeloController;
+use App\Http\Controllers\ViagemController;
 use App\Http\Controllers\CaminhaoController;
 use App\Http\Controllers\DashboardController;
 
@@ -26,4 +27,10 @@ Route::middleware(['auth'])->prefix('caminhoes')->name('caminhoes.')->group(func
     Route::put('/{caminhao}', [CaminhaoController::class, 'update'])->name('update');
 
     Route::delete('/{caminhao}', [CaminhaoController::class, 'destroy'])->name('destroy');
+});
+
+
+Route::middleware(['auth'])->prefix('viagens')->name('viagens.')->group(function () {
+    Route::get('novo/{caminhao}', [ViagemController::class, 'create'])->name('create');
+    Route::post('/', [ViagemController::class, 'store'])->name('store');
 });
