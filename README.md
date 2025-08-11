@@ -10,6 +10,8 @@
 
 https://laravel.com/docs/12.x/installation
 
+**Instale o NodeJS**
+https://nodejs.org/pt/download
 
 **Edite as variáveis de ambiente**
 Copie o arquivo .env.example e edite as variáveis de ambiente conforme necessário
