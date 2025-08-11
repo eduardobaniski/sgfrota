@@ -22,7 +22,7 @@ return new class extends Migration
             $table->year('ano_fabricacao');
             $table->char('placa', 7)->unique();
             $table->string('renavam', 11)->unique();
-            $table->string('status')->default('Disponível'); // Ex: Disponível, Em Trânsito, Em Manutenção
+            $table->boolean('em_manutencao')->default(false);
 
 
         $table->timestamps();
