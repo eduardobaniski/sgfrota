@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('caminhao_id')->constrained('caminhoes')->onDelete('cascade');
 
             $table->integer('odometroInicio');
-            $table->integer('odometroFinal');
+            $table->integer('odometroFinal')->nullable();
             $table->dateTime('dataInicio');
-            $table->dateTime('dataFim');
+            $table->dateTime('dataFim')->nullable();
 
 
             $table->timestamps();

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
+use App\Models\State;
+use App\Models\Viagem;
+use App\Models\Caminhao;
 use Illuminate\Http\Request;
 
 class ViagemController extends Controller
@@ -14,20 +18,24 @@ class ViagemController extends Controller
             return redirect()->route('dashboard') // Redireciona para o dashboard principal
                          ->with('error', "Ação não permitida! O caminhão {$caminhao->placa} não está disponível.");
         }
+        // Busca todos os estados únicos, ordenados alfabeticamente
+        $estados = State::orderBy('name')->get();
 
-        // Retorna a view do formulário, passando os dados do caminhão
-        return view('viagens.create', ['caminhao' => $caminhao]);
+        return view('viagens.create', [
+            'caminhao' => $caminhao,
+            'estados' => $estados // Envia a lista de estados para a view
+        ]);
     }
 
      public function store(Request $request)
     {
         // 1. Valida os dados recebidos do formulário
-        $dadosValidados = $request->validate([
-            'caminhao_id' => 'required|exists:caminhoes,id',
-            'origem' => 'required|string|max:255',
-            'destino' => 'required|string|max:255',
-            'data_inicio' => 'required|date',
-        ]);
+        $dadosValidados = [
+            'caminhao_id' => $request->input('caminhao_id'),
+            'odometroInicio' => $request->input('odometroInicio'),
+            'dataInicio' => $request->input('data_inicio'),
+        ];
+
 
         // 2. Busca o caminhão no banco de dados
         $caminhao = Caminhao::findOrFail($dadosValidados['caminhao_id']);

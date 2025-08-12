@@ -1,8 +1,9 @@
 <?php
 
+use App\Models\Marca;
+use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\Marca;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +19,10 @@ use App\Models\Marca;
 
 Route::get('/marcas/{marca}/modelos', function (Marca $marca) {
     return response()->json($marca->modelos()->orderBy('nome')->get());
+});
+
+Route::get('/estados/{state}/cidades', function (State $state) {
+    // Graças ao Route Model Binding, o Laravel já encontra o estado pelo ID.
+    // Usamos o relacionamento 'cities()' que definimos no modelo State.
+    return response()->json($state->cities()->orderBy('name')->get());
 });
