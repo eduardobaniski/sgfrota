@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ModeloSeeder::class,
             StatesSeeder::class,
             CitiesSeeder::class,
+            CaminhaoSeeder::class,
         ]);
         
     }
