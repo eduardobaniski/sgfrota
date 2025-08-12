@@ -34,6 +34,8 @@ class ViagemController extends Controller
             'caminhao_id' => $request->input('caminhao_id'),
             'odometroInicio' => $request->input('odometroInicio'),
             'dataInicio' => $request->input('data_inicio'),
+            'cidadeOrigem' => $request->input('origem_id'),
+            'cidadeDestino' => $request->input('destino_id'),
         ];
 
 

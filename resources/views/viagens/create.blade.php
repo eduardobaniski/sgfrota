@@ -32,7 +32,7 @@
                     </div>
                     <div>
                         <label for="origem_cidade" class="block text-sm font-medium text-gray-700">Cidade</label>
-                        <select id="origem_cidade" name="origem" required class="mt-1 block w-full p-2 border rounded-md shadow-sm" disabled>
+                        <select id="origem_cidade" name="origem_id" required class="mt-1 block w-full p-2 border rounded-md shadow-sm" disabled>
                             <option value="" disabled selected>Selecione o estado primeiro</option>
                         </select>
                     </div>
@@ -54,7 +54,7 @@
                     </div>
                     <div>
                         <label for="destino_cidade" class="block text-sm font-medium text-gray-700">Cidade</label>
-                        <select id="destino_cidade" name="destino" required class="mt-1 block w-full p-2 border rounded-md shadow-sm" disabled>
+                        <select id="destino_cidade" name="destino_id" required class="mt-1 block w-full p-2 border rounded-md shadow-sm" disabled>
                             <option value="" disabled selected>Selecione o estado primeiro</option>
                         </select>
                     </div>
@@ -63,7 +63,7 @@
 
             <div class="mb-4">
                 <label for="odometroInicio" class="block text-sm font-medium text-gray-700">Odômetro Inicial (km)</label>
-                <input type="number" id="odometroInicio" name="odometroInicio" value="{{ old('odometroInicio') }}" required
+                <input type="number" id="odometroInicio" name="odometroInicio" value="{{ old('odometroInicio') }}" 
                     class="mt-1 block w-full p-2 border rounded-md shadow-sm @error('odometroInicio') border-red-500 @else border-gray-300 @enderror">
                 @error('odometroInicio')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -116,7 +116,8 @@
                         cidadeSelectElement.innerHTML = '<option value="" disabled selected>Selecione uma cidade</option>';
                         cidades.forEach(cidade => {
                             const option = document.createElement('option');
-                            option.value = cidade.name;
+                            
+                            option.value = cidade.id;
                             option.textContent = cidade.name;
                             cidadeSelectElement.appendChild(option);
                         });

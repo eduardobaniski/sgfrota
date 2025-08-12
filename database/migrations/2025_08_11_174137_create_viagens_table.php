@@ -15,10 +15,17 @@ return new class extends Migration
             $table->id();
             $table->foreignId('caminhao_id')->constrained('caminhoes')->onDelete('cascade');
 
-            $table->integer('odometroInicio');
+            $table->integer('odometroInicio')->nullable();
             $table->integer('odometroFinal')->nullable();
             $table->dateTime('dataInicio');
             $table->dateTime('dataFim')->nullable();
+
+            $table->unsignedInteger('cidadeOrigem');
+            $table->foreign('cidadeOrigem')->references('id')->on('cities');
+
+            // Coluna para a cidade de destino
+            $table->unsignedInteger('cidadeDestino');
+            $table->foreign('cidadeDestino')->references('id')->on('cities');
 
 
             $table->timestamps();
