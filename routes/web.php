@@ -28,5 +28,5 @@ Route::prefix('api')->group(function () {
 
 
 Route::post('/login', [UserController::class, 'login']);
-Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/logout', [UserController::class, 'logout']);

@@ -35,7 +35,7 @@ class CaminhaoController extends Controller
 
         // Redireciona para uma futura página de listagem com uma mensagem de sucesso
         // Por agora, vamos redirecionar de volta para o formulário de criação
-        return redirect()->route('caminhoes.create')->with('success', 'Caminhão registado com sucesso!');
+        return redirect()->route('dashboard')->with('success', 'Caminhão registado com sucesso!');
     }
 
     public function edit(Caminhao $caminhao)
