@@ -3,6 +3,18 @@
 
 # SGFrota
 
+# TODO
+- Admin: editar icones
+- Editar caminhão: add botao de excluir caminhao
+- Sidebar: menu com opçoes "dropdown"
+- Card caminhão: ver o qq vai ser exibido
+    remover botao de status
+- Relatórios
+
+
+
+
+
 ## Para instalar o projeto
 **Instale o PHP/Laravel**
 
