@@ -52,8 +52,8 @@ Route::get('/caminhoes/{caminhao}/viagem-ativa', function (Caminhao $caminhao) {
             ],
             'destino' => $viagemAtiva->destino->name . ' - ' . $viagemAtiva->destino->state->name,
             'destinoId' => [
-                'cidadeId' => $viagemAtiva->origem->id, 
-                'stateId' => $viagemAtiva->origem->state->id
+                'cidadeId' => $viagemAtiva->destino->id, 
+                'stateId' => $viagemAtiva->destino->state->id
             ],
         ];
         
