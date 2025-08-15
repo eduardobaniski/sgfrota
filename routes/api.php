@@ -3,6 +3,7 @@
 use App\Models\Marca;
 use App\Models\State;
 use App\Models\Caminhao;
+use App\Models\City;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,8 +34,8 @@ Route::get('/caminhoes/{caminhao}/viagem-ativa', function (Caminhao $caminhao) {
     // 1. Busca a viagem ativa e já carrega os relacionamentos necessários
     //    para evitar múltiplas queries (Eager Loading).
     $viagemAtiva = $caminhao->viagens()
-                            ->whereNull('data_fim')
-                            ->with(['cidadeOrigem.state', 'cidadeDestino.state'])
+                            ->whereNull('dataFim') // Use o nome da coluna em camelCase
+                            ->with(['origem.state', 'destino.state'])
                             ->first();
 
     // 2. Se uma viagem ativa for encontrada...
@@ -42,9 +43,18 @@ Route::get('/caminhoes/{caminhao}/viagem-ativa', function (Caminhao $caminhao) {
         // 3. Prepara os dados para a resposta, formatando a origem e o destino.
         $dadosResposta = [
             'id' => $viagemAtiva->id,
-            'data_inicio' => $viagemAtiva->data_inicio,
-            'origem_formatada' => $viagemAtiva->cidadeOrigem->name . ' - ' . $viagemAtiva->cidadeOrigem->state->abbr,
-            'destino_formatado' => $viagemAtiva->cidadeDestino->name . ' - ' . $viagemAtiva->cidadeDestino->state->abbr,
+            'dataInicio' => $viagemAtiva->dataInicio,
+            'odometroInicio' => $viagemAtiva->odometroInicio,
+            'origem' => $viagemAtiva->origem->name . ' - ' . $viagemAtiva->origem->state->name,
+            'origemId' => [
+                'cidadeId' => $viagemAtiva->origem->id, 
+                'stateId' => $viagemAtiva->origem->state->id
+            ],
+            'destino' => $viagemAtiva->destino->name . ' - ' . $viagemAtiva->destino->state->name,
+            'destinoId' => [
+                'cidadeId' => $viagemAtiva->origem->id, 
+                'stateId' => $viagemAtiva->origem->state->id
+            ],
         ];
         
         return response()->json($dadosResposta);

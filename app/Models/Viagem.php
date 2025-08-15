@@ -22,16 +22,16 @@ class Viagem extends Model
     {
         return $this->belongsTo(Caminhao::class);
     }
-    public function cidadeOrigem()
+    public function origem()
     {
-        return $this->belongsTo(City::class, 'cidadeOrigem');
+        return $this->belongsTo(City::class, 'cidadeOrigem', 'id');
     }
 
     /**
      * Define o relacionamento: o Destino de uma Viagem é uma Cidade.
      */
-    public function cidadeDestino()
+    public function destino()
     {
-        return $this->belongsTo(City::class, 'cidadeDestino');
+        return $this->belongsTo(City::class, 'cidadeDestino', 'id');
     }
 }
