@@ -56,4 +56,26 @@ class ViagemController extends Controller
         // 5. Redireciona para o dashboard com uma mensagem de sucesso
         return redirect()->route('dashboard')->with('success', "Viagem para o caminhão {$caminhao->placa} iniciada com sucesso!");
     }
+
+    public function edit(Viagem $viagem)
+    {
+        $viagem->load('caminhao');
+        $estados = State::orderBy('name')->get();
+
+        return view('viagens.edit', ['viagem' => $viagem, 'estados' => $estados]);
+    }
+    public function update(Request $request, Viagem $viagem)
+    {
+        // Valida os dados recebidos do formulário de finalização.
+        $dadosValidados = [
+            'odometroFinal' => $request->input('odometroFim'),
+            'dataFim' => $request->input('dataFim'),
+        ];
+
+        // Atualiza a viagem com os dados validados.
+        $viagem->update($dadosValidados);
+
+        // Redireciona de volta para o dashboard principal com uma mensagem de sucesso.
+        return redirect()->route('dashboard')->with('success', 'Viagem finalizada com sucesso!');
+    }
 }
