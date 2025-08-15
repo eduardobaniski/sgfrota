@@ -5,6 +5,7 @@
 
 # TODO
 - Admin: editar icones
+    trocar senha do user
 - Editar caminhão: add botao de excluir caminhao
 - Sidebar: menu com opçoes "dropdown"
 - Card caminhão: ver o qq vai ser exibido
