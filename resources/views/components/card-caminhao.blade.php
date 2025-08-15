@@ -76,63 +76,58 @@ document.addEventListener('DOMContentLoaded', function() {
             const truckId = this.dataset.truckId;
             const detailsContainer = document.getElementById(`viagem-details-${truckId}`);
 
-            // Se o painel já estiver visível, esconde-o e para.
-            const isHidden = detailsContainer.classList.contains('hidden');
+            // Verifica se o painel está atualmente visível
+            const isVisible = !detailsContainer.classList.contains('hidden');
 
-            // Garante que todos os outros painéis estejam fechados
-            document.querySelectorAll('.viagem-details-container').forEach(container => {
-                container.classList.add('hidden');
-                container.innerHTML = '';
-            });
+            if (isVisible) {
+                // Se estiver visível, simplesmente esconde-o e limpa o conteúdo.
+                detailsContainer.classList.add('hidden');
+                detailsContainer.innerHTML = '';
+            } else {
+                // Se estiver oculto, busca os dados e exibe-o.
+                detailsContainer.innerHTML = '<p class="text-sm text-gray-500">A carregar detalhes da viagem...</p>';
+                detailsContainer.classList.remove('hidden');
 
-            if (!isHidden) {
-                return; // Se o painel já estava aberto, apenas o fecha (efeito de toggle)
-            }
-
-            // Mostra uma mensagem de "a carregar"
-            detailsContainer.innerHTML = '<p class="text-sm text-gray-500">A carregar detalhes da viagem...</p>';
-            detailsContainer.classList.remove('hidden');
-
-            fetch(`/api/caminhoes/${truckId}/viagem-ativa`)
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(data => {
-                            throw new Error(data.message || 'Erro ao buscar dados.');
+                fetch(`/api/caminhoes/${truckId}/viagem-ativa`)
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => { throw new Error(data.message || 'Erro ao buscar dados.'); });
+                        }
+                        return response.json();
+                    })
+                    .then(viagem => {
+                        const dataInicio = new Date(viagem.dataInicio);
+                        const dataFormatada = dataInicio.toLocaleDateString('pt-BR', {
+                            day: '2-digit', month: '2-digit', year: 'numeric'
                         });
-                    }
-                    return response.json();
-                })
-                .then(viagem => {
-                    // Formata a data para o formato dd/mm/yyyy
-                    const dataInicio = new Date(viagem.dataInicio);
-                    const dataFormatada = dataInicio.toLocaleDateString('pt-BR', {
-                        day: '2-digit', month: '2-digit', year: 'numeric'
-                    });
-                    console.log(viagem); // Log para depuração
 
-                    // Cria o HTML com os detalhes da viagem
-                    detailsContainer.innerHTML = `
-                        <h4 class="font-bold text-md mb-3 text-gray-700">Viagem em Andamento</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                            <div>
-                                <p class="text-gray-500">Origem</p>
-                                <p class="font-semibold">${viagem.origem}</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500">Destino</p>
-                                <p class="font-semibold">${viagem.destino}</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500">Início</p>
-                                <p class="font-semibold">${dataFormatada}</p>
-                            </div>
-                        </div>
-                    `;
-                })
-                .catch(error => {
-                    // Exibe a mensagem de erro (ex: "Nenhuma viagem ativa encontrada.")
-                    detailsContainer.innerHTML = `<p class="text-sm text-red-500">${error.message}</p>`;
-                });
+                        detailsContainer.innerHTML = `
+                            <h4 class="font-bold text-md mb-3 text-gray-700">Viagem em Andamento</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                                <div>
+                                    <p class="text-gray-500">Origem</p>
+                                    <p class="font-semibold">${viagem.origem}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Destino</p>
+                                    <p class="font-semibold">${viagem.destino}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Início</p>
+                                    <p class="font-semibold">${dataFormatada}</p>
+                                </div>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-gray-200 flex justify-end">
+                                    <a href="/viagens/${viagem.id}/editar" class="text-sm bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                                        Gerenciar Viagem
+                                    </a>
+                                </div>
+                        `;
+                    })
+                    .catch(error => {
+                        detailsContainer.innerHTML = `<p class="text-sm text-red-500">${error.message}</p>`;
+                    });
+            }
         });
     });
 });
