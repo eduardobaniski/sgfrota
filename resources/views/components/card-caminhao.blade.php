@@ -23,7 +23,7 @@
 
             <!-- Modelo e Marca -->
             <p class="text-sm text-gray-500 ml-8">
-                {{ $caminhao->modelo->marca->nome }} {{ $caminhao->modelo->nome }}
+                {{ $caminhao->modelo->marca->marca }} {{ $caminhao->modelo->modelo }} - {{ $caminhao->ano_fabricacao }}
             </p>
         </div>
         
@@ -53,18 +53,87 @@
             </a>
         </div>
         
-        <!-- Dropdown para Definir Status (com HTML nativo, sem JS) -->
-        <details class="relative">
-            <summary class="list-none cursor-pointer flex items-center text-sm text-white bg-gray-500 hover:bg-gray-600 font-medium py-2 px-3 rounded-md transition-colors">
-                Definir Status
-                <svg class="w-4 h-4 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
-            </summary>
-
-            <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Disponível</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Em Trânsito</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Em Manutenção</a>
+            {{-- O botão só aparece se o caminhão estiver em trânsito --}}
+            
+                <button data-truck-id="{{ $caminhao->id }}" class="ver-viagem-btn flex items-center text-sm text-gray-600 hover:text-blue-600 font-medium p-2 rounded-md hover:bg-gray-100">
+                    <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.82m5.84-2.56a14.95 14.95 0 00-5.84-2.56m0 0a14.95 14.95 0 01-5.84 2.56m5.84-2.56v-4.82a6 6 0 015.84-7.38v4.82" /></svg>
+                    Ver Viagem
+                </button>
+                
             </div>
-        </details>
-    </div>
+            <!-- Painel Expansível para os Detalhes da Viagem (inicialmente oculto) -->
+            <div id="viagem-details-{{ $caminhao->id }}" class="viagem-details-container hidden bg-gray-50 p-5 border-t border-gray-200">
+                <!-- O conteúdo da viagem será injetado aqui pelo JavaScript -->
+            </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Seleciona todos os botões "Ver Viagem"
+    const verViagemButtons = document.querySelectorAll('.ver-viagem-btn');
+
+    verViagemButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const truckId = this.dataset.truckId;
+            const detailsContainer = document.getElementById(`viagem-details-${truckId}`);
+
+            // Se o painel já estiver visível, esconde-o e para.
+            const isHidden = detailsContainer.classList.contains('hidden');
+
+            // Garante que todos os outros painéis estejam fechados
+            document.querySelectorAll('.viagem-details-container').forEach(container => {
+                container.classList.add('hidden');
+                container.innerHTML = '';
+            });
+
+            if (!isHidden) {
+                return; // Se o painel já estava aberto, apenas o fecha (efeito de toggle)
+            }
+
+            // Mostra uma mensagem de "a carregar"
+            detailsContainer.innerHTML = '<p class="text-sm text-gray-500">A carregar detalhes da viagem...</p>';
+            detailsContainer.classList.remove('hidden');
+
+            fetch(`/api/caminhoes/${truckId}/viagem-ativa`)
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(data.message || 'Erro ao buscar dados.');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(viagem => {
+                    // Formata a data para o formato dd/mm/yyyy
+                    const dataInicio = new Date(viagem.dataInicio);
+                    const dataFormatada = dataInicio.toLocaleDateString('pt-BR', {
+                        day: '2-digit', month: '2-digit', year: 'numeric'
+                    });
+                    console.log(viagem); // Log para depuração
+
+                    // Cria o HTML com os detalhes da viagem
+                    detailsContainer.innerHTML = `
+                        <h4 class="font-bold text-md mb-3 text-gray-700">Viagem em Andamento</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <p class="text-gray-500">Origem</p>
+                                <p class="font-semibold">${viagem.origem}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">Destino</p>
+                                <p class="font-semibold">${viagem.destino}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">Início</p>
+                                <p class="font-semibold">${dataFormatada}</p>
+                            </div>
+                        </div>
+                    `;
+                })
+                .catch(error => {
+                    // Exibe a mensagem de erro (ex: "Nenhuma viagem ativa encontrada.")
+                    detailsContainer.innerHTML = `<p class="text-sm text-red-500">${error.message}</p>`;
+                });
+        });
+    });
+});
+</script>
