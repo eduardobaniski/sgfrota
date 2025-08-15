@@ -67,13 +67,17 @@ class ViagemController extends Controller
     public function update(Request $request, Viagem $viagem)
     {
         // Valida os dados recebidos do formulário de finalização.
-        $dadosValidados = [
-            'odometroFinal' => $request->input('odometroFim'),
+        $dados = [
+            'odometroInicio' => $request->input('odometroInicio'),
+            'dataInicio' => $request->input('dataInicio'),
+            'cidadeOrigem' => $request->input('cidadeOrigem'),
+            'cidadeDestino' => $request->input('cidadeDestino'),
             'dataFim' => $request->input('dataFim'),
+            'odometroFinal' => $request->input('odometroFinal'),
         ];
 
         // Atualiza a viagem com os dados validados.
-        $viagem->update($dadosValidados);
+        $viagem->update($dados);
 
         // Redireciona de volta para o dashboard principal com uma mensagem de sucesso.
         return redirect()->route('dashboard')->with('success', 'Viagem finalizada com sucesso!');

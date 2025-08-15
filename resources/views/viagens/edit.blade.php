@@ -82,6 +82,19 @@
                         </div>
                     </div>
                 </fieldset>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <!-- Campo Data de Início (para edição) -->
+                <div class="mb-4">
+                    <label for="dataInicio" class="block text-sm font-medium text-gray-700">Data de Início</label>
+                    <input type="date" id="dataInicio" name="dataInicio" value="{{ old('dataInicio', \Carbon\Carbon::parse($viagem->dataInicio)->format('Y-m-d')) }}" class="mt-1 block w-full p-2 border rounded-md shadow-sm">
+                </div>
+
+                <!-- Campo Odómetro Inicial (para edição) -->
+                <div class="mb-4">
+                    <label for="odometroInicio" class="block text-sm font-medium text-gray-700">Odômetro Inicial (km)</label>
+                    <input type="number" id="odometroInicio" name="odometroInicio" value="{{ old('odometroInicio', $viagem->odometroInicio) }}" class="mt-1 block w-full p-2 border rounded-md shadow-sm">
+                </div>
+            </div>
                 <div class="border-b mb-6 pb-6"></div>
             </div>
             
