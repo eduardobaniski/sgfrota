@@ -33,4 +33,8 @@ Route::middleware(['auth'])->prefix('caminhoes')->name('caminhoes.')->group(func
 Route::middleware(['auth'])->prefix('viagens')->name('viagens.')->group(function () {
     Route::get('novo/{caminhao}', [ViagemController::class, 'create'])->name('create');
     Route::post('/', [ViagemController::class, 'store'])->name('store');
+
+    Route::get('/{viagem}/editar', [ViagemController::class, 'edit'])->name('edit');
+    Route::put('/{viagem}', [ViagemController::class, 'update'])->name('update');
+    Route::delete('/{viagem}', [ViagemController::class, 'destroy'])->name('destroy');
 });
