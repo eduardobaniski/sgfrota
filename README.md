@@ -4,12 +4,13 @@
 # SGFrota
 
 # TODO
+- Geral: paginação e busca
 - Admin: editar icones
     trocar senha do user
 - Editar caminhão: add botao de excluir caminhao
 - Sidebar: menu com opçoes "dropdown"
 - Card caminhão: ver o qq vai ser exibido
-    remover botao de status
+    ajeitar icone de viagem
 - Relatórios
 
 
