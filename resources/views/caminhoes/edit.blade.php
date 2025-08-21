@@ -5,8 +5,11 @@
 @section('content')
     <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
         
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Editar Caminhão: {{ $caminhao->placa }}</h1>
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Editar Caminhão: {{ $caminhao->placa }}
+            <x-delete :action="route('caminhoes.destroy', $caminhao->id)" />
 
+        </h1>
+            
         <form action="{{ route('caminhoes.update', $caminhao->id) }}" method="POST">
             @csrf
             @method('PUT') {{-- Informa ao Laravel que esta é uma requisição de atualização --}}

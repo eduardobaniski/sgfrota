@@ -9,7 +9,15 @@ use Illuminate\Http\Request;
 class CaminhaoController extends Controller
 {
     public static function all(){
-        return Caminhao::all();
+        // Exemplo no seu controlador do dashboard
+        $caminhoes = Caminhao::with([
+            'modelo.marca', 
+            'viagens' => function ($query) {
+                // Carrega apenas as viagens onde a data de fim é nula (ativas)
+                $query->whereNull('dataFim')->with(['origem.state', 'destino.state']);
+            }
+        ])->get();
+        return $caminhoes;
     }
     public function create()
     {

@@ -9,6 +9,7 @@
             <h1 class="text-3xl font-bold text-gray-800">Gerenciar Viagem</h1>
             <p class="text-gray-600 mt-1">
                 Caminhão: <span class="font-bold text-gray-900">{{ $viagem->caminhao->placa }}</span>
+                <x-delete :action="route('viagens.destroy', $viagem->id)"> Apagar viagem</x-delete>
             </p>
         </div>
 

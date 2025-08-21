@@ -5,6 +5,7 @@
 
 # TODO
 - Geral: paginação e busca
+  - botoes para deletar registros
 - Admin: editar icones
     trocar senha do user
 - Editar caminhão: add botao de excluir caminhao

@@ -82,4 +82,10 @@ class ViagemController extends Controller
         // Redireciona de volta para o dashboard principal com uma mensagem de sucesso.
         return redirect()->route('dashboard')->with('success', 'Viagem finalizada com sucesso!');
     }
+    public function destroy(Viagem $viagem)
+    {
+        $viagem->delete();
+        
+        return redirect()->route('dashboard')->with('success', 'Viagem excluída com sucesso!');
+    }
 }
