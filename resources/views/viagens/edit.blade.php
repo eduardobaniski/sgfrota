@@ -1,12 +1,12 @@
 @extends('layout')
 
-@section('title', 'Gerir Viagem')
+@section('title', 'Gerenciar Viagem')
 
 @section('content')
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
         
         <div class="mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">Gerir Viagem</h1>
+            <h1 class="text-3xl font-bold text-gray-800">Gerenciar Viagem</h1>
             <p class="text-gray-600 mt-1">
                 Caminhão: <span class="font-bold text-gray-900">{{ $viagem->caminhao->placa }}</span>
             </p>
