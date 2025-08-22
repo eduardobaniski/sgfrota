@@ -7,6 +7,7 @@ use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\ViagemController;
 use App\Http\Controllers\CaminhaoController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MotoristaController;
 use App\Http\Controllers\CaminhaoViagemController;
 
 
@@ -40,4 +41,15 @@ Route::middleware(['auth'])->prefix('viagens')->name('viagens.')->group(function
     Route::get('/{viagem}/editar', [ViagemController::class, 'edit'])->name('edit');
     Route::put('/{viagem}', [ViagemController::class, 'update'])->name('update');
     Route::delete('/{viagem}', [ViagemController::class, 'destroy'])->name('destroy');
+});
+
+Route::middleware(['auth'])->prefix('motoristas')->name('motorista.')->group(function () {
+    Route::get('/', [MotoristaController::class, 'index'])->name('index');
+    Route::get('/novo', [MotoristaController::class, 'create'])->name('create');
+
+    Route::post('/novo', [MotoristaController::class, 'store'])->name('store');
+    Route::get('/{motorista}/editar', [MotoristaController::class, 'edit'])->name('edit');
+
+    Route::put('/{motorista}', [MotoristaController::class, 'update'])->name('update');
+    Route::delete('/{motorista}', [MotoristaController::class, 'destroy'])->name('destroy');
 });
