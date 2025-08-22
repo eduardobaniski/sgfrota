@@ -10,8 +10,11 @@ class Motorista extends Model
         'nome',
         'cpf',
         'cnh',
-        'telefone',
+        'telefone'
     ];
 
-    
+    public function viagens()
+    {
+        return $this->hasMany(Viagem::class);
+    }
 }

@@ -34,4 +34,9 @@ class Viagem extends Model
     {
         return $this->belongsTo(City::class, 'cidadeDestino', 'id');
     }
+    
+    public function motorista()
+    {
+        return $this->belongsTo(Motorista::class);
+    }
 }
