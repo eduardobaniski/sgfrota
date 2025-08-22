@@ -7,6 +7,7 @@ use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\ViagemController;
 use App\Http\Controllers\CaminhaoController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CaminhaoViagemController;
 
 
 Route::middleware(['auth'])->group(function () {
@@ -27,6 +28,8 @@ Route::middleware(['auth'])->prefix('caminhoes')->name('caminhoes.')->group(func
     Route::put('/{caminhao}', [CaminhaoController::class, 'update'])->name('update');
 
     Route::delete('/{caminhao}', [CaminhaoController::class, 'destroy'])->name('destroy');
+
+    Route::get('/{caminhao}/viagens', [CaminhaoViagemController::class, 'index'])->name('viagens.index');
 });
 
 
