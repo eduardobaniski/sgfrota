@@ -1,11 +1,10 @@
 @extends('layout')
 
-@section('title', 'Gerir Motoristas')
+@section('title', 'Gerenciar Motoristas')
 
 @section('content')
     {{-- Cabeçalho da Página --}}
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-800">Gerir Motoristas</h1>
         <a href="{{ route('motorista.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             + Adicionar Novo Motorista
         </a>
