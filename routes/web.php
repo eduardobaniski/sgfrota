@@ -28,5 +28,7 @@ Route::prefix('api')->group(function () {
 
 
 Route::post('/login', [UserController::class, 'login']);
+Route::get('/perfil', [UserController::class, 'profile']);
+Route::put('/perfil', [UserController::class, 'updateProfile'])->name('profile.update');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/logout', [UserController::class, 'logout']);

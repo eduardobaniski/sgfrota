@@ -31,6 +31,7 @@ class Sidebar extends Component
     private function buildLinks(): array
     {
         $user = Auth::user();
+        
 
         // Links que todos os utilizadores veem
         $baseLinks = [

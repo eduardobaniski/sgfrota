@@ -66,7 +66,51 @@ class UserController extends Controller
     {
         return view('admin.cadastro.user');
     }
+    /**
+     * Mostra o formulário para editar o perfil do utilizador autenticado.
+     */
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('profile.edit', ['user' => $user]);
+    }
 
+    /**
+     * Atualiza o perfil do utilizador autenticado.
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        
+        // Validação da senha anterior se uma nova senha foi fornecida
+        if ($request->filled('password')) {
+            $request->validate([
+            'current_password' => 'required|string',
+            ]);
+            
+            if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'A senha atual está incorreta.']);
+            }
+        }
+
+        // Validação dos dados
+        $request->validate([
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'password' => 'nullable|string|min:6|confirmed',
+        ]);
+
+        // Atualiza o username
+        $user->username = $request->username;
+
+        // Verifica se uma nova palavra-passe foi fornecida
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('success', 'Perfil atualizado com sucesso!');
+    }
     public function store(Request $request)
     {
         $dados = [
@@ -92,12 +136,16 @@ class UserController extends Controller
 
         if (auth()->attempt(['username'=>$request['username'], 'password'=>$request['password']])) {
             $request->session()->regenerate();
+            if (Auth::user()->isAdmin) {
+                return redirect('/adminPanel');
+            }
+            
+            return redirect('/dashboard');
         }
-        if (Auth::user()->isAdmin) {
-            return redirect('/adminPanel');
-        }
-        
-        return redirect('/dashboard');
+
+         return back()->withErrors([
+            'username' => 'Usuário ou senha errado.',
+        ])->onlyInput('username');
 
     }
 

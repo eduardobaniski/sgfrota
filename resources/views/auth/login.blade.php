@@ -11,6 +11,14 @@
 
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
     <form action="/login" method="POST" class="bg-white p-8 rounded shadow-md w-full max-w-sm">
+        @if ($errors->any())
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 w-full max-w-sm" role="alert">
+                <p class="font-bold">Erro de Autenticação</p>
+                @foreach ($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
         <img src="logo.png" class="w-44 h-44 mx-auto mb-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
             {{-- Alerta de Erro (Vermelho) --}}
