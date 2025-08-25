@@ -59,9 +59,9 @@
                                 </span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <td class="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <a href="{{ route('viagens.edit', $viagem->id) }}" class="text-indigo-600 hover:text-indigo-900">
-                                Gerenciar
+                                Gerenciar viagem
                             </a>
                         </td>
                     </tr>
