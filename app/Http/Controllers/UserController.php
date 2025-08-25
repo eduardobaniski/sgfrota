@@ -72,6 +72,7 @@ class UserController extends Controller
         $dados = [
             'username' => $request->username,
             'password' => Hash::make($request->password),
+            'isAdmin' => $request->isAdmin
         ];
 
         if (User::where('username', $request->username)->first()) {
