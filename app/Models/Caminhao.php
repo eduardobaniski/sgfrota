@@ -27,6 +27,11 @@ class Caminhao extends Model
         return $this->hasMany(Viagem::class);
     }
 
+    public function abastecimentos()
+    {
+        return $this->hasMany(Abastecimento::class);
+    }
+
      protected function status(): Attribute
     {
         return Attribute::make(

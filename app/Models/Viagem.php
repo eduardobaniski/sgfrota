@@ -39,4 +39,9 @@ class Viagem extends Model
     {
         return $this->belongsTo(Motorista::class);
     }
+    
+    public function abastecimentos()
+    {
+        return $this->hasMany(Abastecimento::class);
+    }
 }
