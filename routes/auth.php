@@ -9,6 +9,7 @@ use App\Http\Controllers\CaminhaoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MotoristaController;
 use App\Http\Controllers\CaminhaoViagemController;
+use App\Http\Controllers\AbastecimentoController;
 
 
 Route::middleware(['auth'])->group(function () {
@@ -52,4 +53,24 @@ Route::middleware(['auth'])->prefix('motoristas')->name('motorista.')->group(fun
 
     Route::put('/{motorista}', [MotoristaController::class, 'update'])->name('update');
     Route::delete('/{motorista}', [MotoristaController::class, 'destroy'])->name('destroy');
+});
+
+// Abastecimentos
+Route::middleware(['auth'])->prefix('abastecimentos')->name('abastecimentos.')->group(function () {
+    Route::get('/', [AbastecimentoController::class, 'index'])->name('index');
+    Route::get('/stats', [AbastecimentoController::class, 'stats'])->name('stats');
+
+    // criação
+    Route::get('/novo', [AbastecimentoController::class, 'create'])->name('create');
+    Route::post('/', [AbastecimentoController::class, 'store'])->name('store');
+
+    // filtros por caminhão/viagem
+    Route::get('/caminhao/{caminhao_id}', [AbastecimentoController::class, 'index'])->name('caminhao');
+    Route::get('/viagem/{viagem_id}', [AbastecimentoController::class, 'index'])->name('viagem');
+
+    // visualizar/editar/deletar
+    Route::get('/{abastecimento}', [AbastecimentoController::class, 'show'])->name('show');
+    Route::get('/{abastecimento}/editar', [AbastecimentoController::class, 'edit'])->name('edit');
+    Route::put('/{abastecimento}', [AbastecimentoController::class, 'update'])->name('update');
+    Route::delete('/{abastecimento}', [AbastecimentoController::class, 'destroy'])->name('destroy');
 });

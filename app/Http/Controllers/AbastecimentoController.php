@@ -9,34 +9,49 @@ class AbastecimentoController extends Controller
 {
     public function index(Request $request)
     {
-        $filters = $request->only(['caminhao_id', 'motorista_id', 'viagem_id', 'data_inicio', 'data_fim']);
-        $items = Abastecimento::with(['caminhao', 'motorista', 'viagem'])
-            ->filter($filters)
-            ->latest('data')
-            ->paginate($request->integer('per_page', 15));
+        $filters = $request->only(['caminhao_id', 'viagem_id', 'data_inicio', 'data_fim']);
+        $perPage = $request->integer('per_page', 15);
 
-        return view('abastecimentos.index', compact('items', 'filters'));
+        $query = Abastecimento::with(['caminhao', 'viagem.motorista'])
+            ->filter($filters)
+            ->latest('data');
+
+        $items = $query->paginate($perPage)->appends($request->query());
+
+        $caminhao = isset($filters['caminhao_id']) ? \App\Models\Caminhao::find($filters['caminhao_id']) : null;
+        $viagem = isset($filters['viagem_id']) ? \App\Models\Viagem::find($filters['viagem_id']) : null;
+
+        return view('abastecimentos.index', compact('items', 'filters', 'caminhao', 'viagem'));
     }
 
     public function show(Abastecimento $abastecimento)
     {
-        $abastecimento->load(['caminhao', 'motorista', 'viagem']);
+        $abastecimento->load(['caminhao', 'viagem.motorista']);
         return view('abastecimentos.show', compact('abastecimento'));
+    }
+
+    public function create(Request $request)
+    {
+        $defaults = $request->only(['caminhao_id', 'viagem_id', 'data']);
+        return view('abastecimentos.create', compact('defaults'));
+    }
+
+    public function edit(Abastecimento $abastecimento)
+    {
+        $abastecimento->load(['caminhao', 'viagem.motorista']);
+        return view('abastecimentos.edit', compact('abastecimento'));
     }
 
     public function store(Request $request)
     {
         $data = $request->only([
             'caminhao_id',
-            'motorista_id',
             'viagem_id',
             'data',
             'odometro',
             'litros',
             'preco_por_litro',
             'valor_total',
-            'posto',
-            'nota_fiscal',
             'observacoes',
         ]);
 
@@ -45,23 +60,21 @@ class AbastecimentoController extends Controller
         }
 
         $abastecimento = Abastecimento::create($data);
-        return redirect()->route('abastecimentos.show', $abastecimento)
-            ->with('success', 'Abastecimento criado com sucesso.');
+        return redirect()->route('abastecimentos.index', [
+            'viagem_id' => $abastecimento->viagem_id,
+        ])->with('success', 'Abastecimento criado com sucesso.');
     }
 
     public function update(Request $request, Abastecimento $abastecimento)
     {
         $data = $request->only([
             'caminhao_id',
-            'motorista_id',
             'viagem_id',
             'data',
             'odometro',
             'litros',
             'preco_por_litro',
             'valor_total',
-            'posto',
-            'nota_fiscal',
             'observacoes',
         ]);
 
@@ -74,20 +87,23 @@ class AbastecimentoController extends Controller
         }
 
         $abastecimento->update($data);
-        return redirect()->route('abastecimentos.show', $abastecimento)
-            ->with('success', 'Abastecimento atualizado com sucesso.');
+        return redirect()->route('abastecimentos.index', [
+            'viagem_id' => $abastecimento->viagem_id,
+        ])->with('success', 'Abastecimento atualizado com sucesso.');
     }
 
     public function destroy(Abastecimento $abastecimento)
     {
+        $viagemId = $abastecimento->viagem_id;
         $abastecimento->delete();
-        return redirect()->route('abastecimentos.index')
-            ->with('success', 'Abastecimento removido com sucesso.');
+        return redirect()->route('abastecimentos.index', [
+            'viagem_id' => $viagemId,
+        ])->with('success', 'Abastecimento removido com sucesso.');
     }
 
     public function stats(Request $request)
     {
-        $filters = $request->only(['caminhao_id', 'motorista_id', 'viagem_id', 'data_inicio', 'data_fim']);
+        $filters = $request->only(['caminhao_id', 'viagem_id', 'data_inicio', 'data_fim']);
         $query = Abastecimento::filter($filters);
 
         $totals = (clone $query)->selectRaw('

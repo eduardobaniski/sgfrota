@@ -16,6 +16,22 @@
             @csrf
             <input type="hidden" name="caminhao_id" value="{{ $caminhao->id }}">
 
+            <div class="mb-4">
+                <label for="motorista_id" class="block text-sm font-medium text-gray-700">Motorista</label>
+                <select id="motorista_id" name="motorista_id"
+                        @class(['mt-1 block w-full p-2 border rounded-md shadow-sm', 'border-red-500' => $errors->has('motorista_id'), 'border-gray-300' => ! $errors->has('motorista_id')])>
+                    <option value="">Selecione...</option>
+                    @foreach($motoristas as $motorista)
+                        <option value="{{ $motorista->id }}" {{ old('motorista_id') == $motorista->id ? 'selected' : '' }}>
+                            {{ $motorista->nome }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('motorista_id')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Campo Origem -->
             <fieldset class="mb-4 border p-4 rounded-md">
                 <legend class="text-sm font-medium text-gray-700 px-2">Origem</legend>
@@ -63,8 +79,8 @@
 
             <div class="mb-4">
                 <label for="odometroInicio" class="block text-sm font-medium text-gray-700">Odômetro Inicial (km)</label>
-                <input type="number" id="odometroInicio" name="odometroInicio" value="{{ old('odometroInicio') }}" 
-                    class="mt-1 block w-full p-2 border rounded-md shadow-sm @error('odometroInicio') border-red-500 @else border-gray-300 @enderror">
+                <input type="number" id="odometroInicio" name="odometroInicio" value="{{ old('odometroInicio') }}"
+                    @class(['mt-1 block w-full p-2 border rounded-md shadow-sm', 'border-red-500' => $errors->has('odometroInicio'), 'border-gray-300' => ! $errors->has('odometroInicio')])>
                 @error('odometroInicio')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror

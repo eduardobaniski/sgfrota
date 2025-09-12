@@ -81,7 +81,10 @@
                 <a href="/viagens/{{ $viagemAtiva->id }}/editar" class="text-sm bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition duration-300">
                     Gerenciar Viagem
                 </a>
+                
+                <a href="{{ route('abastecimentos.index', ['caminhao_id' => $viagemAtiva->caminhao->id, 'viagem_id' => $viagemAtiva->id]) }}" class="text-sm bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition duration-300 ml-3">Consultar Abastecimentos</a>
             </div>
+            
         </div>
     @else
     {{-- Caso contrário (Disponível ou Manutenção), mostra um painel informativo --}}

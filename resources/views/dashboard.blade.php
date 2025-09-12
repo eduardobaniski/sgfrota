@@ -20,6 +20,7 @@
         @foreach ($caminhoes as $caminhao)
             <!-- ...use o molde 'truck-card' para criar um card -->
             <x-card-caminhao :caminhao="$caminhao" />
+            
         @endforeach
 
     </div>

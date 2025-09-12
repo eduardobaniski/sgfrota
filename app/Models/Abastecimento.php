@@ -13,7 +13,6 @@ class Abastecimento extends Model
 
     protected $fillable = [
         'caminhao_id',
-        'motorista_id',
         'viagem_id',
         'city_id',
         'data',
@@ -37,11 +36,6 @@ class Abastecimento extends Model
         return $this->belongsTo(Caminhao::class);
     }
 
-    public function motorista()
-    {
-        return $this->belongsTo(Motorista::class);
-    }
-
     public function viagem()
     {
         return $this->belongsTo(Viagem::class);
@@ -57,9 +51,6 @@ class Abastecimento extends Model
     {
         if (!empty($filters['caminhao_id'])) {
             $query->where('caminhao_id', $filters['caminhao_id']);
-        }
-        if (!empty($filters['motorista_id'])) {
-            $query->where('motorista_id', $filters['motorista_id']);
         }
         if (!empty($filters['viagem_id'])) {
             $query->where('viagem_id', $filters['viagem_id']);

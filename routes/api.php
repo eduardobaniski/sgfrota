@@ -64,5 +64,4 @@ Route::get('/caminhoes/{caminhao}/viagem-ativa', function (Caminhao $caminhao) {
     return response()->json(['message' => 'Nenhuma viagem ativa encontrada para este caminhão.'], 404);
 });
 
-Route::get('/abastecimentos/stats', [AbastecimentoController::class, 'stats']);
-Route::apiResource('abastecimentos', AbastecimentoController::class);
+// Route::get('/abastecimentos/stats', [AbastecimentoController::class, 'stats']);

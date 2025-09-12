@@ -33,6 +33,10 @@
                     <p class="text-gray-500">Odômetro Inicial</p>
                     <p class="font-medium">{{ number_format($viagem->odometroInicio, 0, ',', '.') }} km</p>
                 </div>
+                <div class="col-span-2">
+                    <p class="text-gray-500">Motorista</p>
+                    <p class="font-medium">{{ optional($viagem->motorista)->nome ?? '-' }}</p>
+                </div>
             </div>
         </div>
 
@@ -45,6 +49,23 @@
             <!-- Bloco 2: Campos para Editar Dados Iniciais (Oculto por padrão) -->
             <div id="campos-edicao-viagem" class="hidden">
                 <h2 class="font-semibold text-lg mb-4 text-gray-700">Editar Dados Iniciais</h2>
+
+                <div class="mb-4">
+                    <label for="motorista_id" class="block text-sm font-medium text-gray-700">Motorista</label>
+                    <select id="motorista_id" name="motorista_id"
+                        @class(['mt-1 block w-full p-2 border rounded-md shadow-sm', 'border-red-500' => $errors->has('motorista_id'), 'border-gray-300' => ! $errors->has('motorista_id')])>
+                        <option value="">Selecione...</option>
+                        @foreach($motoristas as $motorista)
+                            <option value="{{ $motorista->id }}" {{ old('motorista_id', $viagem->motorista_id) == $motorista->id ? 'selected' : '' }}>
+                                {{ $motorista->nome }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('motorista_id')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- Origem -->
                 <fieldset class="mb-4 border p-4 rounded-md">
                     <legend class="text-sm font-medium text-gray-700 px-2">Origem</legend>
@@ -90,7 +111,7 @@
                     <input type="date" id="dataInicio" name="dataInicio" value="{{ old('dataInicio', \Carbon\Carbon::parse($viagem->dataInicio)->format('Y-m-d')) }}" class="mt-1 block w-full p-2 border rounded-md shadow-sm">
                 </div>
 
-                <!-- Campo Odómetro Inicial (para edição) -->
+                <!-- Campo Odômetro Inicial (para edição) -->
                 <div class="mb-4">
                     <label for="odometroInicio" class="block text-sm font-medium text-gray-700">Odômetro Inicial (km)</label>
                     <input type="number" id="odometroInicio" name="odometroInicio" value="{{ old('odometroInicio', $viagem->odometroInicio) }}" class="mt-1 block w-full p-2 border rounded-md shadow-sm">

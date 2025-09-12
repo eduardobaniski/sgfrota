@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\State;
 use App\Models\Viagem;
 use App\Models\Caminhao;
+use App\Models\Motorista;
 use Illuminate\Http\Request;
 
 class ViagemController extends Controller
@@ -20,10 +21,12 @@ class ViagemController extends Controller
         }
         // Busca todos os estados únicos, ordenados alfabeticamente
         $estados = State::orderBy('name')->get();
+        $motoristas = Motorista::orderBy('nome')->get(['id', 'nome']);
 
         return view('viagens.create', [
             'caminhao' => $caminhao,
-            'estados' => $estados // Envia a lista de estados para a view
+            'estados' => $estados, // Envia a lista de estados para a view
+            'motoristas' => $motoristas,
         ]);
     }
 
@@ -36,6 +39,7 @@ class ViagemController extends Controller
             'dataInicio' => $request->input('data_inicio'),
             'cidadeOrigem' => $request->input('origem_id'),
             'cidadeDestino' => $request->input('destino_id'),
+            'motorista_id' => $request->input('motorista_id'),
         ];
 
 
@@ -61,8 +65,13 @@ class ViagemController extends Controller
     {
         $viagem->load('caminhao');
         $estados = State::orderBy('name')->get();
+        $motoristas = Motorista::orderBy('nome')->get(['id', 'nome']);
 
-        return view('viagens.edit', ['viagem' => $viagem, 'estados' => $estados]);
+        return view('viagens.edit', [
+            'viagem' => $viagem,
+            'estados' => $estados,
+            'motoristas' => $motoristas,
+        ]);
     }
     public function update(Request $request, Viagem $viagem)
     {
@@ -74,6 +83,7 @@ class ViagemController extends Controller
             'cidadeDestino' => $request->input('cidadeDestino'),
             'dataFim' => $request->input('dataFim'),
             'odometroFinal' => $request->input('odometroFinal'),
+            'motorista_id' => $request->input('motorista_id'),
         ];
 
         // Atualiza a viagem com os dados validados.
