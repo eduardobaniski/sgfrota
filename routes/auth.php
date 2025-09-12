@@ -42,6 +42,7 @@ Route::middleware(['auth'])->prefix('caminhoes')->name('caminhoes.')->group(func
         Route::get('/export/{format}', [CaminhaoConsumoController::class, 'export'])
             ->where('format', 'csv|pdf')
             ->name('export');
+        Route::get('/export/pdf', [CaminhaoConsumoController::class, 'export'])->defaults('format', 'pdf')->name('export.pdf');
     });
 });
 

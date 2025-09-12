@@ -111,6 +111,39 @@ class CaminhaoConsumoController extends Controller
             return $response;
         }
 
-        return back()->with('error', 'Exportação em PDF ainda não implementada.');
+        if ($format === 'pdf') {
+            $items = $query->get();
+            $agg = (clone $query)->selectRaw('COALESCE(SUM(litros),0) as total_litros, COALESCE(SUM(valor_total),0) as total_gasto')->first();
+            $preco_medio = (clone $query)->whereNotNull('preco_por_litro')->avg('preco_por_litro');
+            $min_odo = (clone $query)->whereNotNull('odometro')->min('odometro');
+            $max_odo = (clone $query)->whereNotNull('odometro')->max('odometro');
+            $km_rodados = ($min_odo !== null && $max_odo !== null && $max_odo >= $min_odo) ? ($max_odo - $min_odo) : null;
+            $consumo_medio = ($km_rodados && ($agg->total_litros ?? 0) > 0) ? ($km_rodados / $agg->total_litros) : null;
+            $kpi = [
+                'total_litros' => (float) ($agg->total_litros ?? 0),
+                'total_gasto' => (float) ($agg->total_gasto ?? 0),
+                'media_preco_por_litro' => $preco_medio ? (float) $preco_medio : null,
+                'km_rodados' => $km_rodados,
+                'consumo_km_l' => $consumo_medio,
+            ];
+
+            $view = view('caminhoes.consumos.pdf', compact('caminhao', 'items', 'filters', 'kpi'))->render();
+
+            if (class_exists(\Barryvdh\DomPDF\Facade\Pdf::class)) {
+                $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadHTML($view)->setPaper('a4', 'portrait');
+                $filename = 'consumo_'.$caminhao->placa.'_'.now()->format('Ymd_His').'.pdf';
+                return $pdf->download($filename);
+            }
+            if (app()->bound('dompdf.wrapper')) {
+                $pdf = app('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('a4', 'portrait');
+                $filename = 'consumo_'.$caminhao->placa.'_'.now()->format('Ymd_His').'.pdf';
+                return $pdf->download($filename);
+            }
+
+            return back()->with('error', 'Exportação em PDF requer barryvdh/laravel-dompdf. Instale o pacote para continuar.');
+        }
+
+        return back()->with('error', 'Formato de exportação não suportado.');
     }
 }

@@ -10,6 +10,7 @@
     </div>
     <div class="flex gap-2">
       <a href="{{ route('caminhoes.consumos.export', [$caminhao, 'csv']) }}?{{ http_build_query($filters) }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Exportar CSV</a>
+      <a href="{{ route('caminhoes.consumos.export.pdf', $caminhao) }}?{{ http_build_query($filters) }}" class="bg-rose-500 hover:bg-rose-700 text-white font-bold py-2 px-4 rounded">Exportar PDF</a>
       <a href="{{ route('caminhoes.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Voltar</a>
     </div>
   </div>
