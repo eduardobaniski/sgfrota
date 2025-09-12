@@ -47,6 +47,10 @@ class Sidebar extends Component
                 'title' => 'Relatórios',
                 'url' => route('dashboard'), //AJEITAR ROTA RELATORIOS USER PADRAO
             ],
+            [
+                'title' => 'Motoristas',
+                'url' => route('motorista.index'),
+            ],
         ];
 
         // Links exclusivos para administradores

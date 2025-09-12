@@ -141,7 +141,8 @@
                     </button>
                 </div>
                 <a href="{{ route('dashboard') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cancelar</a>
-                <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Finalizar Viagem</button>
+                <button type="submit" id="btn-salvar" name="action" value="save" class="hidden bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Salvar alterações</button>
+                <button type="submit" name="action" value="finalize" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Finalizar Viagem</button>
             </div>
         </form>
     </div>
@@ -152,11 +153,13 @@
             const containerBotao = document.getElementById('botao-editar-container');
             const detalhesReadonly = document.getElementById('detalhes-viagem-readonly');
             const camposEdicao = document.getElementById('campos-edicao-viagem');
+            const btnSalvar = document.getElementById('btn-salvar');
 
             botaoEditar.addEventListener('click', function() {
                 containerBotao.classList.add('hidden');
                 detalhesReadonly.classList.add('hidden');
                 camposEdicao.classList.remove('hidden');
+                btnSalvar.classList.remove('hidden');
             });
 
             function setupDependentDropdown(ufSelectId, cidadeSelectId, selectedStateId, selectedCityId) {

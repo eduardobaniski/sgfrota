@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Motorista;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class MotoristaController extends Controller
 {
@@ -40,14 +41,14 @@ class MotoristaController extends Controller
      */
     public function store(Request $request)
     {
-        
-
-        Motorista::create([
-            'nome' => $request->input('nome'),
-            'cpf' => $request->input('cpf'),
-            'cnh' => $request->input('cnh'),
-            'telefone' => $request->input('telefone'),
+        $dadosValidados = $request->validate([
+            'nome' => 'required|string|max:255',
+            'cpf' => 'required|string|size:11|unique:motoristas,cpf',
+            'cnh' => 'required|string|size:11|unique:motoristas,cnh',
+            'telefone' => 'nullable|string|max:20',
         ]);
+
+        Motorista::create($dadosValidados);
 
         return redirect()->route('motorista.index')->with('success', 'Motorista registado com sucesso!');
     }
@@ -67,8 +68,9 @@ class MotoristaController extends Controller
     {
         $dadosValidados = $request->validate([
             'nome' => 'required|string|max:255',
-            'cpf' => ['required', 'string', 'size:11', Rule::unique('motoristas')->ignore($motorista->id)],
-            'cnh' => ['required', 'string', 'size:11', Rule::unique('motoristas')->ignore($motorista->id)],
+            'cpf' => ['required','string','size:11', Rule::unique('motoristas','cpf')->ignore($motorista->id)],
+            'cnh' => ['required','string','size:11', Rule::unique('motoristas','cnh')->ignore($motorista->id)],
+            'telefone' => 'nullable|string|max:20',
         ]);
 
         $motorista->update($dadosValidados);

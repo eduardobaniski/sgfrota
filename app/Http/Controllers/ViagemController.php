@@ -63,7 +63,7 @@ class ViagemController extends Controller
 
     public function edit(Viagem $viagem)
     {
-        $viagem->load('caminhao');
+        $viagem->load(['caminhao', 'motorista', 'origem.state', 'destino.state']);
         $estados = State::orderBy('name')->get();
         $motoristas = Motorista::orderBy('nome')->get(['id', 'nome']);
 
@@ -73,25 +73,37 @@ class ViagemController extends Controller
             'motoristas' => $motoristas,
         ]);
     }
+
     public function update(Request $request, Viagem $viagem)
     {
-        // Valida os dados recebidos do formulário de finalização.
-        $dados = [
+        $action = $request->input('action', 'finalize');
+
+        // Campos iniciais que podem ser salvos sem finalizar
+        $dadosIniciais = [
+            'motorista_id' => $request->input('motorista_id'),
             'odometroInicio' => $request->input('odometroInicio'),
             'dataInicio' => $request->input('dataInicio'),
             'cidadeOrigem' => $request->input('cidadeOrigem'),
             'cidadeDestino' => $request->input('cidadeDestino'),
-            'dataFim' => $request->input('dataFim'),
-            'odometroFinal' => $request->input('odometroFinal'),
-            'motorista_id' => $request->input('motorista_id'),
         ];
 
-        // Atualiza a viagem com os dados validados.
-        $viagem->update($dados);
+        if ($action === 'save') {
+            // Salva somente alterações sem finalizar
+            $viagem->update(array_filter($dadosIniciais, fn($v) => $v !== null && $v !== ''));
+            return redirect()->route('viagens.edit', $viagem)->with('success', 'Alterações da viagem salvas com sucesso!');
+        }
 
-        // Redireciona de volta para o dashboard principal com uma mensagem de sucesso.
+        // Finalizar: inclui também os campos de término
+        $dadosFinal = $dadosIniciais + [
+            'dataFim' => $request->input('dataFim'),
+            'odometroFinal' => $request->input('odometroFinal'),
+        ];
+
+        $viagem->update(array_filter($dadosFinal, fn($v) => $v !== null && $v !== ''));
+
         return redirect()->route('dashboard')->with('success', 'Viagem finalizada com sucesso!');
     }
+
     public function destroy(Viagem $viagem)
     {
         $viagem->delete();

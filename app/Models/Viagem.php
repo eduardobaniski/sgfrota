@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Viagem extends Model
 {
@@ -16,6 +17,7 @@ class Viagem extends Model
         'dataFim',
         'cidadeOrigem',
         'cidadeDestino',
+        'motorista_id',
     ];
 
     public function caminhao()
@@ -35,7 +37,7 @@ class Viagem extends Model
         return $this->belongsTo(City::class, 'cidadeDestino', 'id');
     }
     
-    public function motorista()
+    public function motorista(): BelongsTo
     {
         return $this->belongsTo(Motorista::class);
     }

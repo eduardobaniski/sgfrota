@@ -47,9 +47,11 @@ Route::middleware(['auth'])->prefix('viagens')->name('viagens.')->group(function
 Route::middleware(['auth'])->prefix('motoristas')->name('motorista.')->group(function () {
     Route::get('/', [MotoristaController::class, 'index'])->name('index');
     Route::get('/novo', [MotoristaController::class, 'create'])->name('create');
+    Route::post('/', [MotoristaController::class, 'store'])->name('store');
 
-    Route::post('/novo', [MotoristaController::class, 'store'])->name('store');
+    // Colocar 'editar' antes de 'show' para evitar conflito de rota
     Route::get('/{motorista}/editar', [MotoristaController::class, 'edit'])->name('edit');
+    Route::get('/{motorista}', [MotoristaController::class, 'show'])->name('show');
 
     Route::put('/{motorista}', [MotoristaController::class, 'update'])->name('update');
     Route::delete('/{motorista}', [MotoristaController::class, 'destroy'])->name('destroy');

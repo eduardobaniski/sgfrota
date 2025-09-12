@@ -1,21 +1,25 @@
 @extends('layout')
 
-@section('title', 'Cadastrar Motorista')
+@section('title', 'Editar Motorista')
 
 @section('content')
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
-        <div class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Cadastrar Motorista</h1>
-            <p class="text-gray-600 mt-1">Preencha os dados abaixo para registrar um novo motorista.</p>
+        <div class="mb-6 flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Editar Motorista</h1>
+                <p class="text-gray-600 mt-1">Atualize os dados do motorista selecionado.</p>
+            </div>
+            <x-delete :action="route('motorista.destroy', $motorista)" />
         </div>
 
-        <form id="motorista-form" action="{{ route('motorista.store') }}" method="POST" class="space-y-6">
+        <form id="motorista-form" action="{{ route('motorista.update', $motorista) }}" method="POST" class="space-y-6">
             @csrf
+            @method('PUT')
 
             <!-- Campo Nome -->
             <div>
                 <label for="nome" class="block text-sm font-medium text-gray-700">Nome Completo</label>
-                <input type="text" id="nome" name="nome" value="{{ old('nome') }}" required
+                <input type="text" id="nome" name="nome" value="{{ old('nome', $motorista->nome) }}" required
                        @class(['mt-1 block w-full p-2 border rounded-md shadow-sm', 'border-red-500' => $errors->has('nome'), 'border-gray-300' => ! $errors->has('nome')])>
                 @error('nome')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -25,7 +29,7 @@
             <!-- Campo CPF -->
             <div>
                 <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
-                <input type="text" id="cpf" name="cpf" value="{{ old('cpf') }}" required
+                <input type="text" id="cpf" name="cpf" value="{{ old('cpf', $motorista->cpf) }}" required
                        placeholder="123.456.789-12"
                        @class(['mt-1 block w-full p-2 border rounded-md shadow-sm', 'border-red-500' => $errors->has('cpf'), 'border-gray-300' => ! $errors->has('cpf')])>
                 @error('cpf')
@@ -36,7 +40,7 @@
             <!-- Campo CNH -->
             <div>
                 <label for="cnh" class="block text-sm font-medium text-gray-700">CNH</label>
-                <input type="text" id="cnh" name="cnh" value="{{ old('cnh') }}" required
+                <input type="text" id="cnh" name="cnh" value="{{ old('cnh', $motorista->cnh) }}" required
                        placeholder="00000000000"
                        @class(['mt-1 block w-full p-2 border rounded-md shadow-sm', 'border-red-500' => $errors->has('cnh'), 'border-gray-300' => ! $errors->has('cnh')])>
                 @error('cnh')
@@ -47,9 +51,9 @@
             <!-- Campo Telefone -->
             <div>
                 <label for="telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
-                <input type="text" id="telefone" name="telefone" value="{{ old('telefone') }}"
-                       placeholder="(00) 00000-0000"
-                       @class(['mt-1 block w-full p-2 border rounded-md shadow-sm', 'border-red-500' => $errors->has('telefone'), 'border-gray-300' => ! $errors->has('telefone')])>
+                <input type="text" id="telefone" name="telefone" value="{{ old('telefone', $motorista->telefone) }}"
+                    placeholder="(00) 00000-0000"
+                    @class(['mt-1 block w-full p-2 border rounded-md shadow-sm', 'border-red-500' => $errors->has('telefone'), 'border-gray-300' => ! $errors->has('telefone')])>
                 @error('telefone')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror

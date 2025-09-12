@@ -4,12 +4,7 @@
 
 @section('content')
     {{-- Cabeçalho da Página --}}
-    <div class="flex justify-between items-center mb-6">
-        <a href="{{ route('motorista.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            + Adicionar Novo Motorista
-        </a>
-    </div>
-
+    
     {{-- Mensagem de Sucesso --}}
     @if (session('success'))
         <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
@@ -19,6 +14,11 @@
 
     {{-- Card que envolve a tabela --}}
     <div class="bg-white p-8 rounded-lg shadow-md">
+        <div class="flex justify-end items-center mb-6">
+            <a href="{{ route('motorista.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            + Adicionar Novo Motorista
+            </a>
+        </div>
         
         <!-- Barra de Pesquisa -->
         <div class="mb-4">
@@ -35,6 +35,7 @@
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CPF</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CNH</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Telefone</th>
                     <th scope="col" class="relative px-6 py-3"><span class="sr-only">Ações</span></th>
                 </tr>
             </thead>
@@ -44,6 +45,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $motorista->nome }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $motorista->cpf }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $motorista->cnh }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $motorista->telefone ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
                             <div class="flex justify-end items-center space-x-4">
                                 <a href="{{ route('motorista.edit', $motorista->id) }}" class="inline-flex items-center bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-medium py-2 px-3 rounded-md transition-colors">
@@ -58,7 +60,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">
+                        <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
                             Nenhum motorista encontrado.
                         </td>
                     </tr>
