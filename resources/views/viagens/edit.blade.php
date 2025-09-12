@@ -33,6 +33,14 @@
                     <p class="text-gray-500">Odômetro Inicial</p>
                     <p class="font-medium">{{ number_format($viagem->odometroInicio, 0, ',', '.') }} km</p>
                 </div>
+                <div>
+                    <p class="text-gray-500">Fim</p>
+                    <p class="font-medium">{{ $viagem->dataFim ? \Carbon\Carbon::parse($viagem->dataFim)->format('d/m/Y') : '-' }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-500">Odômetro Final</p>
+                    <p class="font-medium">{{ $viagem->odometroFinal ? number_format($viagem->odometroFinal, 0, ',', '.') . ' km' : '-' }}</p>
+                </div>
                 <div class="col-span-2">
                     <p class="text-gray-500">Motorista</p>
                     <p class="font-medium">{{ optional($viagem->motorista)->nome ?? '-' }}</p>
@@ -40,8 +48,7 @@
             </div>
         </div>
 
-        <!-- Botão para Ativar a Edição -->
-        
+        @if(is_null($viagem->dataFim))
         <form action="{{ route('viagens.update', $viagem->id) }}" method="POST">
             @csrf
             @method('PUT')
@@ -141,10 +148,17 @@
                     </button>
                 </div>
                 <a href="{{ route('dashboard') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cancelar</a>
+                <a href="{{ route('abastecimentos.index', ['caminhao_id' => $viagem->caminhao->id, 'viagem_id' => $viagem->id]) }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Ver consumos</a>
                 <button type="submit" id="btn-salvar" name="action" value="save" class="hidden bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Salvar alterações</button>
                 <button type="submit" name="action" value="finalize" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Finalizar Viagem</button>
             </div>
         </form>
+        @else
+            <div class="flex justify-end space-x-4">
+                <a href="{{ route('dashboard') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Voltar</a>
+                <a href="{{ route('abastecimentos.index', ['caminhao_id' => $viagem->caminhao->id, 'viagem_id' => $viagem->id]) }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Ver consumos</a>
+            </div>
+        @endif
     </div>
 
     <script>
@@ -155,12 +169,14 @@
             const camposEdicao = document.getElementById('campos-edicao-viagem');
             const btnSalvar = document.getElementById('btn-salvar');
 
-            botaoEditar.addEventListener('click', function() {
-                containerBotao.classList.add('hidden');
-                detalhesReadonly.classList.add('hidden');
-                camposEdicao.classList.remove('hidden');
-                btnSalvar.classList.remove('hidden');
-            });
+            if (botaoEditar) {
+                botaoEditar.addEventListener('click', function() {
+                    containerBotao.classList.add('hidden');
+                    detalhesReadonly.classList.add('hidden');
+                    camposEdicao.classList.remove('hidden');
+                    btnSalvar.classList.remove('hidden');
+                });
+            }
 
             function setupDependentDropdown(ufSelectId, cidadeSelectId, selectedStateId, selectedCityId) {
                 const ufSelect = document.getElementById(ufSelectId);

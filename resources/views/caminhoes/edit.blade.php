@@ -59,7 +59,7 @@
 
             <!-- Botões de Ação -->
             <div class="mt-8 flex justify-between items-center">
-                <a href="{{ route('dashboard') }}" class="text-gray-600 hover:text-gray-800 font-medium transition duration-300">
+                <a href="{{ url()->previous() }}" onclick="event.preventDefault(); history.back();" class="text-gray-600 hover:text-gray-800 font-medium transition duration-300">
                     &larr; Voltar para a lista
                 </a>
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">

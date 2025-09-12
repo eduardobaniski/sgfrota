@@ -30,21 +30,21 @@ class CaminhaoSeeder extends Seeder
                 'ano_fabricacao' => '2022',
                 'placa' => 'ABC1D23',
                 'renavam' => '12345678901',
-                'em_manutencao' => false,
+                
             ],
             [
                 'modelo_id' => $modelos->random(),
                 'ano_fabricacao' => '2021',
                 'placa' => 'DEF4E56',
                 'renavam' => '23456789012',
-                'em_manutencao' => true, // Este caminhão começará em manutenção
+                 // Este caminhão começará em manutenção
             ],
             [
                 'modelo_id' => $modelos->random(),
                 'ano_fabricacao' => '2023',
                 'placa' => 'GHI7F89',
                 'renavam' => '34567890123',
-                'em_manutencao' => false,
+                
             ],
         ];
 

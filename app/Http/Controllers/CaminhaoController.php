@@ -79,4 +79,21 @@ class CaminhaoController extends Controller
         // Redireciona para uma página de listagem (quando existir) com uma mensagem de sucesso
         return redirect()->route('dashboard')->with('success', 'Caminhão apagado com sucesso!');
     }
+
+    public function index(Request $request)
+    {
+        $perPage = $request->integer('per_page', 15);
+
+        $query = Caminhao::with(['modelo.marca'])
+            ->orderBy('placa');
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('placa', 'like', "%{$search}%");
+        }
+
+        $caminhoes = $query->paginate($perPage)->withQueryString();
+
+        return view('caminhoes.index', compact('caminhoes'));
+    }
 }

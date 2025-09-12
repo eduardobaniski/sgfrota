@@ -40,16 +40,16 @@ class Sidebar extends Component
                 'url' => route('dashboard'),
             ],
             [
-                'title' => 'Cadastro',
-                'url' => route('caminhoes.create'),    //AJEITAR ROTA CADASTRO USER PADRAO
+                'title' => 'Motoristas',
+                'url' => route('motorista.index'),
+            ],
+            [
+                'title' => 'Caminhões',
+                'url' => route('caminhoes.index'),
             ],
             [
                 'title' => 'Relatórios',
-                'url' => route('dashboard'), //AJEITAR ROTA RELATORIOS USER PADRAO
-            ],
-            [
-                'title' => 'Motoristas',
-                'url' => route('motorista.index'),
+                'url' => route('consumos'), //AJEITAR ROTA RELATORIOS USER PADRAO
             ],
         ];
 

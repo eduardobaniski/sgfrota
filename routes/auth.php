@@ -10,6 +10,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MotoristaController;
 use App\Http\Controllers\CaminhaoViagemController;
 use App\Http\Controllers\AbastecimentoController;
+use App\Http\Controllers\CaminhaoConsumoController;
+use App\Http\Controllers\CaminhoesConsumoGeralController;
 
 
 Route::middleware(['auth'])->group(function () {
@@ -32,8 +34,19 @@ Route::middleware(['auth'])->prefix('caminhoes')->name('caminhoes.')->group(func
     Route::delete('/{caminhao}', [CaminhaoController::class, 'destroy'])->name('destroy');
 
     Route::get('/{caminhao}/viagens', [CaminhaoViagemController::class, 'index'])->name('viagens.index');
+
+    // Consumos por caminhão (consultas e relatórios)
+    Route::prefix('{caminhao}/consumos')->name('consumos.')->group(function () {
+        Route::get('/', [CaminhaoConsumoController::class, 'index'])->name('index');
+        Route::get('/stats', [CaminhaoConsumoController::class, 'stats'])->name('stats');
+        Route::get('/export/{format}', [CaminhaoConsumoController::class, 'export'])
+            ->where('format', 'csv|pdf')
+            ->name('export');
+    });
 });
 
+// Tabela geral de consumos de caminhões
+Route::get('/consumos', [CaminhoesConsumoGeralController::class, 'index'])->name('consumos');
 
 Route::middleware(['auth'])->prefix('viagens')->name('viagens.')->group(function () {
     Route::get('novo/{caminhao}', [ViagemController::class, 'create'])->name('create');
