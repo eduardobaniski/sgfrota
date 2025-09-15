@@ -49,6 +49,7 @@ services:
         if [ ! -f .env ] && [ -f .env.example ]; then cp .env.example .env; fi;
         php artisan key:generate --force || true;
         php -m | grep -qi pdo_pgsql && php artisan migrate --force || true;
+        php artisan db:seed --force || true;
         php artisan storage:link || true;
         php artisan optimize || true;
         # Inicia Nginx+PHP-FPM
