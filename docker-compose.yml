@@ -1,0 +1,89 @@
+services:
+  app:
+    image: webdevops/php-nginx:8.3
+    ports:
+      - "${APP_PORT:-8080}:80"
+    environment:
+      WEB_DOCUMENT_ROOT: /var/www/html/public
+      PHP_MEMORY_LIMIT: 512M
+      PHP_MAX_EXECUTION_TIME: 120
+      PHP_UPLOAD_MAX_FILESIZE: 64M
+      PHP_POST_MAX_SIZE: 64M
+      PHP_EXTENSION_PGSQL: 1
+      PHP_EXTENSION_PDO_PGSQL: 1
+      # Ajustes simples de performance
+      PHP_OPCACHE_ENABLE: 1
+      PHP_OPCACHE_VALIDATE_TIMESTAMPS: 1
+      PHP_OPCACHE_REVALIDATE_FREQ: 2
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+      - vendor-data:/var/www/html/vendor
+      - node-modules-data:/var/www/html/node_modules
+      - composer-cache:/home/application/.composer
+    depends_on:
+      pgsql:
+        condition: service_healthy
+    networks:
+      - appnet
+    command: >
+      sh -lc "
+        set -e;
+        # Composer
+        if ! command -v composer >/dev/null 2>&1; then
+          curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer;
+        fi;
+        composer install --no-interaction --prefer-dist --optimize-autoloader;
+        # Node.js + build (frontend em modo produção)
+        if ! command -v node >/dev/null 2>&1; then
+          apt-get update -y && apt-get install -y curl ca-certificates gnupg;
+          curl -fsSL https://deb.nodesource.com/setup_20.x | bash -;
+          apt-get install -y nodejs;
+          apt-get clean && rm -rf /var/lib/apt/lists/*;
+        fi;
+        if [ -f package.json ]; then
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi;
+          npm run build || true;
+        fi;
+        # Laravel bootstrap
+        if [ ! -f .env ] && [ -f .env.example ]; then cp .env.example .env; fi;
+        php artisan key:generate --force || true;
+        php -m | grep -qi pdo_pgsql && php artisan migrate --force || true;
+        php artisan storage:link || true;
+        php artisan optimize || true;
+        # Inicia Nginx+PHP-FPM
+        exec /usr/bin/supervisord -n
+      "
+
+  pgsql:
+    image: postgres:17-alpine
+    ports:
+      - "${FORWARD_DB_PORT:-5432}:5432"
+    environment:
+      POSTGRES_DB: "${DB_DATABASE}"
+      POSTGRES_USER: "${DB_USERNAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD:-secret}"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./backups:/backups
+      - ./db-init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
+      retries: 3
+      timeout: 5s
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+  vendor-data:
+    driver: local
+  node-modules-data:
+    driver: local
+  composer-cache:
+    driver: local
