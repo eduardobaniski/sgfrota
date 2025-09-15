@@ -18,7 +18,7 @@
 </head>
 <body>
   <h1>Relatório de Consumo - Caminhão {{ $caminhao->placa }}</h1>
-  <p class="muted">Período: {{ $filters['data_inicio'] ?? '—' }} a {{ $filters['data_fim'] ?? '—' }} | Viagem: {{ $filters['viagem_id'] ?? '—' }}</p>
+  {{-- <p class="muted">Período: {{ $filters['data_inicio'] ?? '—' }} a {{ $filters['data_fim'] ?? '—' }} | Viagem: {{ $filters['viagem_id'] ?? '—' }}</p> --}}
 
   <div class="kpis">
     <div class="kpi"><strong>Total de litros</strong><br>{{ number_format($kpi['total_litros'], 3, ',', '.') }} L</div>

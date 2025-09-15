@@ -37,7 +37,7 @@
 
         <div>
           <label for="data" class="block text-sm font-medium text-gray-700">Data e hora</label>
-          <input type="date" id="data" name="data" value="{{ old('data', $defaults['data'] ?? '') }}" required
+          <input type="date" id="data" name="data" value="{{ old('data', $defaults['data'] ?? now()->toDateString()) }}" required
                  @class(['mt-1 block w-full p-2 border rounded-md shadow-sm', 'border-red-500' => $errors->has('data'), 'border-gray-300' => ! $errors->has('data')])>
           @error('data')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

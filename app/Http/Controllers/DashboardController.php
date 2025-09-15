@@ -11,3 +11,8 @@ class DashboardController extends Controller
         return view('dashboard', ['caminhoes' => Caminhao::all()]);
     }
 }
+$totais = \App\Models\Abastecimento::selectRaw(
+    'COALESCE(SUM(litros),0) as total_litros, COALESCE(SUM(valor_total),0) as total_gasto, COUNT(*) as qtd, MAX("data") as last_data'
+)
+->where('caminhao_id', $caminhaoId)
+->first();

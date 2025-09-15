@@ -20,7 +20,12 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/marcas/{marca}/modelos', function (Marca $marca) {
-    return response()->json($marca->modelos()->orderBy('nome')->get());
+    return response()->json(
+        $marca->modelos()
+            ->selectRaw('id, modelo as nome')
+            ->orderBy('modelo')
+            ->get()
+    );
 });
 
 Route::get('/estados/{state}/cidades', function (State $state) {

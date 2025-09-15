@@ -14,29 +14,36 @@ class CaminhaoConsumoController extends Controller
     {
         $filters = $request->only(['data_inicio', 'data_fim', 'viagem_id']);
 
-        $query = Abastecimento::with(['viagem.motorista'])
+        // Base sem ordenação para evitar erros de GROUP BY nas agregações
+        $baseQuery = Abastecimento::with(['viagem.motorista'])
             ->where('caminhao_id', $caminhao->id);
 
         if (!empty($filters['data_inicio'])) {
-            $query->whereDate('data', '>=', $filters['data_inicio']);
+            $baseQuery->whereDate('data', '>=', $filters['data_inicio']);
         }
         if (!empty($filters['data_fim'])) {
-            $query->whereDate('data', '<=', $filters['data_fim']);
+            $baseQuery->whereDate('data', '<=', $filters['data_fim']);
         }
         if (!empty($filters['viagem_id'])) {
-            $query->where('viagem_id', $filters['viagem_id']);
+            $baseQuery->where('viagem_id', $filters['viagem_id']);
         }
 
-        $query->orderByDesc('data');
+        // Ordenação aplicada apenas na listagem/paginação
+        $items = (clone $baseQuery)
+            ->orderByDesc('data')
+            ->paginate(15)
+            ->withQueryString();
 
-        $items = $query->paginate(15)->withQueryString();
+        // Agregações sem ORDER BY
+        $agg = (clone $baseQuery)
+            ->selectRaw('COALESCE(SUM(litros),0) as total_litros, COALESCE(SUM(valor_total),0) as total_gasto, COUNT(*) as qtd')
+            ->first();
 
-        $agg = (clone $query)->selectRaw('COALESCE(SUM(litros),0) as total_litros, COALESCE(SUM(valor_total),0) as total_gasto, COUNT(*) as qtd')->first();
-        $preco_medio = (clone $query)->whereNotNull('preco_por_litro')->avg('preco_por_litro');
-        $min_odo = (clone $query)->whereNotNull('odometro')->min('odometro');
-        $max_odo = (clone $query)->whereNotNull('odometro')->max('odometro');
+        $preco_medio = (clone $baseQuery)->whereNotNull('preco_por_litro')->avg('preco_por_litro');
+        $min_odo = (clone $baseQuery)->whereNotNull('odometro')->min('odometro');
+        $max_odo = (clone $baseQuery)->whereNotNull('odometro')->max('odometro');
         $km_rodados = ($min_odo !== null && $max_odo !== null && $max_odo >= $min_odo) ? ($max_odo - $min_odo) : null;
-        $consumo_medio = ($km_rodados && $agg->total_litros > 0) ? ($km_rodados / $agg->total_litros) : null;
+        $consumo_medio = ($km_rodados && $agg && $agg->total_litros > 0) ? ($km_rodados / $agg->total_litros) : null;
 
         $kpi = [
             'total_litros' => (float) ($agg->total_litros ?? 0),
@@ -80,18 +87,21 @@ class CaminhaoConsumoController extends Controller
     {
         $filters = $request->only(['data_inicio', 'data_fim', 'viagem_id']);
 
-        $query = Abastecimento::with(['viagem.motorista'])
+        // Base sem ordenação para evitar conflitos nas agregações
+        $baseQuery = Abastecimento::with(['viagem.motorista'])
             ->where('caminhao_id', $caminhao->id);
-        if (!empty($filters['data_inicio'])) $query->whereDate('data', '>=', $filters['data_inicio']);
-        if (!empty($filters['data_fim'])) $query->whereDate('data', '<=', $filters['data_fim']);
-        if (!empty($filters['viagem_id'])) $query->where('viagem_id', $filters['viagem_id']);
-        $query->orderBy('data');
+
+        if (!empty($filters['data_inicio'])) $baseQuery->whereDate('data', '>=', $filters['data_inicio']);
+        if (!empty($filters['data_fim'])) $baseQuery->whereDate('data', '<=', $filters['data_fim']);
+        if (!empty($filters['viagem_id'])) $baseQuery->where('viagem_id', $filters['viagem_id']);
 
         if ($format === 'csv') {
-            $response = new StreamedResponse(function () use ($query) {
+            $response = new StreamedResponse(function () use ($baseQuery) {
                 $handle = fopen('php://output', 'w');
                 fputcsv($handle, ['Data', 'Litros', 'Preço/L', 'Total', 'Viagem', 'Motorista']);
-                $query->chunk(500, function ($chunk) use ($handle) {
+
+                // Ordene apenas para a exportação de linhas
+                (clone $baseQuery)->orderBy('data')->chunk(500, function ($chunk) use ($handle) {
                     foreach ($chunk as $a) {
                         fputcsv($handle, [
                             optional($a->data)->format('Y-m-d') ?? $a->data,
@@ -103,6 +113,7 @@ class CaminhaoConsumoController extends Controller
                         ]);
                     }
                 });
+
                 fclose($handle);
             });
             $filename = 'consumo_'.$caminhao->placa.'_'.now()->format('Ymd_His').'.csv';
@@ -112,13 +123,16 @@ class CaminhaoConsumoController extends Controller
         }
 
         if ($format === 'pdf') {
-            $items = $query->get();
-            $agg = (clone $query)->selectRaw('COALESCE(SUM(litros),0) as total_litros, COALESCE(SUM(valor_total),0) as total_gasto')->first();
-            $preco_medio = (clone $query)->whereNotNull('preco_por_litro')->avg('preco_por_litro');
-            $min_odo = (clone $query)->whereNotNull('odometro')->min('odometro');
-            $max_odo = (clone $query)->whereNotNull('odometro')->max('odometro');
+            $items = (clone $baseQuery)->orderBy('data')->get();
+
+            // Agregações a partir da base sem ORDER BY
+            $agg = (clone $baseQuery)->selectRaw('COALESCE(SUM(litros),0) as total_litros, COALESCE(SUM(valor_total),0) as total_gasto')->first();
+            $preco_medio = (clone $baseQuery)->whereNotNull('preco_por_litro')->avg('preco_por_litro');
+            $min_odo = (clone $baseQuery)->whereNotNull('odometro')->min('odometro');
+            $max_odo = (clone $baseQuery)->whereNotNull('odometro')->max('odometro');
             $km_rodados = ($min_odo !== null && $max_odo !== null && $max_odo >= $min_odo) ? ($max_odo - $min_odo) : null;
             $consumo_medio = ($km_rodados && ($agg->total_litros ?? 0) > 0) ? ($km_rodados / $agg->total_litros) : null;
+
             $kpi = [
                 'total_litros' => (float) ($agg->total_litros ?? 0),
                 'total_gasto' => (float) ($agg->total_gasto ?? 0),

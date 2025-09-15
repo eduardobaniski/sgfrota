@@ -36,7 +36,7 @@
                 <input type="password" id="current_password" name="current_password"
                        class="mt-1 block w-full p-2 border rounded-md shadow-sm @error('current_password') border-red-500 @else border-gray-300 @enderror">
                 @error('current_password')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    <p class="text-red-500 text-xs mt-1">Senha errada, dados não atualizados</p>
                 @enderror
             </div>
             <!-- Campo Nova Senha -->

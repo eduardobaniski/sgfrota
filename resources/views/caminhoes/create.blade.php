@@ -95,7 +95,7 @@
             // Remove qualquer caractere que não seja um número em tempo real
             e.target.value = e.target.value.replace(/[^0-9]/g, '');
         });
-// --- FIM: LÓGICA DE VALIDAÇÃO DO RENAVAM ---
+        // --- FIM: LÓGICA DE VALIDAÇÃO DO RENAVAM ---
 
         // --- INÍCIO: LÓGICA DE VALIDAÇÃO DA PLACA ---
         const placaElement = document.getElementById('placa');
@@ -119,6 +119,7 @@
         
         const marcaSelect = document.getElementById('marca');
         const modeloSelect = document.getElementById('modelo');
+        const selectedModeloId = '{{ old('modelo_id') }}';
 
         function carregarModelos(marcaId) {
             if (!marcaId) {
@@ -130,20 +131,25 @@
             modeloSelect.innerHTML = '<option>A carregar...</option>';
             modeloSelect.disabled = true;
 
-            fetch(`/api/marcas/${marcaId}/modelos`)
-                .then(response => response.json())
+            fetch(`/api/marcas/${marcaId}/modelos`, { headers: { 'Accept': 'application/json' } })
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return response.json();
+                })
                 .then(modelos => {
-                    // Limpa o dropdown de modelos
                     modeloSelect.innerHTML = '<option value="" selected disabled>Selecione um modelo</option>';
 
                     modelos.forEach(modelo => {
                         const option = document.createElement('option');
                         option.value = modelo.id;
-                        option.textContent = modelo.modelo;
+                        // usa o nome retornado (alias) com fallback para 'modelo'
+                        option.textContent = modelo.nome ?? modelo.modelo ?? `#${modelo.id}`;
+                        if (selectedModeloId && String(option.value) === String(selectedModeloId)) {
+                            option.selected = true;
+                        }
                         modeloSelect.appendChild(option);
                     });
 
-                    // Ativa o dropdown de modelos
                     modeloSelect.disabled = false;
                 })
                 .catch(error => {
