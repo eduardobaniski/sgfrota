@@ -1,5 +1,3 @@
-# install_laravel.ps1
-
 Write-Host "--- Iniciando a instalacao do projeto ---" -ForegroundColor Yellow
 
 # 1. Copia o arquivo de ambiente, se ele nao existir
@@ -32,6 +30,15 @@ php artisan storage:link
 
 # 7. Gera o banco de dados
 New-Item -Path 'database/database.sqlite' -ItemType File
+if (-not (Test-Path "database")) {
+    New-Item -ItemType Directory -Path "database" | Out-Null
+}
+if (-not (Test-Path "database/database.sqlite")) {
+    Write-Host "Criando database/database.sqlite..."
+    New-Item -Path 'database/database.sqlite' -ItemType File | Out-Null
+} else {
+    Write-Host "database/database.sqlite já existe. Pulando a criação."
+}
 php artisan migrate
 php artisan db:seed
 

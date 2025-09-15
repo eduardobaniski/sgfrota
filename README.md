@@ -3,25 +3,9 @@
 
 # SGFrota
 
-# TODO
-- Geral: paginação e busca
-  - botoes para deletar registros
-- Admin: editar icones
-    trocar senha do user
-- Editar caminhão: add botao de excluir caminhao
-- Sidebar: menu com opçoes "dropdown"
-- Card caminhão: ver o qq vai ser exibido
-    ajeitar icone de viagem
-- Relatórios
-
-
-
-
 
 ## Para instalar o projeto
 **Instale o PHP/Laravel**
-
-`Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows/8.4'))`
 
 https://laravel.com/docs/12.x/installation
 
@@ -35,9 +19,10 @@ Copie o arquivo .env.example e edite as variáveis de ambiente conforme necessá
 
 
 **Instale as dependências do projeto**
-Rode o script _setup.ps1_ para instalar todas as dependências do projeto
+Rode o script _setup.ps1/setup.sh_ para instalar todas as dependências do projeto
 
 `.\setup.ps1`
+`./setup.sh`
 
 
 ## Para rodar
