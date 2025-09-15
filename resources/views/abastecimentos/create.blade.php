@@ -73,11 +73,12 @@
 
         <div>
           <label for="valor_total" class="block text-sm font-medium text-gray-700">Valor total</label>
-          <input type="number" id="valor_total" name="valor_total" step="0.01" value="{{ old('valor_total') }}"
+          <input type="number" id="valor_total" name="valor_total" step="0.01" value="{{ old('valor_total') }}" readonly
                  @class(['mt-1 block w-full p-2 border rounded-md shadow-sm', 'border-red-500' => $errors->has('valor_total'), 'border-gray-300' => ! $errors->has('valor_total')])>
           @error('valor_total')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
           @enderror
+          <p class="text-xs text-gray-500 mt-1">Calculado automaticamente: litros x preço por litro.</p>
         </div>
       </div>
 
@@ -96,4 +97,35 @@
     </form>
   </div>
 </div>
+
+{{-- Cálculo automático do valor total --}}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const litrosEl = document.getElementById('litros');
+    const precoEl = document.getElementById('preco_por_litro');
+    const totalEl = document.getElementById('valor_total');
+
+    function parseNum(v) {
+      if (v === null || v === undefined) return NaN;
+      return parseFloat(String(v).replace(',', '.'));
+    }
+
+    function calcTotal() {
+      const litros = parseNum(litrosEl?.value);
+      const preco = parseNum(precoEl?.value);
+      if (!isNaN(litros) && !isNaN(preco)) {
+        const total = litros * preco;
+        totalEl.value = total.toFixed(2);
+      } else {
+        totalEl.value = '';
+      }
+    }
+
+    litrosEl?.addEventListener('input', calcTotal);
+    precoEl?.addEventListener('input', calcTotal);
+
+    // cálculo inicial (caso existam valores pré-preenchidos)
+    calcTotal();
+  });
+</script>
 @endsection
