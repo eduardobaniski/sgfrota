@@ -95,7 +95,7 @@
             // Remove qualquer caractere que não seja um número em tempo real
             e.target.value = e.target.value.replace(/[^0-9]/g, '');
         });
-// --- FIM: LÓGICA DE VALIDAÇÃO DO RENAVAM ---
+        // --- FIM: LÓGICA DE VALIDAÇÃO DO RENAVAM ---
 
         // --- INÍCIO: LÓGICA DE VALIDAÇÃO DA PLACA ---
         const placaElement = document.getElementById('placa');
@@ -120,6 +120,9 @@
         const marcaSelect = document.getElementById('marca');
         const modeloSelect = document.getElementById('modelo');
 
+        // Preserva o modelo selecionado após erro de validação
+        let oldModeloId = @json(old('modelo_id'));
+
         function carregarModelos(marcaId) {
             if (!marcaId) {
                 modeloSelect.innerHTML = '<option selected disabled>Selecione a marca primeiro</option>';
@@ -133,17 +136,19 @@
             fetch(`/api/marcas/${marcaId}/modelos`)
                 .then(response => response.json())
                 .then(modelos => {
-                    // Limpa o dropdown de modelos
                     modeloSelect.innerHTML = '<option value="" selected disabled>Selecione um modelo</option>';
 
-                    modelos.forEach(modelo => {
+                    modelos.forEach(m => {
                         const option = document.createElement('option');
-                        option.value = modelo.id;
-                        option.textContent = modelo.modelo;
+                        option.value = m.id;
+                        // Usa o campo correto da API e fallbacks
+                        option.textContent = (m.nome ?? m.modelo ?? m.name ?? '').toString();
+                        if (oldModeloId && Number(oldModeloId) === Number(m.id)) {
+                            option.selected = true;
+                        }
                         modeloSelect.appendChild(option);
                     });
 
-                    // Ativa o dropdown de modelos
                     modeloSelect.disabled = false;
                 })
                 .catch(error => {
@@ -153,7 +158,9 @@
         }
 
         marcaSelect.addEventListener('change', function() {
-            const marcaId = this.value; 
+            // Ao trocar a marca, não reaproveitar o modelo anterior
+            oldModeloId = null;
+            const marcaId = this.value;
             carregarModelos(marcaId);
         });
 

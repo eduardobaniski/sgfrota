@@ -88,12 +88,6 @@
     </div>
   </div>
 
-  <div class="mt-4">{{ $items->withQueryString()->links() }}</div>
 
-  <!-- Placeholder para gráficos futuros usando /stats -->
-  <div class="mt-8">
-    <h2 class="text-lg font-semibold text-gray-800 mb-2">Evolução mensal (em breve)</h2>
-    <p class="text-sm text-gray-500">Endpoint de dados: <code>/caminhoes/{{ $caminhao->id }}/consumos/stats?{{ http_build_query($filters) }}</code></p>
-  </div>
-</div>
+ 
 @endsection
