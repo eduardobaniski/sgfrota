@@ -23,23 +23,41 @@ class ViagemController extends Controller
         $estados = State::orderBy('name')->get();
         $motoristas = Motorista::orderBy('nome')->get(['id', 'nome']);
 
+        // Último odômetro conhecido para este caminhão
+        $lastFinal = Viagem::where('caminhao_id', $caminhao->id)
+            ->whereNotNull('odometroFinal')
+            ->max('odometroFinal');
+        $lastStart = Viagem::where('caminhao_id', $caminhao->id)
+            ->max('odometroInicio');
+        $ultimoOdometro = max((int)($lastFinal ?? 0), (int)($lastStart ?? 0));
+
         return view('viagens.create', [
             'caminhao' => $caminhao,
             'estados' => $estados, // Envia a lista de estados para a view
             'motoristas' => $motoristas,
+            'ultimoOdometro' => $ultimoOdometro,
         ]);
     }
 
      public function store(Request $request)
     {
-        // 1. Valida os dados recebidos do formulário
+        // 1. Valida os dados recebidos do formulário (regras básicas)
+        $request->validate([
+            'caminhao_id'   => 'required|exists:caminhoes,id',
+            'motorista_id'  => 'required|exists:motoristas,id',
+            'origem_id'     => 'required|exists:cities,id',
+            'destino_id'    => 'required|exists:cities,id|different:origem_id',
+            'data_inicio'   => 'required|date',
+            'odometroInicio'=> 'required|integer|min:0',
+        ]);
+
         $dadosValidados = [
-            'caminhao_id' => $request->input('caminhao_id'),
-            'odometroInicio' => $request->input('odometroInicio'),
+            'caminhao_id' => (int) $request->input('caminhao_id'),
+            'odometroInicio' => (int) $request->input('odometroInicio'),
             'dataInicio' => $request->input('data_inicio'),
-            'cidadeOrigem' => $request->input('origem_id'),
-            'cidadeDestino' => $request->input('destino_id'),
-            'motorista_id' => $request->input('motorista_id'),
+            'cidadeOrigem' => (int) $request->input('origem_id'),
+            'cidadeDestino' => (int) $request->input('destino_id'),
+            'motorista_id' => (int) $request->input('motorista_id'),
         ];
 
 
@@ -53,11 +71,26 @@ class ViagemController extends Controller
                          ->with('error', "Não foi possível iniciar a viagem. O caminhão {$caminhao->placa} já está em trânsito ou em manutenção.");
         }
 
-        // 4. Cria a nova viagem no banco de dados
+        // 4. Regra de negócio: odômetro inicial não pode ser menor do que qualquer outro já relatado para este caminhão
+        // Busca o maior odômetro anterior deste caminhão (considera finais e, na falta, inícios)
+        $lastFinal = Viagem::where('caminhao_id', $dadosValidados['caminhao_id'])
+            ->whereNotNull('odometroFinal')
+            ->max('odometroFinal');
+        $lastStart = Viagem::where('caminhao_id', $dadosValidados['caminhao_id'])
+            ->max('odometroInicio');
+        $ultimoOdometro = max((int)($lastFinal ?? 0), (int)($lastStart ?? 0));
+
+        if ($dadosValidados['odometroInicio'] < $ultimoOdometro) {
+            return back()->withErrors([
+                'odometroInicio' => "O odômetro inicial ({$dadosValidados['odometroInicio']}) não pode ser inferior ao último registrado ({$ultimoOdometro}).",
+            ])->withInput();
+        }
+
+        // 5. Cria a nova viagem no banco de dados
         // A data_fim fica nula por defeito, o que define a viagem como "ativa".
         Viagem::create($dadosValidados);
 
-        // 5. Redireciona para o dashboard com uma mensagem de sucesso
+        // 6. Redireciona para o dashboard com uma mensagem de sucesso
         return redirect()->route('dashboard')->with('success', "Viagem para o caminhão {$caminhao->placa} iniciada com sucesso!");
     }
 
@@ -67,10 +100,22 @@ class ViagemController extends Controller
         $estados = State::orderBy('name')->get();
         $motoristas = Motorista::orderBy('nome')->get(['id', 'nome']);
 
+        // Sugerir odômetro final padrão: pelo menos o maior entre o odômetro de início desta viagem e o último conhecido de outras viagens do mesmo caminhão
+        $lastFinal = Viagem::where('caminhao_id', $viagem->caminhao_id)
+            ->where('id', '!=', $viagem->id)
+            ->whereNotNull('odometroFinal')
+            ->max('odometroFinal');
+        $lastStart = Viagem::where('caminhao_id', $viagem->caminhao_id)
+            ->where('id', '!=', $viagem->id)
+            ->max('odometroInicio');
+        $ultimoOdometroOutras = max((int)($lastFinal ?? 0), (int)($lastStart ?? 0));
+        $sugestaoOdometroFinal = max((int)($viagem->odometroInicio ?? 0), $ultimoOdometroOutras);
+
         return view('viagens.edit', [
             'viagem' => $viagem,
             'estados' => $estados,
             'motoristas' => $motoristas,
+            'sugestaoOdometroFinal' => $sugestaoOdometroFinal,
         ]);
     }
 
@@ -89,6 +134,33 @@ class ViagemController extends Controller
 
         if ($action === 'save') {
             // Salva somente alterações sem finalizar
+            // Regras básicas de validação
+            $request->validate([
+                'motorista_id' => 'nullable|exists:motoristas,id',
+                'cidadeOrigem' => 'nullable|exists:cities,id',
+                'cidadeDestino'=> 'nullable|exists:cities,id',
+                'dataInicio'   => 'nullable|date',
+                'odometroInicio'=> 'nullable|integer|min:0',
+            ]);
+
+            // Se informar odômetro inicial, garantir que não seja inferior ao último registrado (excluindo a própria viagem)
+            if ($request->filled('odometroInicio')) {
+                $lastFinal = Viagem::where('caminhao_id', $viagem->caminhao_id)
+                    ->where('id', '!=', $viagem->id)
+                    ->whereNotNull('odometroFinal')
+                    ->max('odometroFinal');
+                $lastStart = Viagem::where('caminhao_id', $viagem->caminhao_id)
+                    ->where('id', '!=', $viagem->id)
+                    ->max('odometroInicio');
+                $ultimoOdometro = max((int)($lastFinal ?? 0), (int)($lastStart ?? 0));
+
+                if ((int)$request->input('odometroInicio') < $ultimoOdometro) {
+                    return back()->withErrors([
+                        'odometroInicio' => "O odômetro inicial (".$request->input('odometroInicio').") não pode ser inferior ao último registrado ({$ultimoOdometro}).",
+                    ])->withInput();
+                }
+            }
+
             $viagem->update(array_filter($dadosIniciais, fn($v) => $v !== null && $v !== ''));
             return redirect()->route('viagens.edit', $viagem)->with('success', 'Alterações da viagem salvas com sucesso!');
         }
@@ -98,6 +170,28 @@ class ViagemController extends Controller
             'dataFim' => $request->input('dataFim'),
             'odometroFinal' => $request->input('odometroFinal'),
         ];
+
+        // Validações para finalização
+        $request->validate([
+            'dataFim' => 'required|date',
+            'odometroFinal' => 'required|integer|min:0',
+        ]);
+
+        $lastFinal = Viagem::where('caminhao_id', $viagem->caminhao_id)
+            ->where('id', '!=', $viagem->id)
+            ->whereNotNull('odometroFinal')
+            ->max('odometroFinal');
+        $lastStart = Viagem::where('caminhao_id', $viagem->caminhao_id)
+            ->where('id', '!=', $viagem->id)
+            ->max('odometroInicio');
+        $ultimoOdometro = max((int)($lastFinal ?? 0), (int)($lastStart ?? 0), (int)($viagem->odometroInicio ?? 0));
+
+        $odometroFinalInformado = (int)$request->input('odometroFinal');
+        if ($odometroFinalInformado < $ultimoOdometro) {
+            return back()->withErrors([
+                'odometroFinal' => "O odômetro final ({$odometroFinalInformado}) não pode ser inferior ao último registrado ({$ultimoOdometro}).",
+            ])->withInput();
+        }
 
         $viagem->update(array_filter($dadosFinal, fn($v) => $v !== null && $v !== ''));
 

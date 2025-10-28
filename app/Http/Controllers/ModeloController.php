@@ -8,18 +8,39 @@ use Illuminate\Http\Request;
 
 class ModeloController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $modelos = Modelo::with('marca')->orderBy('nome')->paginate(10);
+        $q = trim((string) $request->input('q', ''));
+        $perPage = (int) $request->input('per_page', 10);
+        $perPage = in_array($perPage, [10, 25, 50, 100], true) ? $perPage : 10;
 
-        return view('admin.gerenciar.modelo.index', ['modelos' => $modelos]);
+        // Ordena alfabeticamente pelo nome do modelo e permite busca por modelo ou marca
+        $modelos = Modelo::with('marca')
+            ->when($q !== '', function ($query) use ($q) {
+                $query->where(function ($sub) use ($q) {
+                    $sub->where('modelo', 'like', "%{$q}%")
+                        ->orWhereHas('marca', function ($qMarca) use ($q) {
+                            $qMarca->where('marca', 'like', "%{$q}%");
+                        });
+                });
+            })
+            ->orderBy('modelo')
+            ->paginate($perPage)
+            ->withQueryString();
+
+        return view('admin.gerenciar.modelo.index', [
+            'modelos' => $modelos,
+            'q' => $q,
+            'perPage' => $perPage,
+        ]);
     }
 
     public function edit(Modelo $modelo)
     {
         // O Laravel já encontra o modelo pelo ID.
         // Também buscamos todas as marcas para popular o dropdown de seleção de marca.
-        $marcas = Marca::orderBy('nome')->get();
+    // Corrige ordenação por coluna existente na tabela de marcas
+    $marcas = Marca::orderBy('marca')->get();
 
         return view('admin.gerenciar.modelo.edit', [
             'modelo' => $modelo,

@@ -39,7 +39,9 @@ class Viagem extends Model
     
     public function motorista(): BelongsTo
     {
-        return $this->belongsTo(Motorista::class);
+        // Permite carregar motoristas que foram soft-deletados,
+        // para consultas históricas de viagens.
+        return $this->belongsTo(Motorista::class)->withTrashed();
     }
     
     public function abastecimentos()

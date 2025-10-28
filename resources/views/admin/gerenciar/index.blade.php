@@ -70,5 +70,35 @@
             </div>
         </a>
 
+        <!-- Botão: Gerir Estados -->
+        <a href="{{ route('admin.gerenciar.estado.index') }}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+            <div class="flex items-center">
+                <div class="p-3 bg-yellow-100 rounded-full">
+                    <svg class="w-8 h-8 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                    </svg>
+                </div>
+                <div class="ml-5">
+                    <h2 class="text-xl font-bold text-gray-800">Estados</h2>
+                    <p class="text-gray-500 mt-1">Editar e apagar estados</p>
+                </div>
+            </div>
+        </a>
+
+        <!-- Botão: Gerir Cidades -->
+        <a href="{{ route('admin.gerenciar.cidade.index') }}" class="block p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+            <div class="flex items-center">
+                <div class="p-3 bg-orange-100 rounded-full">
+                    <svg class="w-8 h-8 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5l9-4.5 9 4.5M4.5 10.5h15V21H4.5V10.5z" />
+                    </svg>
+                </div>
+                <div class="ml-5">
+                    <h2 class="text-xl font-bold text-gray-800">Cidades</h2>
+                    <p class="text-gray-500 mt-1">Editar e apagar cidades</p>
+                </div>
+            </div>
+        </a>
+
     </div>
 @endsection

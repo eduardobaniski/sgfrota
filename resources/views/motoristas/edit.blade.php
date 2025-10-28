@@ -48,6 +48,17 @@
                 @enderror
             </div>
 
+            <!-- Campo Validade da CNH -->
+            <div>
+                <label for="cnh_validade" class="block text-sm font-medium text-gray-700">Validade da CNH</label>
+                <input type="date" id="cnh_validade" name="cnh_validade"
+                       value="{{ old('cnh_validade', optional($motorista->cnh_validade)->format('Y-m-d')) }}" required
+                       @class(['mt-1 block w-full p-2 border rounded-md shadow-sm', 'border-red-500' => $errors->has('cnh_validade'), 'border-gray-300' => ! $errors->has('cnh_validade')])>
+                @error('cnh_validade')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Campo Telefone -->
             <div>
                 <label for="telefone" class="block text-sm font-medium text-gray-700">Telefone</label>

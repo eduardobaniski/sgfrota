@@ -33,7 +33,30 @@ class AbastecimentoController extends Controller
     public function create(Request $request)
     {
         $defaults = $request->only(['caminhao_id', 'viagem_id', 'data']);
-        return view('abastecimentos.create', compact('defaults'));
+
+        $ultimoOdometro = null;
+        // Determina caminhao_id a partir dos defaults ou da viagem informada
+        $caminhaoId = $defaults['caminhao_id'] ?? null;
+        if (!$caminhaoId && !empty($defaults['viagem_id'])) {
+            $viagem = \App\Models\Viagem::find($defaults['viagem_id']);
+            if ($viagem) {
+                $caminhaoId = $viagem->caminhao_id;
+            }
+        }
+
+        if ($caminhaoId) {
+            // Maior odômetro de abastecimentos anteriores para este caminhão
+            $odoAbast = Abastecimento::where('caminhao_id', $caminhaoId)->max('odometro');
+            // Maior odômetro registrado em viagens (final e início) para este caminhão
+            $odoViagemFinal = \App\Models\Viagem::where('caminhao_id', $caminhaoId)->whereNotNull('odometroFinal')->max('odometroFinal');
+            $odoViagemInicio = \App\Models\Viagem::where('caminhao_id', $caminhaoId)->max('odometroInicio');
+            $ultimoOdometro = max((int)($odoAbast ?? 0), (int)($odoViagemFinal ?? 0), (int)($odoViagemInicio ?? 0));
+            if ($ultimoOdometro === 0) {
+                $ultimoOdometro = null; // evita mostrar 0 quando não há histórico
+            }
+        }
+
+        return view('abastecimentos.create', compact('defaults', 'ultimoOdometro'));
     }
 
     public function edit(Abastecimento $abastecimento)

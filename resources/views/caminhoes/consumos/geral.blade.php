@@ -11,18 +11,27 @@
     <a href="{{ route('caminhoes.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Voltar</a>
   </div>
 
-  <form method="GET" class="mt-4 grid grid-cols-1 md:grid-cols-4 gap-4">
-    <div>
+  <form method="GET" class="mt-4 flex flex-wrap items-end gap-4">
+    <div class="w-44">
       <label for="data_inicio" class="block text-sm font-medium text-gray-700">Início</label>
       <input type="date" id="data_inicio" name="data_inicio" value="{{ $filters['data_inicio'] ?? '' }}" class="mt-1 block w-full p-2 border rounded-md shadow-sm border-gray-300">
     </div>
-    <div>
+    <div class="w-44">
       <label for="data_fim" class="block text-sm font-medium text-gray-700">Fim</label>
       <input type="date" id="data_fim" name="data_fim" value="{{ $filters['data_fim'] ?? '' }}" class="mt-1 block w-full p-2 border rounded-md shadow-sm border-gray-300">
     </div>
-    <div class="flex items-end">
-      <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filtrar</button>
+    <div class="w-64">
+      <label for="search" class="block text-sm font-medium text-gray-700">Pesquisar</label>
+      <input type="text" id="search" name="search" placeholder="Placa, modelo ou marca" value="{{ $filters['search'] ?? '' }}" class="mt-1 block w-full p-2 border rounded-md shadow-sm border-gray-300">
     </div>
+    <div class="flex items-end">
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filtrar</button>
+    </div>
+    @if(!empty($filters['data_inicio']) || !empty($filters['data_fim']) || !empty($filters['search']))
+      <div class="flex items-end">
+        <a href="{{ route('caminhoes.consumos.geral') }}" class="text-sm text-gray-600 underline">Limpar</a>
+      </div>
+    @endif
   </form>
 
   <div class="mt-6 overflow-hidden rounded-lg border border-gray-200">

@@ -1,14 +1,13 @@
 @extends('layout')
-@section('title', 'Editar Marcas')
+@section('title', 'Gerir Cidades')
 @section('content')
-    {{-- Cabeçalho da Página --}}
     <div class="flex justify-end items-center mb-6">
-        <a href="{{ route('cadastro.marca.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
-            + Adicionar Nova Marca
+        <a href="{{ route('cadastro.cidade.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+            + Adicionar Nova Cidade
         </a>
     </div>
 
-     @if (session('success'))
+    @if (session('success'))
         <div class="bg-green-100 border-green-500 text-green-700 p-4 mb-6" role="alert">
             <p>{{ session('success') }}</p>
         </div>
@@ -20,12 +19,9 @@
         </div>
     @endif
 
-    {{-- Barra de Busca --}}
-    
-    {{-- Tabela de Marcas --}}
     <div class="bg-white p-8 rounded-lg shadow-md">
         <form method="GET" action="{{ url()->current() }}" class="flex flex-wrap items-center gap-3 mb-4">
-            <input type="text" name="q" value="{{ request('q') }}" placeholder="Buscar marca..."
+            <input type="text" name="q" value="{{ request('q') }}" placeholder="Buscar cidade ou estado..."
                    class="border border-gray-300 rounded px-3 py-2 w-64">
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
                 Buscar
@@ -37,26 +33,19 @@
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
-                    {{-- Removido o cabeçalho de ID --}}
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Nome da Marca
-                    </th>
-                    <th scope="col" class="relative px-6 py-3">
-                        <span class="sr-only">Ações</span>
-                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cidade</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                    <th class="relative px-6 py-3"><span class="sr-only">Ações</span></th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                @forelse ($marcas as $marca)
+                @forelse ($cidades as $cidade)
                     <tr>
-                        {{-- Removido o ID --}}
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $marca->marca }}
-                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $cidade->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $cidade->state->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
-                            <a href="{{ route('admin.gerenciar.marca.edit', $marca->id) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
-                            
-                            <form action="{{ route('admin.gerenciar.marca.destroy', $marca->id) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja apagar esta marca?');">
+                            <a href="{{ route('admin.gerenciar.cidade.edit', $cidade->id) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
+                            <form action="{{ route('admin.gerenciar.cidade.destroy', $cidade->id) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja apagar esta cidade?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:text-red-900">Apagar</button>
@@ -64,19 +53,15 @@
                         </td>
                     </tr>
                 @empty
-                    {{-- Esta mensagem é exibida se $marcas estiver vazio --}}
                     <tr>
-                        <td colspan="2" class="px-6 py-4 text-center text-sm text-gray-500">
-                            Nenhuma marca encontrada.
-                        </td>
+                        <td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">Nenhuma cidade encontrada.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
 
-        {{-- Links de Paginação (mantém a busca) --}}
         <div class="mt-6">
-            {{ $marcas->appends(request()->query())->links() }}
+            {{ $cidades->appends(request()->query())->links() }}
         </div>
     </div>
 @endsection

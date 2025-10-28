@@ -12,6 +12,17 @@
   </div>
 
   <div class="mt-6 overflow-hidden rounded-lg border border-gray-200">
+    <!-- Barra de Pesquisa -->
+    <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
+      <form action="{{ route('caminhoes.index') }}" method="GET" class="flex items-center gap-3">
+        <input type="text" name="search" placeholder="Pesquisar por placa, modelo ou marca..." value="{{ request('search') }}"
+               class="w-64 p-2 border rounded-md" />
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">Pesquisar</button>
+        @if(request()->filled('search'))
+          <a href="{{ route('caminhoes.index') }}" class="text-sm text-gray-600 underline">Limpar</a>
+        @endif
+      </form>
+    </div>
     <div class="overflow-x-auto">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">

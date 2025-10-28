@@ -46,8 +46,11 @@
 
         <div>
           <label for="odometro" class="block text-sm font-medium text-gray-700">Odômetro</label>
-          <input type="number" id="odometro" name="odometro" value="{{ old('odometro') }}" min="0"
+          <input type="number" id="odometro" name="odometro" value="{{ old('odometro', $ultimoOdometro ?? '') }}" min="0"
                  @class(['mt-1 block w-full p-2 border rounded-md shadow-sm', 'border-red-500' => $errors->has('odometro'), 'border-gray-300' => ! $errors->has('odometro')])>
+          @if(isset($ultimoOdometro))
+            <p class="text-xs text-gray-500 mt-1">Último odômetro conhecido: <span class="font-medium">{{ number_format($ultimoOdometro, 0, ',', '.') }} km</span></p>
+          @endif
           @error('odometro')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
           @enderror

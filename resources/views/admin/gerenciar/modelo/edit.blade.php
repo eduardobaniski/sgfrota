@@ -25,7 +25,7 @@
                 <select id="marca_id" name="marca_id" required
                         class="mt-1 block w-full p-2 border rounded-md shadow-sm @error('marca_id') border-red-500 @else border-gray-300 @enderror">
                     <option value="" disabled>Selecione uma marca</option>
-                    @foreach ($marcas as $marca)
+                    @foreach ($marcas->sortBy('marca') as $marca)
                         <option value="{{ $marca->id }}" 
                             {{-- Seleciona a marca atual do modelo --}}
                             @if($marca->id == old('marca_id', $modelo->marca_id)) selected @endif>

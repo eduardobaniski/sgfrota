@@ -115,7 +115,7 @@
                 <!-- Campo Data de Início (para edição) -->
                 <div class="mb-4">
                     <label for="dataInicio" class="block text-sm font-medium text-gray-700">Data de Início</label>
-                    <input type="date" id="dataInicio" name="dataInicio" value="{{ old('dataInicio', \Carbon\Carbon::parse($viagem->dataInicio)->format('Y-m-d')) }}" class="mt-1 block w-full p-2 border rounded-md shadow-sm">
+                    <input type="date" id="dataInicio" name="dataInicio" value="{{ old('dataInicio', \Carbon\Carbon::parse($viagem->dataInicio)->format('Y-m-d')) }}" max="{{ now()->format('Y-m-d') }}" class="mt-1 block w-full p-2 border rounded-md shadow-sm">
                 </div>
 
                 <!-- Campo Odômetro Inicial (para edição) -->
@@ -132,12 +132,12 @@
             <!-- Data de Fim -->
             <div class="mb-4">
                 <label for="dataFim" class="block text-sm font-medium text-gray-700">Data de Finalização</label>
-                <input type="date" id="dataFim" name="dataFim" value="{{ old('dataFim', now()->format('Y-m-d')) }}" required class="mt-1 block w-full p-2 border rounded-md shadow-sm">
+                <input type="date" id="dataFim" name="dataFim" value="{{ old('dataFim', now()->format('Y-m-d')) }}" max="{{ now()->format('Y-m-d') }}" required class="mt-1 block w-full p-2 border rounded-md shadow-sm">
             </div>
             <!-- Odômetro Final -->
             <div class="mb-6">
                 <label for="odometroFinal" class="block text-sm font-medium text-gray-700">Odômetro Final (km)</label>
-                <input type="number" id="odometroFinal" name="odometroFinal" value="{{ old('odometroFinal') }}"  class="mt-1 block w-full p-2 border rounded-md shadow-sm">
+                <input type="number" id="odometroFinal" name="odometroFinal" value="{{ old('odometroFinal', $viagem->odometroFinal ?? ($sugestaoOdometroFinal ?? '') ) }}"  class="mt-1 block w-full p-2 border rounded-md shadow-sm">
             </div>
             
             <!-- Botões de Ação -->
@@ -163,6 +163,16 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Limitar datas futuras no frontend (usa o fuso do cliente)
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const todayStr = `${yyyy}-${mm}-${dd}`;
+            const dataInicioEl = document.getElementById('dataInicio');
+            const dataFimEl = document.getElementById('dataFim');
+            if (dataInicioEl) dataInicioEl.max = todayStr;
+            if (dataFimEl) dataFimEl.max = todayStr;
             const botaoEditar = document.getElementById('botao-editar-dados');
             const containerBotao = document.getElementById('botao-editar-container');
             const detalhesReadonly = document.getElementById('detalhes-viagem-readonly');

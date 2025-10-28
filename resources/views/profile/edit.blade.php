@@ -13,7 +13,7 @@
             </div>
         @endif
 
-        <form action="{{-- route('profile.update') --}}" method="POST">
+    <form action="{{-- route('profile.update') --}}" method="POST" id="profile_form">
             @csrf
             @method('PUT') {{-- Ou PATCH --}}
 
@@ -54,6 +54,7 @@
                 <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirmar Nova Senha</label>
                 <input type="password" id="password_confirmation" name="password_confirmation"
                        class="mt-1 block w-full p-2 border rounded-md shadow-sm border-gray-300">
+                <p id="password_match_error" class="text-red-500 text-xs mt-1 hidden">As senhas não coincidem.</p>
             </div>
 
             <!-- Botão de Submissão -->
@@ -64,4 +65,39 @@
             </div>
         </form>
     </div>
+    <script>
+        (function(){
+            const form = document.getElementById('profile_form');
+            if (!form) return;
+            const pwd = document.getElementById('password');
+            const confirm = document.getElementById('password_confirmation');
+            const err = document.getElementById('password_match_error');
+
+            function checkMatch(){
+                // Só valida se o usuário estiver tentando alterar a senha
+                if (!pwd.value && !confirm.value) {
+                    err.classList.add('hidden');
+                    confirm.classList.remove('border-red-500');
+                    return true;
+                }
+                const ok = pwd.value === confirm.value && pwd.value.length > 0;
+                if (!ok) {
+                    err.classList.remove('hidden');
+                    confirm.classList.add('border-red-500');
+                } else {
+                    err.classList.add('hidden');
+                    confirm.classList.remove('border-red-500');
+                }
+                return ok;
+            }
+
+            pwd.addEventListener('input', checkMatch);
+            confirm.addEventListener('input', checkMatch);
+            form.addEventListener('submit', function(e){
+                if (!checkMatch()) {
+                    e.preventDefault();
+                }
+            });
+        })();
+    </script>
 @endsection

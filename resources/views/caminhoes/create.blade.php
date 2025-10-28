@@ -39,7 +39,7 @@
                             class="mt-1 block w-full p-2 border rounded-md shadow-sm @error('modelo_id') border-red-500 @else border-gray-300 @enderror" disabled>
                         <option value="" selected disabled>Selecione a marca primeiro</option>
                     </select>
-                     @error('modelo_id')
+                    @error('modelo_id')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -63,13 +63,23 @@
                     @enderror
                 </div>
 
-                <!-- Campo Ano de Fabricação -->
-                <div class="md:col-span-2">
+                <!-- Ano de Fabricação -->
+                <div>
                     <label for="ano_fabricacao" class="block text-sm font-medium text-gray-700">Ano de Fabricação</label>
                     <input type="number" id="ano_fabricacao" name="ano_fabricacao" value="{{ old('ano_fabricacao') }}" required
                            placeholder="Ex: 2023"
                            class="mt-1 block w-full p-2 border rounded-md shadow-sm @error('ano_fabricacao') border-red-500 @else border-gray-300 @enderror">
                     @error('ano_fabricacao')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                <!-- Ano do Modelo -->
+                <div>
+                    <label for="ano_modelo" class="block text-sm font-medium text-gray-700">Ano do Modelo</label>
+                    <input type="number" id="ano_modelo" name="ano_modelo" value="{{ old('ano_modelo') }}" required
+                           placeholder="Ex: 2024"
+                           class="mt-1 block w-full p-2 border rounded-md shadow-sm @error('ano_modelo') border-red-500 @else border-gray-300 @enderror">
+                    @error('ano_modelo')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -118,12 +128,17 @@
         // --- FIM: LÓGICA DE VALIDAÇÃO DA PLACA ---
         
         const marcaSelect = document.getElementById('marca');
-        const modeloSelect = document.getElementById('modelo');
+    const modeloSelect = document.getElementById('modelo');
 
-        // Preserva o modelo selecionado após erro de validação
         let oldModeloId = @json(old('modelo_id'));
 
-        function carregarModelos(marcaId) {
+        function qs(params) {
+            const sp = new URLSearchParams(params);
+            const str = sp.toString();
+            return str ? `?${str}` : '';
+        }
+
+        function carregarModelos(marcaId, q = '') {
             if (!marcaId) {
                 modeloSelect.innerHTML = '<option selected disabled>Selecione a marca primeiro</option>';
                 modeloSelect.disabled = true;
@@ -133,7 +148,7 @@
             modeloSelect.innerHTML = '<option>A carregar...</option>';
             modeloSelect.disabled = true;
 
-            fetch(`/api/marcas/${marcaId}/modelos`)
+            fetch(`/api/marcas/${marcaId}/modelos${qs({ q })}`)
                 .then(response => response.json())
                 .then(modelos => {
                     modeloSelect.innerHTML = '<option value="" selected disabled>Selecione um modelo</option>';
@@ -141,7 +156,6 @@
                     modelos.forEach(m => {
                         const option = document.createElement('option');
                         option.value = m.id;
-                        // Usa o campo correto da API e fallbacks
                         option.textContent = (m.nome ?? m.modelo ?? m.name ?? '').toString();
                         if (oldModeloId && Number(oldModeloId) === Number(m.id)) {
                             option.selected = true;
@@ -158,10 +172,9 @@
         }
 
         marcaSelect.addEventListener('change', function() {
-            // Ao trocar a marca, não reaproveitar o modelo anterior
             oldModeloId = null;
-            const marcaId = this.value;
-            carregarModelos(marcaId);
+            modeloSearch.value = '';
+            carregarModelos(this.value);
         });
 
         if (marcaSelect.value) {

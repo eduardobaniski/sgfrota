@@ -7,13 +7,20 @@ use App\Models\Marca;
 
 class MarcaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Busca todas as marcas, ordenadas por nome
-        $marcas = Marca::orderBy('nome')->paginate(10); // Usar paginate para listas longas
+        $q = trim((string) $request->input('q', ''));
+        $perPage = (int) $request->input('per_page', 10);
+        $perPage = in_array($perPage, [10, 25, 50, 100], true) ? $perPage : 10;
+
+        $marcas = Marca::query()
+            ->when($q !== '', fn ($query) => $query->where('marca', 'like', "%{$q}%"))
+            ->orderBy('marca') // ordenação alfabética
+            ->paginate($perPage)
+            ->withQueryString();
 
         // Retorna a view da tabela de gestão
-        return view('admin.gerenciar.marca.index', ['marcas' => $marcas]);
+        return view('admin.gerenciar.marca.index', ['marcas' => $marcas, 'q' => $q, 'perPage' => $perPage]);
     }
 
     public function create()

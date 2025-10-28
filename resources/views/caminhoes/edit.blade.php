@@ -55,6 +55,11 @@
                     <input type="number" id="ano_fabricacao" name="ano_fabricacao" value="{{ old('ano_fabricacao', $caminhao->ano_fabricacao) }}" required
                            class="mt-1 block w-full p-2 border rounded-md shadow-sm">
                 </div>
+                <div class="md:col-span-2">
+                    <label for="ano_modelo" class="block text-sm font-medium text-gray-700">Ano do Modelo</label>
+                    <input type="number" id="ano_modelo" name="ano_modelo" value="{{ old('ano_modelo', $caminhao->ano_modelo) }}"
+                           class="mt-1 block w-full p-2 border rounded-md shadow-sm">
+                </div>
             </div>
 
             <!-- Botões de Ação -->

@@ -11,7 +11,7 @@ class CaminhoesConsumoGeralController extends Controller
 {
     public function index(Request $request)
     {
-        $filters = $request->only(['data_inicio', 'data_fim']);
+    $filters = $request->only(['data_inicio', 'data_fim', 'search']);
 
         $sub = Abastecimento::select('caminhao_id')
             ->selectRaw('COALESCE(SUM(litros),0) as total_litros')
@@ -26,7 +26,7 @@ class CaminhoesConsumoGeralController extends Controller
             ? "CONCAT(COALESCE(marcas.marca,''), ' ', COALESCE(modelos.modelo,''))"
             : "(COALESCE(marcas.marca,'') || ' ' || COALESCE(modelos.modelo,''))"; // sqlite/pgsql
 
-        $caminhoes = Caminhao::query()
+        $caminhoesQuery = Caminhao::query()
             ->leftJoinSub($sub, 'agg', 'agg.caminhao_id', '=', 'caminhoes.id')
             ->leftJoin('modelos', 'modelos.id', '=', 'caminhoes.modelo_id')
             ->leftJoin('marcas', 'marcas.id', '=', 'modelos.marca_id')
@@ -34,8 +34,18 @@ class CaminhoesConsumoGeralController extends Controller
             ->selectRaw('COALESCE(agg.total_litros,0) as total_litros')
             ->selectRaw('COALESCE(agg.total_gasto,0) as total_gasto')
             ->selectRaw('COALESCE(agg.abastecimentos,0) as abastecimentos')
-            ->addSelect(DB::raw("$concatExpr as modelo_nome"))
-            ->orderBy('placa')
+            ->addSelect(DB::raw("$concatExpr as modelo_nome"));
+
+        // Filtro de busca por placa, modelo ou marca
+        if (!empty($filters['search'])) {
+            $term = '%' . $filters['search'] . '%';
+            $caminhoesQuery->where(function($q) use ($term, $concatExpr) {
+                $q->where('placa', 'like', $term)
+                  ->orWhereRaw("$concatExpr like ?", [$term]);
+            });
+        }
+
+        $caminhoes = $caminhoesQuery->orderBy('placa')
             ->paginate(15)
             ->withQueryString();
 

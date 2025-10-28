@@ -31,14 +31,22 @@ class CaminhaoController extends Controller
 
     public function store(Request $request)
     {
+        // Validação simples
+        $dados = $request->validate([
+            'modelo_id' => 'required|exists:modelos,id',
+            'ano_fabricacao' => 'required|integer|min:1900|max:' . (date('Y') + 1),
+            'ano_modelo' => 'required|integer|min:1900|max:' . (date('Y') + 2),
+            'placa' => 'required|string|size:7',
+            'renavam' => 'required|string|size:11',
+        ]);
+
         // Cria o caminhão no banco de dados
         Caminhao::create([
-            //dados do caminhão
-            'modelo_id' => $request->input('modelo_id'),
-            'ano_fabricacao' => $request->input('ano_fabricacao'),
-            'placa' => strtoupper($request->input('placa')),
-            'renavam' => $request->input('renavam'),
-            'status' => $request->input('status', 'Disponível'), // Valor padrão se não fornecido
+            'modelo_id' => $dados['modelo_id'],
+            'ano_fabricacao' => $dados['ano_fabricacao'],
+            'ano_modelo' => $dados['ano_modelo'],
+            'placa' => strtoupper($dados['placa']),
+            'renavam' => $dados['renavam'],
         ]);
 
         // Redireciona para uma futura página de listagem com uma mensagem de sucesso
@@ -59,10 +67,15 @@ class CaminhaoController extends Controller
 
     public function update(Request $request, Caminhao $caminhao)
     {
-        // Pega todos os dados do formulário
-        $dados = $request->all();
+        $dados = $request->validate([
+            'modelo_id' => 'required|exists:modelos,id',
+            'ano_fabricacao' => 'required|integer|min:1900|max:' . (date('Y') + 1),
+            'ano_modelo' => 'required|integer|min:1900|max:' . (date('Y') + 2),
+            'placa' => 'required|string|size:7',
+            'renavam' => 'required|string|size:11',
+        ]);
 
-        // Atualiza o caminhão com os dados recebidos
+        $dados['placa'] = strtoupper($dados['placa']);
         $caminhao->update($dados);
 
         // Idealmente, redirecionaria para a página de listagem de caminhões
@@ -89,7 +102,15 @@ class CaminhaoController extends Controller
 
         if ($request->filled('search')) {
             $search = $request->input('search');
-            $query->where('placa', 'like', "%{$search}%");
+            $query->where(function($q) use ($search) {
+                $q->where('placa', 'like', "%{$search}%")
+                  ->orWhereHas('modelo', function($q2) use ($search) {
+                      $q2->where('modelo', 'like', "%{$search}%")
+                         ->orWhereHas('marca', function($q3) use ($search) {
+                             $q3->where('marca', 'like', "%{$search}%");
+                         });
+                  });
+            });
         }
 
         $caminhoes = $query->paginate($perPage)->withQueryString();

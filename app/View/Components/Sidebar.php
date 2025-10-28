@@ -68,8 +68,16 @@ class Sidebar extends Component
                 'url' => route('admin.gerenciar.modelo.index'),
             ],
             [
-                'title' => 'Editar Usuários',
+                'title' => 'Editar Users',
                 'url' => route('admin.gerenciar.user.index'),
+            ],
+            [
+                'title' => 'Editar Estados',
+                'url' => route('admin.gerenciar.estado.index'),
+            ],
+            [
+                'title' => 'Editar Cidades',
+                'url' => route('admin.gerenciar.cidade.index'),
             ],
         ];
 

@@ -79,7 +79,7 @@
 
             <div class="mb-4">
                 <label for="odometroInicio" class="block text-sm font-medium text-gray-700">Odômetro Inicial (km)</label>
-                <input type="number" id="odometroInicio" name="odometroInicio" value="{{ old('odometroInicio') }}"
+                <input type="number" id="odometroInicio" name="odometroInicio" value="{{ old('odometroInicio', ($ultimoOdometro ?? 0) > 0 ? $ultimoOdometro : '') }}"
                     @class(['mt-1 block w-full p-2 border rounded-md shadow-sm', 'border-red-500' => $errors->has('odometroInicio'), 'border-gray-300' => ! $errors->has('odometroInicio')])>
                 @error('odometroInicio')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -90,6 +90,7 @@
             <div class="mb-6">
                 <label for="data_inicio" class="block text-sm font-medium text-gray-700">Data de Início</label>
                 <input type="date" id="data_inicio" name="data_inicio" value="{{ old('data_inicio', now()->format('Y-m-d')) }}" required
+                       max="{{ now()->format('Y-m-d') }}"
                        class="mt-1 block w-full p-2 border rounded-md shadow-sm">
             </div>
 
@@ -103,6 +104,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Limitar datas futuras no frontend (usa o fuso do cliente)
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const todayStr = `${yyyy}-${mm}-${dd}`;
+            const dataInicioEl = document.getElementById('data_inicio');
+            if (dataInicioEl) {
+                dataInicioEl.max = todayStr;
+            }
+
             // Captura todos os elementos no início
             const origemUfSelect = document.getElementById('origem_uf');
             const origemCidadeSelect = document.getElementById('origem_cidade');

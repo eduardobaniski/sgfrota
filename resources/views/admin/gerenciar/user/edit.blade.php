@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title', 'Editar Usuários')
+@section('title', 'Editar Users')
 @section('content')
 
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
@@ -8,7 +8,7 @@
             @method('PUT') {{-- Informa ao Laravel que esta é uma requisição de atualização --}}
 
            <div class="mb-4">
-                <label for="username" class="block text-sm font-medium text-gray-700">Nome de usuário</label>
+                <label for="username" class="block text-sm font-medium text-gray-700">Nome de user</label>
                 <input type="text" id="username" name="username" value="{{ old('username', $user->username) }}" required
                        class="mt-1 block w-full p-2 border rounded-md shadow-sm">
                 
@@ -23,6 +23,15 @@
                 @error('password')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <!-- Campo Confirmar Nova Senha (Opcional) -->
+            <div class="mb-6">
+                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirmar Nova Senha</label>
+                <input type="password" id="password_confirmation" name="password_confirmation"
+                       class="mt-1 block w-full p-2 border rounded-md shadow-sm border-gray-300"
+                       placeholder="Repita a nova senha">
+                <p id="password_match_error" class="text-red-500 text-xs mt-1 hidden">As senhas não coincidem.</p>
             </div>
 
             <!-- Campo Administrador (Checkbox) -->
@@ -48,4 +57,39 @@
             </div>
         </form>
     </div>
+    <script>
+        (function() {
+            const form = document.querySelector('form[action="{{ route('admin.gerenciar.user.update', $user->id) }}"]');
+            if (!form) return;
+            const pwd = form.querySelector('#password');
+            const pwd2 = form.querySelector('#password_confirmation');
+            const err = form.querySelector('#password_match_error');
+
+            function checkMatch() {
+                // Só valida se o campo de nova senha estiver preenchido
+                if (!pwd.value && !pwd2.value) {
+                    err.classList.add('hidden');
+                    pwd2.classList.remove('border-red-500');
+                    return true;
+                }
+                const match = pwd.value === pwd2.value && pwd.value.length > 0;
+                if (!match) {
+                    err.classList.remove('hidden');
+                    pwd2.classList.add('border-red-500');
+                } else {
+                    err.classList.add('hidden');
+                    pwd2.classList.remove('border-red-500');
+                }
+                return match;
+            }
+
+            pwd.addEventListener('input', checkMatch);
+            pwd2.addEventListener('input', checkMatch);
+            form.addEventListener('submit', function(e) {
+                if (!checkMatch()) {
+                    e.preventDefault();
+                }
+            });
+        })();
+    </script>
 @endsection

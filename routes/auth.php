@@ -69,6 +69,9 @@ Route::middleware(['auth'])->prefix('motoristas')->name('motorista.')->group(fun
 
     Route::put('/{motorista}', [MotoristaController::class, 'update'])->name('update');
     Route::delete('/{motorista}', [MotoristaController::class, 'destroy'])->name('destroy');
+
+    // Restaurar motorista (soft-deleted)
+    Route::put('/{id}/restaurar', [MotoristaController::class, 'restore'])->name('restore');
 });
 
 // Abastecimentos

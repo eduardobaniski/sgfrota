@@ -12,9 +12,11 @@ class Caminhao extends Model
     protected $fillable = [
         'modelo_id',
         'ano_fabricacao',
+        'ano_modelo',
         'placa',
         'renavam',
     ];
+    
 
     // Um Caminhão pertence a um Modelo
     public function modelo()
