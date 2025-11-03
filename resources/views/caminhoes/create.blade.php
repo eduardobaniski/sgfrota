@@ -173,7 +173,6 @@
 
         marcaSelect.addEventListener('change', function() {
             oldModeloId = null;
-            modeloSearch.value = '';
             carregarModelos(this.value);
         });
 

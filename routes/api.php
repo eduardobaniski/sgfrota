@@ -21,16 +21,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/marcas/{marca}/modelos', function (Request $request, Marca $marca) {
     $q = trim((string) $request->query('q', ''));
-    $query = $marca->modelos()->orderBy('nome');
+    // Na base atual a coluna correta é 'modelo'
+    $query = $marca->modelos()->orderBy('modelo');
 
     if ($q !== '') {
-        $query->where(function ($sub) use ($q) {
-            $sub->where('nome', 'like', "%{$q}%")
-                ->orWhere('modelo', 'like', "%{$q}%"); // fallback se a coluna for 'modelo'
-        });
+        $query->where('modelo', 'like', "%{$q}%");
     }
 
-    return response()->json($query->get());
+    return response()->json($query->get(['id','modelo']));
 });
 
 Route::get('/estados/{state}/cidades', function (State $state) {
