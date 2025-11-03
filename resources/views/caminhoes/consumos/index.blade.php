@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Consumo do Caminhão')
+@section('help')
+  <p>Analise os abastecimentos e indicadores de consumo do caminhão filtrando por período ou viagem.</p>
+  <p>Exporte os dados em CSV ou PDF para compartilhamento e confira os KPIs antes da tabela detalhada.</p>
+@endsection
 
 @section('content')
 <div class="bg-white p-8 rounded-lg shadow-md max-w-6xl mx-auto">

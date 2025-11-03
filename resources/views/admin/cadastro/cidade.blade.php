@@ -1,5 +1,10 @@
 {{-- filepath: resources/views/admin/cadastro/cidade.blade.php --}}
 @extends('layout')
+@section('title', 'Cadastrar Cidade')
+@section('help')
+    <p>Inclua novas cidades selecionando previamente o estado correspondente.</p>
+    <p>Após preencher o nome, salve para disponibilizar a cidade nas viagens e demais cadastros.</p>
+@endsection
 @section('content')
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
         <div class="mb-6">

@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Consumo Geral dos Caminhões')
+@section('help')
+  <p>Acompanhe o consumo consolidado de todos os caminhões num único painel.</p>
+  <p>Use os filtros para restringir por período ou texto e abra o link Consultar para detalhar um veículo.</p>
+@endsection
 
 @section('content')
 <div class="bg-white p-8 rounded-lg shadow-md max-w-6xl mx-auto">

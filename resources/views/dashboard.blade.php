@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Dashboard da Frota')
+@section('help')
+    <p>Esta visão geral lista rapidamente os caminhões disponíveis na frota e os principais alertas.</p>
+    <p>Abra um card para ver detalhes, iniciar viagens ou acessar dados específicos do veículo selecionado.</p>
+@endsection
 @props(['caminhoes'])
 @section('content')
     @if (session('success'))

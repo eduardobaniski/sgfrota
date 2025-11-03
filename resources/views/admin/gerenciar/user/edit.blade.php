@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Editar Users')
+@section('help')
+    <p>Ajuste login, senha e perfil de acesso do usuário escolhido.</p>
+    <p>Marque o status de Administrador quando precisar conceder permissões elevadas.</p>
+@endsection
 @section('content')
 
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">

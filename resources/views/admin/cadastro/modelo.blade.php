@@ -1,5 +1,10 @@
 {{-- filepath: c:\Users\cadub\sgfrota\resources\views\admin\cadastro\modelo.blade.php --}}
 @extends('layout')
+@section('title', 'Cadastrar Modelo')
+@section('help')
+    <p>Crie um modelo de veículo vinculando-o a uma marca existente.</p>
+    <p>Defina o nome e salve para utilizá-lo nos cadastros de caminhões.</p>
+@endsection
 @section('content')
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
         <div class="mb-6">

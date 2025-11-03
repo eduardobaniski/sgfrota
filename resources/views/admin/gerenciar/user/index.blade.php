@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Editar Users')
+@section('help')
+    <p>Gerencie contas de acesso existentes, ajustando permissões ou removendo usuários.</p>
+    <p>Use o botão para criar novos logins e os atalhos para editar ou excluir cada registro.</p>
+@endsection
 @section('content')
     {{-- Cabeçalho da Página --}}
     <div class="flex justify-between items-center mb-6">

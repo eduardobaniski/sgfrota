@@ -1,5 +1,11 @@
 @extends('layout')
 
+@section('title', 'Detalhe do Abastecimento')
+@section('help')
+  <p>Visualize todas as informações registradas para este abastecimento específico.</p>
+  <p>Utilize os botões no topo para editar os dados ou remover o lançamento.</p>
+@endsection
+
 @section('content')
 <div class="px-4 sm:px-6 lg:px-8">
   <div class="sm:flex sm:items-center sm:justify-between">

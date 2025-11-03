@@ -1,6 +1,10 @@
 @extends('layout')
 
 @section('title', 'Iniciar Nova Viagem')
+@section('help')
+    <p>Preencha os dados para iniciar uma nova viagem para o caminhão selecionado.</p>
+    <p>Escolha o motorista, defina origem e destino usando os estados e cidades disponíveis e informe o odômetro inicial.</p>
+@endsection
 
 @section('content')
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">

@@ -1,5 +1,11 @@
 @extends('layout')
 
+@section('title', 'Nova Marca')
+@section('help')
+    <p>Cadastre marcas de veículos que serão usadas nos modelos e caminhões.</p>
+    <p>Basta informar o nome e salvar para disponibilizá-la nas demais telas.</p>
+@endsection
+
 @section('content')
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Registar Nova Marca</h1>
 

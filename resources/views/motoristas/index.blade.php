@@ -1,6 +1,10 @@
 @extends('layout')
 
 @section('title', 'Gerenciar Motoristas')
+@section('help')
+    <p>Pesquise, filtre e mantenha o cadastro dos motoristas ativos ou inativos da frota.</p>
+    <p>Use os filtros para encontrar CNHs com vencimento e os botões para editar, restaurar ou excluir registros.</p>
+@endsection
 
 @section('content')
     {{-- Cabeçalho da Página --}}

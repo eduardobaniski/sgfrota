@@ -1,6 +1,10 @@
 @extends('layout')
 
 @section('title', 'Configurações do Perfil')
+@section('help')
+    <p>Atualize seu username ou redefina a senha da conta diretamente nesta tela.</p>
+    <p>Informe a senha atual para confirmar alterações de senha e salve ao finalizar.</p>
+@endsection
 
 @section('content')
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Configurações do Perfil</h1>

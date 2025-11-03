@@ -1,6 +1,10 @@
 @extends('layout')
 
 @section('title', 'Novo Caminhão')
+@section('help')
+    <p>Cadastre um caminhão informando marca, modelo, placa, RENAVAM e anos de fabricação/modelo.</p>
+    <p>Escolha a marca para liberar os modelos correspondentes e valide os campos antes de registrar.</p>
+@endsection
 
 @section('content')
     <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">

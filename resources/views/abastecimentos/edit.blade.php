@@ -1,5 +1,11 @@
 @extends('layout')
 
+@section('title', 'Editar Abastecimento')
+@section('help')
+  <p>Atualize um abastecimento existente ajustando valores ou vinculando a outra viagem.</p>
+  <p>Revise litros, preço e odômetro antes de salvar para manter os cálculos de consumo corretos.</p>
+@endsection
+
 @section('content')
 <div class="mt-6 bg-white p-8 rounded-lg shadow-md max-w-3xl mx-auto">
   <div class="px-4 sm:px-6 lg:px-8">

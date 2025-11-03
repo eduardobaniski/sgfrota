@@ -1,6 +1,10 @@
 @extends('layout')
 
 @section('title', 'Marcas')
+@section('help')
+    <p>Gerencie as marcas de veículos cadastradas para utilizar em modelos e caminhões.</p>
+    <p>Filtre a lista conforme necessário e use o link Editar para atualizar cada registro.</p>
+@endsection
 
 @section('content')
 <div class="bg-white p-6 rounded-lg shadow-md max-w-5xl mx-auto">

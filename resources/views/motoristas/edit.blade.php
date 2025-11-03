@@ -1,6 +1,10 @@
 @extends('layout')
 
 @section('title', 'Editar Motorista')
+@section('help')
+    <p>Altere os dados cadastrais de um motorista existente, mantendo CPF, CNH e contato atualizados.</p>
+    <p>Use o botão de exclusão para remover o registro ou salve após ajustar as informações necessárias.</p>
+@endsection
 
 @section('content')
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">

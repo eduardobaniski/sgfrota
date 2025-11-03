@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Gerenciar Dados do Sistema')
+@section('help')
+    <p>Escolha um módulo para administrar cadastros já existentes, como marcas, modelos e usuários.</p>
+    <p>Os cartões abaixo levam às telas de edição e exclusão dos dados principais do sistema.</p>
+@endsection
 @section('content')
 
     <p class="text-gray-600 mb-10">

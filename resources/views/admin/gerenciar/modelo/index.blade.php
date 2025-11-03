@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Editar Modelos')
+@section('help')
+    <p>Filtre modelos existentes e mantenha o relacionamento com as marcas em dia.</p>
+    <p>Use o botão Adicionar para criar novos modelos e os links para editar ou apagar registros.</p>
+@endsection
 @section('content')
     {{-- Cabeçalho da Página --}}
     <div class="flex justify-between items-center mb-6">

@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Editar Marca')
+@section('help')
+    <p>Altere o nome da marca selecionada e salve para atualizar os cadastros vinculados.</p>
+    <p>Volte à lista caso desista das alterações usando o botão Cancelar.</p>
+@endsection
 @section('content')
 
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">

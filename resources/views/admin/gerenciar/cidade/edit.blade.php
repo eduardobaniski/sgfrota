@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Editar Cidade')
+@section('help')
+    <p>Modifique o nome da cidade ou associe-a a outro estado quando necessário.</p>
+    <p>Finalize com Salvar Alterações ou clique em Cancelar para voltar à listagem.</p>
+@endsection
 @section('content')
 
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">

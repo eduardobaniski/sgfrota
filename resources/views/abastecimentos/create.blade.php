@@ -1,5 +1,11 @@
 @extends('layout')
 
+@section('title', 'Novo Abastecimento')
+@section('help')
+  <p>Registre um abastecimento informando caminhão, viagem, data e valores abastecidos.</p>
+  <p>Preencha litros e preço por litro para calcular automaticamente o valor total antes de salvar.</p>
+@endsection
+
 @section('content')
 
 <div class="mt-6 bg-white p-8 rounded-lg shadow-md max-w-3xl mx-auto">
