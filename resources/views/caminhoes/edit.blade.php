@@ -1,6 +1,10 @@
 @extends('layout')
 
 @section('title', 'Editar Caminhão')
+@section('help')
+    <p>Atualize os dados do caminhão selecionado, incluindo modelo, placa, RENAVAM e anos.</p>
+    <p>Escolha outra marca para recarregar os modelos disponíveis ou use o botão de exclusão quando necessário.</p>
+@endsection
 
 @section('content')
     <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">

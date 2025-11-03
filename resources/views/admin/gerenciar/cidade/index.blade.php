@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Gerir Cidades')
+@section('help')
+    <p>Administre cidades disponíveis para origens e destinos das viagens.</p>
+    <p>Pesquise por nome, edite estados associados ou exclua registros que não serão mais usados.</p>
+@endsection
 @section('content')
     <div class="flex justify-end items-center mb-6">
         <a href="{{ route('cadastro.cidade.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">

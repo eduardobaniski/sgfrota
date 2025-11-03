@@ -1,5 +1,11 @@
 @extends('layout')
 
+@section('title', 'Novo Usuário')
+@section('help')
+    <p>Crie contas de acesso para novos colaboradores do sistema.</p>
+    <p>Defina username, senha e marque Administrador caso precise de permissões ampliadas.</p>
+@endsection
+
 @section('content')
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Registar Novo User</h1>
 

@@ -1,6 +1,10 @@
 @extends('layout')
 
 @section('title', 'Gerenciar Viagem')
+@section('help')
+    <p>Revise ou finalize os dados da viagem atual, inclusive odômetro e datas.</p>
+    <p>Use o botão para alterar informações iniciais, finalize quando o trajeto terminar ou acesse os consumos registrados.</p>
+@endsection
 
 @section('content')
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">

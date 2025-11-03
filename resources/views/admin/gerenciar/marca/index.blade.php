@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Editar Marcas')
+@section('help')
+    <p>Pesquise e atualize marcas existentes ou remova as que não são mais utilizadas.</p>
+    <p>O botão Adicionar leva ao cadastro rápido; os links editam e o formulário apaga definitivamente.</p>
+@endsection
 @section('content')
     {{-- Cabeçalho da Página --}}
     <div class="flex justify-end items-center mb-6">

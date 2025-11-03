@@ -1,5 +1,11 @@
 @extends('layout')
 
+@section('title', 'Novo Estado')
+@section('help')
+    <p>Cadastre um novo estado para habilitar o uso nas cidades e viagens.</p>
+    <p>Informe o nome completo e a sigla com duas letras antes de salvar.</p>
+@endsection
+
 @section('content')
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Registar Novo Estado</h1>
 

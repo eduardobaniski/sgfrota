@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Caminhões')
+@section('help')
+  <p>Use esta página para pesquisar, listar e acessar ações para cada caminhão cadastrado.</p>
+  <p>O botão <strong>Novo caminhão</strong> cria registros e os atalhos da coluna Ações levam para edição, viagens e dados de consumo.</p>
+@endsection
 
 @section('content')
 <div class="bg-white p-8 rounded-lg shadow-md max-w-6xl mx-auto">

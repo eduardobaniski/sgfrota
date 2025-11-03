@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Editar Modelo')
+@section('help')
+    <p>Edite o nome do modelo e vincule-o à marca correta para manter os cadastros coerentes.</p>
+    <p>Se não desejar salvar, use Cancelar para retornar à listagem.</p>
+@endsection
 @section('content')
 
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">

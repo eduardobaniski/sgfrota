@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Gerir Estados')
+@section('help')
+    <p>Mantenha a lista de estados disponível para os cadastros de cidades e viagens.</p>
+    <p>Pesquise pelo nome, edite dados ou remova estados que não devem mais ser usados.</p>
+@endsection
 @section('content')
     <div class="flex justify-end items-center mb-6">
         <a href="{{ route('cadastro.estado.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">

@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Editar Estado')
+@section('help')
+    <p>Corrija o nome ou a sigla de um estado já cadastrado conforme necessário.</p>
+    <p>Mantenha a sigla com duas letras e use Cancelar para sair sem salvar.</p>
+@endsection
 @section('content')
 
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">

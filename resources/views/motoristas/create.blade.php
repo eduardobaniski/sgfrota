@@ -1,6 +1,10 @@
 @extends('layout')
 
 @section('title', 'Cadastrar Motorista')
+@section('help')
+    <p>Preencha os dados principais do motorista para criar um novo registro na frota.</p>
+    <p>Valide CPF, CNH e datas antes de salvar; a máscara é removida automaticamente no envio do formulário.</p>
+@endsection
 
 @section('content')
     <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">

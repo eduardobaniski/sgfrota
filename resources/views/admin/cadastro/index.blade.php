@@ -1,5 +1,11 @@
 @extends('layout')
 
+@section('title', 'Cadastro')
+@section('help')
+    <p>Selecione qual tipo de dado deseja cadastrar rapidamente no sistema.</p>
+    <p>Cada cartão abre uma tela específica para incluir novas marcas, modelos, usuários, estados ou cidades.</p>
+@endsection
+
 @section('content')
     <h1 class="text-3xl font-bold text-gray-800 mb-8">Cadastro</h1>
 

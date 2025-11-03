@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Viagens do Caminhão')
+@section('help')
+  <p>Consulte o histórico de viagens do caminhão selecionado.</p>
+  <p>Use o link Consultar para abrir cada viagem e finalizar ou revisar detalhes.</p>
+@endsection
 
 @section('content')
 <div class="bg-white p-8 rounded-lg shadow-md max-w-6xl mx-auto">

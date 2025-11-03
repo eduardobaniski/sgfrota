@@ -1,5 +1,11 @@
 @extends('layout')
 
+@section('title', 'Estatísticas de Consumo')
+@section('help')
+  <p>Acompanhe indicadores consolidados dos abastecimentos e a evolução mensal dos gastos.</p>
+  <p>Use os filtros disponíveis na tela anterior para ajustar o período ou veículos considerados.</p>
+@endsection
+
 @section('content')
 <div class="px-4 sm:px-6 lg:px-8">
   <div class="sm:flex sm:items-center">

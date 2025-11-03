@@ -1,5 +1,9 @@
 @extends('layout')
 @section('title', 'Abastecimentos')
+@section('help')
+  <p>Visualize os abastecimentos registrados, ordenados do mais recente para o mais antigo.</p>
+  <p>Use o botão para adicionar um novo lançamento ou abra cada linha para ver detalhes completos.</p>
+@endsection
 
 @section('content')
 <div class="bg-white p-8 rounded-lg shadow-md max-w-6xl mx-auto">
