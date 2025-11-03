@@ -21,6 +21,13 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 });
 
+// Menu principal (rota separada do dashboard)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/menu', function () {
+        return view('menu');
+    })->name('menu');
+});
+
 
 Route::middleware(['auth'])->prefix('caminhoes')->name('caminhoes.')->group(function () {
     Route::get('/', [CaminhaoController::class, 'index'])->name('index');

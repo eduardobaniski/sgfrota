@@ -36,7 +36,7 @@ class Sidebar extends Component
         // Links que todos os utilizadores veem
         $baseLinks = [
             [
-                'title' => 'Dashboard',
+                'title' => 'Status da Frota',
                 'url' => route('dashboard'),
             ],
             [

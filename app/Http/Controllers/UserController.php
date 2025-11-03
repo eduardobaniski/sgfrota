@@ -140,7 +140,7 @@ class UserController extends Controller
                 return redirect('/adminPanel');
             }
             
-            return redirect('/dashboard');
+            return redirect('/menu');
         }
 
          return back()->withErrors([
